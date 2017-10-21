@@ -1,0 +1,9 @@
+.idea
+/vendor
+/node_modules
+/public/storage
+/public/js
+/public/css
+/public/bundles
+/public/fonts
+/bower_components
