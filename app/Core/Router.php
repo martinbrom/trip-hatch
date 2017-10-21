@@ -74,7 +74,7 @@ class Router
             return;
         }
 
-        // TODO: Come up with a better way to store route parameters in router so you dont have to unset them every time
+        // TODO: Come up with a better way to store route parameters in router so you don't have to unset them every time
         unset($this->params['action'], $this->params['controller']);
         call_user_func_array([$controller, $action], $this->params);
     }

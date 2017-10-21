@@ -2,7 +2,7 @@
 
 namespace App\Core;
 
-abstract class Model
+class Config
 {
 
 }

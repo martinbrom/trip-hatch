@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use \App\Core\Controller;
+use \App\Core\View;
 
-class HomeController extends Controller {
+class HomeController extends Controller
+{
     public function index() {
-        echo "landing page";
+        View::render('home/index.html');
     }
 
     public function dashboard() {
