@@ -1,0 +1,63 @@
+@import 'variables';
+
+footer {
+  background: $footer_main_background;
+  height: $footer_total_height;
+  color: $footer_text_color;
+
+  @media screen and (min-width: $size-sm) {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+  }
+
+  a {
+    color: $footer_text_color;
+
+    &:hover, &:focus {
+      color: $footer_text_color;
+    }
+  }
+
+  div.footer-main {
+    height: $footer_main_height;
+
+    div.logo-container {
+      height: $footer_main_height;
+      float: left;
+
+      a {
+        display: inline-block;
+        height: $footer_main_height;
+        line-height: $footer_main_height;
+      }
+    }
+
+    ul {
+      float: right;
+      height: $footer_main_height;
+      list-style-type: none;
+      margin-bottom: 0;
+      margin-left: $footer_margin;
+      padding-left: 0;
+
+      li {
+        display: inline-block;
+        height: $footer_main_height;
+        margin-left: $footer_margin_small;
+
+        a {
+          display: inline-block;
+          height: $footer_main_height;
+          line-height: $footer_main_height;
+        }
+      }
+    }
+  }
+
+  div.footer-copyright {
+    height: $footer_copyright_height;
+    line-height: $footer_copyright_height;
+    background: $footer_copyright_background;
+  }
+}

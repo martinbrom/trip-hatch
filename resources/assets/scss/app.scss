@@ -2,6 +2,52 @@
 @import '_footer';
 @import '_navigation';
 
+@import "node_modules/font-awesome/scss/font-awesome.scss";
+@import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);
+
+html, body {
+  min-height: 100%;
+}
+
+html {
+  position: relative;
+}
+
 body {
-  background-color: $white;
+  @media screen and (min-width: $size-sm) {
+    padding-bottom: $footer_total_height;
+  }
+}
+
+h1, h2, h3 {
+  font-family: Raleway, sans-serif;
+  font-weight: bold;
+}
+
+section.container-section {
+  background: $section_background;
+
+  div.container {
+    padding-top: $application_padding;
+    padding-bottom: $application_padding;
+  }
+}
+
+p.text-paragraph {
+  padding: $application_padding_small 0;
+  font-family: Raleway, sans-serif;
+
+  &:last-of-type {
+    margin-bottom: 0;
+  }
+}
+
+.container {
+  @media screen and (min-width: $size-lg) {
+    width: 1070px;
+  }
+}
+
+a {
+  cursor: pointer;
 }

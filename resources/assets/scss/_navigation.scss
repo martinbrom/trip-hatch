@@ -2,5 +2,76 @@
 
 .navbar {
   border: none;
-  background: $teal;
+  background: $navigation_background;
+  border-radius: 0;
+  color: $navigation_text_color;
+  height: $navigation_height;
+  line-height: $navigation_height;
+
+  @media screen and (min-width: $size-sm) {
+    margin-bottom: 0;
+  }
+
+  .navigation {
+    .navbar-header {
+      a.logo {
+        display: inline-block;
+        height: $navigation_height;
+        margin-left: $application_margin;
+        color: $navigation_text_color;
+
+        @media screen and (min-width: $size-sm) {
+          margin-left: 0;
+        }
+      }
+
+      button.navbar-toggle {
+        margin-top: (($navigation_height - 34) / 2);
+        margin-bottom: (($navigation_height - 34) / 2);
+        margin-right: $application_margin;
+
+        span {
+          background: $navigation_text_color;
+        }
+      }
+    }
+
+    #navigation {
+      background: $navigation_sub_background;
+      margin-left: 0;
+      margin-right: 0;
+
+      @media screen and (min-width: $size-sm) {
+        background: $navigation_background;
+      }
+
+      ul.navbar-nav {
+        margin-left: 0;
+        margin-right: 0;
+      }
+
+      a {
+        color: $navigation_sub_text_color;
+
+        @media screen and (min-width: $size-sm) {
+          height: $navigation_height;
+          line-height: $navigation_height;
+          padding: 0;
+          margin-right: -$application_margin;
+          color: $navigation_text_color;
+        }
+
+        &:hover, &:focus {
+          background: $navigation_sub_background;
+          color: $navigation_sub_text_color_hover;
+
+          @media screen and (min-width: $size-sm) {
+            color: $navigation_text_color;
+            background: $navigation_background;
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
 }
