@@ -44,7 +44,7 @@ p.text-paragraph {
 
 .container {
   @media screen and (min-width: $size-lg) {
-    width: 1070px;
+    width: $application_content_width;
   }
 }
 

@@ -7,10 +7,7 @@
   color: $navigation_text_color;
   height: $navigation_height;
   line-height: $navigation_height;
-
-  @media screen and (min-width: $size-sm) {
-    margin-bottom: 0;
-  }
+  margin-bottom: 0;
 
   .navigation {
     .navbar-header {
@@ -40,14 +37,32 @@
       background: $navigation_sub_background;
       margin-left: 0;
       margin-right: 0;
+      border-bottom-left-radius: $application_border_radius;
+      border-bottom-right-radius: $application_border_radius;
+      box-shadow: 0 0 8px $application_shadow_color;
 
       @media screen and (min-width: $size-sm) {
         background: $navigation_background;
+        box-shadow: none;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
       }
 
       ul.navbar-nav {
         margin-left: 0;
         margin-right: 0;
+      }
+
+      li {
+        border-bottom: 1px solid $navigation_sub_text_color;
+
+        @media screen and (min-width: $size-sm) {
+          border-bottom: none;
+        }
+
+        &:last-of-type {
+          border-bottom: none;
+        }
       }
 
       a {
