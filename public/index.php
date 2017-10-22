@@ -11,7 +11,13 @@ $router = new App\Core\Router();
 // TODO: Add route file
 // TODO: GET/POST only routes
 $router->add('', 'Home', 'index');
+$router->add('layout', 'Home', 'layout');
+
+// TODO: Add a helper asset() function
+//just for testing now
+/*
 $router->add('trip/{id:\d+}', 'Trip', 'tripShow');
 $router->add('trip/{id:\d+}/comment/{cid:\d+}', 'Trip', 'tripCommentShow');
+*/
 
 $router->dispatch($_SERVER['QUERY_STRING']);

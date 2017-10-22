@@ -1,0 +1,110 @@
+@import 'variables';
+
+.no-footer {
+  padding-bottom: 0;
+}
+
+.full-height-section {
+  height: 100%;
+  background: $landing_background;
+  background-size: cover;
+  position: relative;
+
+  &.hero-image {
+    background: url("../images/mountains-mobile-dark.jpg") $landing_background no-repeat center;
+
+    @media screen and (min-width: $size-sm) {
+      background-image: url("../images/mountains-laptop-dark.jpg");
+    }
+
+    @media screen and (min-width: $size-lg) {
+      background-image: url("../images/mountains-desktop-dark.jpg");
+    }
+  }
+
+  &:nth-of-type(2n) {
+    background: $landing_background2; // TODO: For testing purposes only
+  }
+
+  h1 {
+    display: inline-block;
+    width: 100%;
+  }
+
+  .hero-text {
+    width: 90%;
+    top: 50%;
+    left: 50%;
+  }
+
+  .back-to-top-button-container {
+    position: fixed;
+    bottom: 1%;
+    left: 1%;
+    color: $landing_text_color;
+    z-index: 999;
+    display: none;
+
+    button.back-to-top {
+      font-size: 1.2em;
+      padding: 5px 10px;
+      border: 0;
+      background: $landing_controls_background;
+    }
+  }
+
+  .menu-button-container {
+    top: 5%;
+    right: 0;
+
+    button.menu-toggle {
+      float: left;
+      border: 0;
+      background: none;
+      padding: 9px 10px;
+
+      span.icon-bar {
+        background: $landing_text_color;
+        display: block;
+        width: 22px;
+        height: 2px;
+        border-radius: 1px;
+        margin-top: 4px;
+
+        &:first-of-type {
+          margin-top: 0;
+        }
+      }
+    }
+  }
+
+  .scroll-down-container {
+    bottom: 0;
+    left: 50%;
+    width: 90%;
+
+    a {
+      color: $landing_text_color;
+
+      &:hover, &:focus {
+        color: $landing_text_color;
+      }
+
+      display: inline-block;
+      width: 100%;
+
+      @media screen and (min-width: $size-sm) {
+        display: inline;
+      }
+    }
+  }
+
+  .hero-text,
+  .scroll-down-container,
+  .menu-button-container {
+    position: absolute;
+    text-align: center;
+    transform: translate(-50%, -50%);
+    color: $landing_text_color;
+  }
+}

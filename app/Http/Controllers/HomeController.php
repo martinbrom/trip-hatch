@@ -11,7 +11,7 @@ class HomeController extends Controller
         View::render('home/index.html');
     }
 
-    public function dashboard() {
-        echo "dashboard";
+    public function layout() {
+        View::render('home/layout.html');
     }
 }

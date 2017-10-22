@@ -1,12 +1,15 @@
 @import 'variables';
 @import '_footer';
 @import '_navigation';
+@import 'landing';
 
 @import "node_modules/font-awesome/scss/font-awesome.scss";
 @import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);
 
 html, body {
   min-height: 100%;
+  height: 100%;
+  margin: 0;
 }
 
 html {

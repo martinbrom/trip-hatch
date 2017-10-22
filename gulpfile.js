@@ -5,7 +5,7 @@ var cleanCSS = require('gulp-clean-css');
 var sass = require('gulp-sass');
 
 var scripts = [
-    'bower_components/jquery/dist/jquery.slim.js',
+    'bower_components/jquery/dist/jquery.js',
     'bower_components/bootstrap/dist/js/bootstrap.js',
     'resources/assets/js/*.js'
 ];
