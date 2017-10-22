@@ -5,6 +5,7 @@ ini_set('display_errors', 1);
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 
+App\Core\Config::initialize();
 $router = new App\Core\Router();
 
 // TODO: Add route file
