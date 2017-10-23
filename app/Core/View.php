@@ -4,7 +4,7 @@ namespace App\Core;
 
 class View
 {
-    public static function render($template, $args = []) {
+    public function render($template, $args = []) {
         static $twig = null;
         if ($twig === null) {
             $loader = new \Twig_Loader_Filesystem('../resources/views');

@@ -12,7 +12,7 @@ var scripts = [
 
 var styles = [
     'bower_components/bootstrap/dist/css/bootstrap.css',
-    'resources/assets/scss/*.scss'
+    'resources/assets/scss/app.scss'
 ];
 
 function handleError(error) {

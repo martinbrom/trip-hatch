@@ -5,11 +5,12 @@ ini_set('display_errors', 1);
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 
-App\Core\Config::initialize();
-$router = new App\Core\Router();
+$di = new \App\Core\DependencyInjector();
+$di->readFile("services.php");
 
 // TODO: Add route file
 // TODO: GET/POST only routes
+$router = new App\Core\Router();
 $router->add('', 'Home', 'index');
 $router->add('layout', 'Home', 'layout');
 

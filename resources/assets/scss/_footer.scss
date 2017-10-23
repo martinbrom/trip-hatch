@@ -41,6 +41,12 @@ footer {
       margin-left: $footer_margin;
       padding-left: 0;
 
+      &.social {
+        i.fa {
+          line-height: $footer_main_height;
+        }
+      }
+
       li {
         display: inline-block;
         height: $footer_main_height;

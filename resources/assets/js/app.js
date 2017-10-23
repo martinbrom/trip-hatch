@@ -17,7 +17,7 @@ $(document).ready(function () {
         }
     });
 
-    // scrolls down to the top of given page with a given animation speed
+    // scrolls down to the top of given page at given animation speed
     function scrollToPageID(page_id, scroll_speed) {
         $('body,html').animate({ scrollTop: window.innerHeight * page_id}, scroll_speed);
     }
