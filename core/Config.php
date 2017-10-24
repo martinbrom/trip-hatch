@@ -1,26 +1,26 @@
 <?php
 
-namespace App\Core;
+namespace Core;
 
 class Config
 {
-    private static $configurations;
+    private $configurations;
 
-    public static function initialize() {
+    public function __construct() {
         $configFiles = scandir("../config");
         foreach ($configFiles as $file) {
-            self::loadConfigFile($file);
+            $this->loadConfigFile($file);
         }
     }
 
-    private static function loadConfigFile($fileName) {
+    private function loadConfigFile($fileName) {
         $path = "../config/" . $fileName;
 
         if (is_file($path)) {
             $configurationData = require_once $path;
 
             foreach ($configurationData as $key => $value) {
-                self::$configurations[$key] = $value;
+                $this->configurations[$key] = $value;
             }
         }
     }
@@ -29,8 +29,8 @@ class Config
     // using isset returns false for elements, that have a value of NULL,
     // using both with OR operations ensures optimal runtime by only using
     // array_key_exists function when isset returns false
-    public static function get($key) {
-        return (isset(self::$configurations[$key]) || array_key_exists($key, self::$configurations))
-            ? self::$configurations[$key] : NULL;
+    public function get($key) {
+        return (isset($this->configurations[$key]) || array_key_exists($key, $this->configurations))
+            ? $this->configurations[$key] : NULL;
     }
 }

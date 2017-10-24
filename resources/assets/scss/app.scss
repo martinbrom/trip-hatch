@@ -8,7 +8,6 @@
 
 html, body {
   min-height: 100%;
-  height: 100%;
   margin: 0;
 }
 
@@ -33,6 +32,10 @@ section.container-section {
   div.container {
     padding-top: $application_padding;
     padding-bottom: $application_padding;
+  }
+
+  &:last-of-type {
+    margin-bottom: $footer_margin;
   }
 }
 

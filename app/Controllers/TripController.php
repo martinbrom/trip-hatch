@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Controllers;
 
-use \App\Core\Controller;
+use \Core\Controller;
 
 class TripController extends Controller {
     public function tripShow($id) {

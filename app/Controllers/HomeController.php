@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Controllers;
 
-use \App\Core\Controller;
-use \App\Core\View;
+use \Core\Controller;
+use \Core\View;
 
 class HomeController extends Controller
 {
@@ -13,5 +13,9 @@ class HomeController extends Controller
 
     public function layout() {
         View::render('home/layout.html');
+    }
+
+    public function dashboard() {
+        View::render('home/dashboard.html');
     }
 }

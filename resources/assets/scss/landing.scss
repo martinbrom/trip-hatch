@@ -1,7 +1,10 @@
 @import 'variables';
 
-.no-footer {
-  padding-bottom: 0;
+html, body {
+  &.no-footer {
+    padding-bottom: 0;
+    height: 100%;
+  }
 }
 
 .full-height-section {

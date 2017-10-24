@@ -1,12 +1,17 @@
 <?php
 
-namespace App\Core;
+namespace Core;
 
 class Router
 {
-    const NAMESPACE = 'App\Http\Controllers\\';
+    const NAMESPACE = 'App\Controllers\\';
     protected $routes = [];
     protected $params = [];
+    private $di;
+
+    public function __construct(\Core\DependencyInjector $di) {
+        $this->di = $di;
+    }
 
     public function getRoutes() {
         return $this->routes;
@@ -59,13 +64,6 @@ class Router
             return;
         }
 
-        /*
-        echo '<pre>';
-        var_dump($this->params);
-        var_dump($this->routes);
-        echo '</pre>';
-        */
-
         $action = $this->params['action'];
 
         // TODO: Method doesn't exist
@@ -76,7 +74,10 @@ class Router
 
         // TODO: Come up with a better way to store route parameters in router so you don't have to unset them every time
         unset($this->params['action'], $this->params['controller']);
-        call_user_func_array([$controller, $action], $this->params);
+
+        $this->di->register($controller);
+        $controller = $this->di->getService($controller);
+        $controller->$action(...$this->params);
     }
 
     protected function removeQueryStringVariables($url) {
