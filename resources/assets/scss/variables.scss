@@ -1,14 +1,15 @@
 
 // COLORS
-$eggshell:  #F0EAD6;
-$white:     #FFF;
-$yellow:    #E8B549;
-$teal:      #33658A;
-$aqua:      #3993DD;
-$lightgray: #DDD;
-$midgray:   #777;
-$darkgray:  #333;
-$black:     #000;
+$eggshell:      #F0EAD6;
+$white:         #FFF;
+$yellow:        #E8B549;
+$teal:          #33658A;
+$aqua:          #3993DD;
+$lightgray:     #DDD;
+$midgray:       #777;
+$darkgray:      #333;
+$black:         #000;
+$verylightgray: #EEE;
 
 // SCREEN SIZES - lower inclusive bound, xs < 768px
 $size-sm: 768px;
@@ -16,6 +17,7 @@ $size-md: 992px;
 $size-lg: 1200px;
 
 // APPLICATION VARIABLES
+$application_background: $verylightgray;
 $application_padding: 15px;
 $application_padding_small: 5px;
 $application_margin: 15px;
@@ -23,12 +25,19 @@ $application_margin_small: 5px;
 $application_content_width: 1070px;
 $application_border_radius: 5px;
 $application_shadow_color: $midgray;
+$application_shadow_distance: 8px;
+$application_trip_person_image_size: 24px;
 
 // LANDING PAGE VARIABLES
 $landing_text_color: $white;
 $landing_background: $darkgray; // TODO: Decide between teal and darkgray
 $landing_background2: $aqua;
 $landing_controls_background: $black;
+
+// DASHBOARD VARIABLES
+$dashboard_card_background: $white;
+$dashboard_text_color: $darkgray;
+$dashboard_text_color_hover: $black;
 
 // NAVIGATION VARIABLES
 $navigation_height: 60px;
@@ -39,7 +48,7 @@ $navigation_sub_text_color: $midgray;
 $navigation_sub_text_color_hover: $darkgray;
 
 // SECTION VARIABLES
-$section_background: $white;
+$section_background: $verylightgray;
 
 // FOOTER VARIABLES
 $footer_text_color: $white;

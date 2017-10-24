@@ -1,0 +1,88 @@
+@import "variables";
+
+div.trip-controls {
+  margin-bottom: $application_margin;
+  margin-top: $application_margin;
+  padding: 0;
+
+  div.trip-search-container {
+    form.trip-search-form {
+      div.input-group {
+        box-shadow: 0 0 $application_shadow_distance $application_shadow_color;
+        border-radius: $application_border_radius;
+
+        @media screen and (max-width: $size-sm - 1) {
+          margin-bottom: 2 * $application_margin;
+        }
+
+        span {
+          border: none;
+          background: $dashboard_card_background;
+        }
+
+        input.trip-search {
+          border: none;
+          border-left: 1px solid $lightgray;
+        }
+      }
+    }
+  }
+
+  div.trip-add-container {
+    a.trip-add {
+      box-shadow: 0 0 $application_shadow_distance $application_shadow_color;
+      border: none;
+      height: 34px;
+    }
+  }
+}
+
+div.trip-card-container {
+  padding: $application_padding;
+  overflow: hidden;
+
+  div.trip-card {
+    float: left;
+    background: $dashboard_card_background;
+    box-shadow: 0 0 $application_shadow_distance $application_shadow_color;
+    padding: $application_padding;
+    border-radius: $application_border_radius;
+
+    div.trip-image-container {
+      margin-bottom: $application_margin;
+    }
+
+    div.trip-text {
+      a {
+        text-decoration: none;
+        color: $dashboard_text_color;
+
+        &:hover {
+          color: $dashboard_text_color_hover;
+        }
+      }
+
+      h3 {
+        margin-top: 0;
+        margin-bottom: $application_margin;
+        line-height: 26px;
+
+        @media screen and (min-width: $size-sm) {
+          min-height: 52px;
+        }
+      }
+
+      div.trip-people {
+        img.trip-person {
+          height: $application_trip_person_image_size;
+          width: $application_trip_person_image_size;
+          margin-right: 3px;
+
+          &:last-of-type {
+            margin-right: 0;
+          }
+        }
+      }
+    }
+  }
+}

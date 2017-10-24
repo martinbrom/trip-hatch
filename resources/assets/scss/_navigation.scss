@@ -11,6 +11,9 @@
 
   .navigation {
     .navbar-header {
+      position: relative;
+      z-index: 1022;
+
       a.logo {
         display: inline-block;
         height: $navigation_height;
@@ -34,12 +37,14 @@
     }
 
     #navigation {
+      z-index: 1021;
+      position: relative;
       background: $navigation_sub_background;
       margin-left: 0;
       margin-right: 0;
       border-bottom-left-radius: $application_border_radius;
       border-bottom-right-radius: $application_border_radius;
-      box-shadow: 0 0 8px $application_shadow_color;
+      box-shadow: 0 0 $application_shadow_distance $application_shadow_color;
 
       @media screen and (min-width: $size-sm) {
         background: $navigation_background;

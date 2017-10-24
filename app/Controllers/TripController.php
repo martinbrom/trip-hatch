@@ -3,13 +3,15 @@
 namespace App\Controllers;
 
 use \Core\Controller;
+use \Core\View;
 
 class TripController extends Controller {
-    public function tripShow($id) {
-        echo "showing trip with id " . $id;
+    public function show($id) {
+        // TODO: get trip with id
+        View::render('trip/show.html');
     }
 
-    public function tripCommentShow($id, $comment_id) {
-        echo "showing trip with id " . $id . " and comment_id " . $comment_id;
+    public function add() {
+        View::render('trip/add.html');
     }
 }
