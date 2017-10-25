@@ -47,5 +47,10 @@ $(document).ready(function () {
     $("a.day-collapse-btn").click(function () {
         $(this).find(">:first-child").toggleClass("fa-plus");
         $(this).find(">:first-child").toggleClass("fa-minus");
-    })
+    });
+
+    $("a.trip-add-day").click(function () {
+        // TODO: Add a new day
+        $("div.trip-days-container").append("new day");
+    });
 });

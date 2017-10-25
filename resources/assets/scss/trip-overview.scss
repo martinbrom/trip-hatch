@@ -15,16 +15,19 @@ div.trip-detail-controls {
 
   div.trip-manage-people-container {
     padding-right: $application_padding / 2;
+    padding-left: 0;
   }
 
   div.trip-add-day-container {
     padding-left: $application_padding / 2;
+    padding-right: 0;
   }
 }
 
 div.trip-days-container {
   div.trip-day-container {
     margin-bottom: $application_margin;
+    padding: 0;
 
     div.trip-day {
       background: $trip_overview_day_background;
@@ -89,6 +92,11 @@ div.trip-days-container {
               margin-top: 0;
               margin-bottom: $trip_overview_margin_medium;
               font-size: 20px;
+
+              span.badge {
+                line-height: 13px;
+                margin-bottom: 3px;
+              }
             }
 
             p.action-description {

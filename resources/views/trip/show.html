@@ -4,16 +4,107 @@
 
 {% block content %}
 
+<div id="managePeopleModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Manage people</h4>
+            </div>
+            <div class="modal-body">
+                <!-- TODO: select for roles -->
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th class="col-xs-7">Display name</th>
+                            <th class="col-xs-3">Role</th>
+                            <th class="col-xs-2">Remove</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>John Doe</td>
+                            <td>Organizer</td>
+                            <td>
+                                <a href="/trip/2/removeUser/username"><i class="fa fa-remove"></i></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Mary Moe</td>
+                            <td>Traveller</td>
+                            <td>
+                                <a href="/trip/2/removeUser/username"><i class="fa fa-remove"></i></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>July Dooley</td>
+                            <td>Traveller</td>
+                            <td>
+                                <a href="/trip/2/removeUser/username"><i class="fa fa-remove"></i></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="form-group">
+                    <label for="invite">Invite a person</label>
+                    <input type="email" class="form-control" name="invite" id="invite">
+                </div>
+                <button class="btn btn-primary">Invite</button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="addActionModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Add a new action</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="action_type">Select a action type:</label>
+                        <select title="Action type" class="form-control" name="action_type" id="action_type">
+                            <option value="1">action type 1</option>
+                            <option value="2">action type 2</option>
+                            <option value="3">action type 3</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="action_content">Create action content:</label>
+                        <textarea title="Content" name="content" id="action_content" class="form-control"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
 <section class="container-section">
     <div class="container">
         <h1 class="text-center trip-title">Random long summer trip 2018</h1>
         <!-- if permissions > normal user (organizer or creator) -->
         <div class="trip-detail-controls">
             <div class="trip-manage-people-container col-xs-6">
-                <a class="btn btn-primary btn-block trip-manage-people"><i class="fa fa-user"></i> Manage people</a>
+                <a class="btn btn-primary btn-block trip-manage-people" data-toggle="modal" data-target="#managePeopleModal">
+                    <i class="fa fa-user"></i> Manage people
+                </a>
             </div>
             <div class="trip-add-day-container col-xs-6">
-                <a class="btn btn-primary btn-block trip-add-day"><i class="fa fa-calendar-plus-o"></i> Add a new day</a>
+                <a class="btn btn-primary btn-block trip-add-day">
+                    <i class="fa fa-calendar-plus-o"></i> Add a new day
+                </a>
             </div>
         </div>
         <div class="trip-days-container">
@@ -30,7 +121,7 @@
                                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>No actions found...
                             </div>
                             <div class="action-container">
-                                <button class="btn btn-primary"><i class="fa fa-thumb-tack"></i> Add a new action</button>
+                                <button data-toggle="modal" data-target="#addActionModal" class="btn btn-primary"><i class="fa fa-thumb-tack"></i> Add a new action</button>
                             </div>
                         </div>
                     </div>
@@ -46,15 +137,23 @@
                     <div id="day2" class="trip-day-body-container collapse">
                         <div class="trip-day-body">
                             <div class="action-container">
-                                <h3 class="action-title">Action title 2.1</h3>
+                                <h3 class="action-title"><span class="badge"><i class="fa fa-plane"></i></span> Action title 2.1</h3>
                                 <p class="action-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque faucibus velit vel semper accumsan. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;</p>
                             </div>
                             <div class="action-container">
-                                <h3 class="action-title">Action title 2.2</h3>
+                                <h3 class="action-title"><span class="badge"><i class="fa fa-car"></i></span> Action title 2.2</h3>
                                 <p class="action-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque faucibus velit vel semper accumsan. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;</p>
                             </div>
                             <div class="action-container">
-                                <button class="btn btn-primary"><i class="fa fa-thumb-tack"></i> Add a new action</button>
+                                <h3 class="action-title"><span class="badge"><i class="fa fa-bus"></i></span> Action title 2.3</h3>
+                                <p class="action-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque faucibus velit vel semper accumsan. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;</p>
+                            </div>
+                            <div class="action-container">
+                                <h3 class="action-title"><span class="badge"><i class="fa fa-train"></i></span> Action title 2.4</h3>
+                                <p class="action-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque faucibus velit vel semper accumsan. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;</p>
+                            </div>
+                            <div class="action-container">
+                                <button data-toggle="modal" data-target="#addActionModal" class="btn btn-primary"><i class="fa fa-thumb-tack"></i> Add a new action</button>
                             </div>
                         </div>
                     </div>
@@ -74,7 +173,7 @@
                                 <p class="action-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque faucibus velit vel semper accumsan. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;</p>
                             </div>
                             <div class="action-container">
-                                <button class="btn btn-primary"><i class="fa fa-thumb-tack"></i> Add a new action</button>
+                                <button data-toggle="modal" data-target="#addActionModal" class="btn btn-primary"><i class="fa fa-thumb-tack"></i> Add a new action</button>
                             </div>
                         </div>
                     </div>
