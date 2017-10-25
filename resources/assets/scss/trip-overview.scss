@@ -1,0 +1,112 @@
+@import "variables";
+
+h1.trip-title {
+  margin-bottom: 2 * $trip_overview_margin_medium;
+}
+
+div.trip-detail-controls {
+  margin-bottom: $application_margin;
+
+  a {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  div.trip-manage-people-container {
+    padding-right: $application_padding / 2;
+  }
+
+  div.trip-add-day-container {
+    padding-left: $application_padding / 2;
+  }
+}
+
+div.trip-days-container {
+  div.trip-day-container {
+    margin-bottom: $application_margin;
+
+    div.trip-day {
+      background: $trip_overview_day_background;
+      border-radius: $application_border_radius;
+      box-shadow: 0 0 $application_shadow_distance $application_shadow_color;
+
+      div.trip-day-head {
+        padding: $trip_overview_padding_medium;
+
+        img.trip-day-thumbnail {
+          float: left;
+          width: 50px;
+          height: 50px;
+          margin-right: $trip_overview_margin_medium;
+        }
+
+        h2 {
+          margin-top: $trip_overview_margin_medium;
+          margin-bottom: $trip_overview_margin_medium;
+          line-height: 30px;
+          font-size: 24px;
+          display: inline-block;
+          float: left;
+        }
+
+        a.day-collapse-btn {
+          float: right;
+          display: inline-block;
+          line-height: 30px;
+          height: 50px;
+          padding: $trip_overview_padding_medium;
+          color: $trip_overview_text_color;
+
+          &:hover {
+            color: $trip_overview_text_color_hover;
+          }
+
+          i.fa {
+            line-height: 30px;
+          }
+        }
+      }
+
+      div.trip-day-body-container {
+        div.trip-day-body {
+          padding: $application_padding;
+          border-top: 1px solid #CCC;
+
+          &.collapse {
+            border: none;
+          }
+
+          div.action-container {
+            margin-bottom: $application_margin;
+
+            &:last-of-type {
+              margin-bottom: 0;
+            }
+
+            h3.action-title {
+              color: $trip_overview_text_color;
+              margin-top: 0;
+              margin-bottom: $trip_overview_margin_medium;
+              font-size: 20px;
+            }
+
+            p.action-description {
+              color: $trip_overview_sub_text_color;
+              margin-bottom: 0;
+              text-align: justify;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+div.trip-detail-controls:after,
+div.trip-days-container:after,
+div.trip-day-head:after {
+  clear: both;
+  content: "";
+  display: table;
+}

@@ -39,6 +39,14 @@ $dashboard_card_background: $white;
 $dashboard_text_color: $darkgray;
 $dashboard_text_color_hover: $black;
 
+// TRIP OVERVIEW VARIABLES
+$trip_overview_day_background: $white;
+$trip_overview_padding_medium: $application_padding - $application_padding_small;
+$trip_overview_margin_medium: $application_margin - $application_margin_small;
+$trip_overview_text_color: $midgray;
+$trip_overview_text_color_hover: $darkgray;
+$trip_overview_sub_text_color: $midgray;
+
 // NAVIGATION VARIABLES
 $navigation_height: 60px;
 $navigation_background: $aqua;
