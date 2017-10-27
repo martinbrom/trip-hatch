@@ -6,8 +6,15 @@ use \Core\Controller;
 use \Core\View;
 
 class TripController extends Controller {
+    private $tripRepository;
+
+    function __construct(\App\Repositories\TripRepository $tripRepository) {
+        $this->tripRepository = $tripRepository;
+    }
+
     public function show($id) {
-        // TODO: get trip with id
+        $data = $this->tripRepository->first($id);
+        var_dump($data);
         View::render('trip/show.html');
     }
 

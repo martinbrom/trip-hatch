@@ -49,6 +49,7 @@ class Database
     }
 
     public function select($sql) {
+        echo $sql;
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll();
