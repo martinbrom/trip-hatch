@@ -11,7 +11,9 @@ class TripRepository
     }
     
     public function getDays($trip_id) {
-        $query = "SELECT * FROM days INNER JOIN images ON days.image_id = images.id WHERE trip_id = :trip_id";
+        $query = "SELECT * FROM days
+                INNER JOIN images ON days.image_id = images.id
+                WHERE trip_id = :trip_id";
         $data = ['trip_id' => $trip_id];
         return $this->baseRepository->fetchAll($query, $data);
     }
@@ -23,7 +25,10 @@ class TripRepository
     }
 
     public function getTrips($user_id) {
-        $query = "SELECT trips.* FROM user_trip_xref INNER JOIN trips ON trips.id = user_trip_xref.trip_id WHERE user_trip_xref.user_id = :user_id";
+        $query = "SELECT trips.*, images.* FROM user_trip_xref
+                INNER JOIN trips ON trips.id = user_trip_xref.trip_id
+                INNER JOIN images ON images.id = trips.image_id
+                WHERE user_trip_xref.user_id = :user_id";
         $data = ['user_id' => $user_id];
         return $this->baseRepository->fetchAll($query, $data);
     }

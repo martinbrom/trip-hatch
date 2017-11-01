@@ -8,14 +8,14 @@ use \Core\View;
 class HomeController extends Controller
 {
     public function index() {
-        View::render('home/index.html');
+        View::render('home/index.html.twig');
     }
 
     public function layout() {
-        View::render('home/layout.html');
+        View::render('home/layout.html.twig');
     }
 
     public function dashboard() {
-        View::render('home/dashboard.html');
+        View::render('home/dashboard.html.twig');
     }
 }
