@@ -2,17 +2,35 @@
 
 namespace Core;
 
+/**
+ * Instance of class handles Database connection,
+ * binds parameters and executes SQL queries
+ * @package Core
+ * @author Martin Brom
+ */
 class Database
 {
+    /** @var \PDO Database connection */
     private $pdo;
+
+    /** @var Config Instance containing configuration data */
     private $config;
+
+    /** @var \PDOStatement Query results */
     private $statement;
 
+    /**
+     * Creates new Database instance and injects Config instance
+     * @param Config $config Instance containing configuration data
+     */
     public function __construct(\Core\Config $config) {
         $this->config = $config;
         $this->initConnection();
     }
 
+    /**
+     * Initializes database connection from database config values
+     */
     public function initConnection() {
         $dsn = 'mysql:dbname=' . $this->config->get('db_name') . ';host=' . $this->config->get('db_host');
         $username = $this->config->get('db_username');
@@ -25,24 +43,33 @@ class Database
         ];
 
         $this->pdo = new \PDO($dsn, $username, $password, $settings);
-
     }
 
-    public function query($query, $params = []) {
+    /**
+     * Executes given sql query with given data
+     * @param $query string SQL query with placeholders for binding data
+     * @param array $data Data to bind with query
+     * @return self Return itself for chaining functions
+     */
+    public function query(string $query, array $data = []): self {
         $this->statement = $this->pdo->prepare($query);
-        $this->statement->execute($params);
+        $this->statement->execute($data);
         return $this;
     }
 
-    public function fetch() {
+    /**
+     * Get first row from result
+     * @return array Associative array with first row from result
+     */
+    public function fetch(): array {
         return $this->statement->fetch();
     }
 
-    public function fetchAll() {
+    /**
+     * Get all rows from result
+     * @return array Associative array with all rows from result
+     */
+    public function fetchAll(): array {
         return $this->statement->fetchAll();
-    }
-
-    public function count() {
-        return $this->statement->rowCount();
     }
 }
