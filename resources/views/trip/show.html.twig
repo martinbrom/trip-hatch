@@ -26,21 +26,21 @@
                             <td>John Doe</td>
                             <td>Organizer</td>
                             <td>
-                                <a href="/trip/2/removeUser/username"><i class="fa fa-remove"></i></a>
+                                <a href="/trip/{{ trip.id }}/removeUser/username"><i class="fa fa-remove"></i></a>
                             </td>
                         </tr>
                         <tr>
                             <td>Mary Moe</td>
                             <td>Traveller</td>
                             <td>
-                                <a href="/trip/2/removeUser/username"><i class="fa fa-remove"></i></a>
+                                <a href="/trip/{{ trip.id }}/removeUser/username"><i class="fa fa-remove"></i></a>
                             </td>
                         </tr>
                         <tr>
                             <td>July Dooley</td>
                             <td>Traveller</td>
                             <td>
-                                <a href="/trip/2/removeUser/username"><i class="fa fa-remove"></i></a>
+                                <a href="/trip/{{ trip.id }}/removeUser/username"><i class="fa fa-remove"></i></a>
                             </td>
                         </tr>
                     </tbody>
@@ -71,6 +71,7 @@
                     <div class="form-group">
                         <label for="action_type">Select a action type:</label>
                         <select title="Action type" class="form-control" name="action_type" id="action_type">
+                            <!-- TODO: Get all available action types -->
                             <option value="1">action type 1</option>
                             <option value="2">action type 2</option>
                             <option value="3">action type 3</option>
@@ -112,11 +113,11 @@
                 <div class="trip-day-container col-xs-12">
                     <div class="trip-day">
                         <div class="trip-day-head">
-                            <img src="../images/thumbnails/{{ day.path }}" class="img-responsive trip-day-thumbnail" alt="">
-                            <a class="day-collapse-btn" data-toggle="collapse" data-target="#day1"><i class="fa fa-2x fa-plus"></i></a>
+                            <img src="../images/thumbnails/{{ day.path }}" class="img-responsive trip-day-thumbnail" alt="{{ day.description }}">
+                            <a class="day-collapse-btn" data-toggle="collapse" data-target="#day{{ day.id }}"><i class="fa fa-2x fa-plus"></i></a>
                             <h2>{{ day.title }}</h2>
                         </div>
-                        <div id="day1" class="trip-day-body-container collapse">
+                        <div id="day{{ day.id }}" class="trip-day-body-container collapse">
                             <div class="trip-day-body">
                                 <!-- TODO: Create empty and fill after opening with AJAX -->
 

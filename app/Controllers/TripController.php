@@ -16,10 +16,16 @@ class TripController extends Controller {
         // TODO: Take user_id from session
         $user_id = 4;
         $trips = $this->tripRepository->getTrips($user_id);
-        echo '<pre>';
-        var_dump($trips);
-        echo '</pre>';
+        View::render('trip/index.html.twig', [
+            'trips' => $trips
+        ]);
     }
+
+    public function create() {
+        View::render('trip/create.html.twig');
+    }
+
+    public function store() {}
 
     public function show($trip_id) {
         $trip = $this->tripRepository->getTrip($trip_id);
@@ -36,8 +42,14 @@ class TripController extends Controller {
             'trip_title' => $trip['title']
         ]);
     }
+    
+    public function edit() {}
+    public function update() {}
+    public function destroy() {}
 
-    public function add() {
-        View::render('trip/add.html.twig');
+    public function actions($day_id) {
+        // TODO: AJAX request return and then display on page using JS
+        $actions = $this->tripRepository->getActions($day_id);
+        var_dump($actions);
     }
 }

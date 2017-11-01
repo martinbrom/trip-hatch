@@ -1,0 +1,54 @@
+{% extends "layouts/app.html.twig" %}
+
+{% block title %}Trips{% endblock %}
+
+{% block content %}
+
+<section class="container-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 trip-controls">
+                <div class="col-sm-9 trip-search-container">
+                    <form class="trip-search-form">
+                        <div class="input-group">
+                            <span class="input-group-addon" id="addon1"><i class="fa fa-search"></i></span>
+                            <input type="text" placeholder="Search" class="form-control trip-search" aria-describedby="addon1">
+                        </div>
+                    </form>
+                </div>
+                <div class="col-sm-3 trip-add-container">
+                    <a href="/trip/create" class="btn btn-primary btn-block trip-add">Hatch a new trip</a>
+                </div>
+            </div>
+            {% if trips is not defined %}
+                <div class="alert alert-info alert-dismissable">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>No trips found...
+                </div>
+            {% else %}
+                {% for trip in trips %}
+                    <div class="col-sm-6 col-md-4 trip-card-container">
+                        <div class="trip-card">
+                            <div class="trip-image-container">
+                                <img src="images/trip-cards/{{ trip.path }}" class="trip-image img-responsive" alt="{{ trip.description }}">
+                            </div>
+                            <div class="trip-text">
+                                <a href="/trip/{{ trip.id }}">
+                                    <h3>{{ trip.title }}</h3>
+                                </a>
+                                <!-- TODO: People on trip
+                                <div class="trip-people">
+                                    <a href="/profile/username">
+                                        <img src="images/thumbnails/avatar-default.jpg" class="trip-person img-circle" alt="">
+                                    </a>
+                                </div>
+                                -->
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+{% endblock %}
