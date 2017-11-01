@@ -77,7 +77,7 @@ class Router
 
         $this->di->register($controller);
         $controller = $this->di->getService($controller);
-        $controller->$action($this->params);
+        call_user_func_array([$controller, $action], $this->params);
     }
 
     protected function removeQueryStringVariables($url) {

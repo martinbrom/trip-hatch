@@ -4,54 +4,45 @@ namespace Core;
 
 class Database
 {
-    // TODO: Maybe clear variables after finishing query???
     private $pdo;
-    private $table;
-    private $data;
-    private $lastInsertId;
+    private $config;
+    private $statement;
 
     public function __construct(\Core\Config $config) {
-        $dsn = "mysql:dbname=" . $config->get("db_name") . ";host=" . $config->get("db_host");
-        $user = $config->get("db_username");
-        $password = $config->get("db_password");
-        $settings = $config->get("db_settings");
-
-        try {
-            $this->pdo = new \PDO($dsn, $user, $password, $settings);
-        } catch (\PDOException $e) {
-            echo 'Connection failed: ' . $e->getMessage();
-        }
+        $this->config = $config;
+        $this->initConnection();
     }
-    
-    public function table($tableName) {
-        $this->table = $tableName;
+
+    public function initConnection() {
+        $dsn = 'mysql:dbname=' . $this->config->get('db_name') . ';host=' . $this->config->get('db_host');
+        $username = $this->config->get('db_username');
+        $password = $this->config->get('db_password');
+        $settings = [
+            \PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8",
+            \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
+            \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
+            \PDO::ATTR_EMULATE_PREPARES => false
+        ];
+
+        $this->pdo = new \PDO($dsn, $username, $password, $settings);
+
+    }
+
+    public function query($query, $params = []) {
+        $this->statement = $this->pdo->prepare($query);
+        $this->statement->execute($params);
         return $this;
     }
-    
-    public function data($data) {
-        $this->data = $data;
-        return $this;
+
+    public function fetch() {
+        return $this->statement->fetch();
     }
 
-    public function insert($sql) {
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute($this->data);
-        $this->lastInsertId = $this->pdo->lastInsertId();
+    public function fetchAll() {
+        return $this->statement->fetchAll();
     }
 
-    public function update($sql) {
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute($this->data);
-    }
-
-    public function delete($sql) {
-        $this->pdo->prepare($sql)->execute();
-    }
-
-    public function select($sql) {
-        echo $sql;
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute();
-        return $stmt->fetchAll();
+    public function count() {
+        return $this->statement->rowCount();
     }
 }
