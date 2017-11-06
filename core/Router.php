@@ -4,23 +4,62 @@ namespace Core;
 
 class Router
 {
-    const NAMESPACE = 'App\Controllers\\';
+    /** @var Route[] List of registered routes */
     protected $routes = [];
     protected $params = [];
-    private $di;
-
-    public function __construct(\Core\DependencyInjector $di) {
-        $this->di = $di;
-    }
 
     public function getRoutes() {
         return $this->routes;
     }
 
+    public function preparePattern($url) {
+        $url = preg_replace('/\//', '\\/', $url);
+        $url = preg_replace('/\{([a-z]+)\}/', '(?P<\1>[a-z-]+)', $url);
+        $url = preg_replace('/\{([a-z]+):([^\}]+)\}/', '(?P<\1>\2)', $url);
+        $url = '/^' . $url . '$/i';
+        return $url;
+    }
+
+    public function match(Request $request): bool {
+        foreach ($this->routes as $route) {
+            if (preg_match($route->getPattern(), $request->getUrl(), $matches)
+                    && $route->getMethod() == $request->getMethod()
+                    && $route->isAjax() == $request->isAjax()) {
+                $this->addParametersToRequest($matches, $route, $request);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public function addParametersToRequest($matches, Route $route, Request $request) {
+        $params = [];
+
+        foreach ($matches as $key => $match) {
+            if (is_string($key)) {
+                $params[$key] = $match;
+            }
+        }
+
+        $request->setParameters($params);
+        $request->setRoute($route);
+    }
+
+    public function add($method, $url, $controller, $action): Route {
+        $pattern = $this->preparePattern($url);
+        $route = new Route($pattern, $controller, $action, $method);
+        $this->routes []= $route;
+        return $route;
+    }
+
+    /*
     public function getParams() {
         return $this->params;
     }
+    */
 
+    /*
     public function add($route, $controller, $action) {
         $route = preg_replace('/\//', '\\/', $route);
         $route = preg_replace('/\{([a-z]+)\}/', '(?P<\1>[a-z-]+)', $route);
@@ -32,7 +71,9 @@ class Router
             'action'        => $action
         ];
     }
+    */
 
+    /*
     public function match($url) {
         foreach ($this->routes as $route => $params) {
             if (preg_match($route, $url, $matches)) {
@@ -49,7 +90,9 @@ class Router
 
         return false;
     }
+    */
 
+    /*
     public function dispatch($url) {
         $url = $this->removeQueryStringVariables($url);
         if (!$this->match($url)) {
@@ -79,13 +122,5 @@ class Router
         $controller = $this->di->getService($controller);
         call_user_func_array([$controller, $action], $this->params);
     }
-
-    protected function removeQueryStringVariables($url) {
-        if ($url != '') {
-            $parts = explode('&', $url, 2);
-            $url = (strpos($parts[0], '=') === false) ? $parts[0] : '';
-        }
-
-        return $url;
-    }
+    */
 }

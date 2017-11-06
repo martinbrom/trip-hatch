@@ -2,7 +2,10 @@
 
 namespace App\Controllers;
 
-class UserController
+use Core\Controller;
+use Core\View;
+
+class UserController extends Controller
 {
     private $userRepository;
     
@@ -22,4 +25,15 @@ class UserController
         var_dump($data);
         echo '</pre>';
     }
+
+    public function loginPage() {
+        View::render('user/login.html.twig');
+    }
+
+    public function registerPage() {
+        View::render('user/register.html.twig');
+    }
+
+    public function login() {}
+    public function register() {}
 }

@@ -1,0 +1,50 @@
+{% extends "layouts/app.html.twig" %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+
+    <section class="container-section">
+        <div class="container">
+            <div class="login-container col-md-offset-1 col-md-4">
+                <h2 class="text-center">Login</h2>
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label" for="login_email">Email</label>
+                        <input class="form-control" type="email" name="login_email" id="login_email">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="login_password">Password</label>
+                        <input class="form-control" type="password" name="login_password" id="login_password">
+                    </div>
+                    <div class="form-group">
+                        <input class="hidden-sm btn btn-primary" type="submit" value="Login">
+                        <input class="visible-sm form-control btn btn-primary" type="submit" value="Login">
+                    </div>
+                </form>
+            </div>
+            <div class="login-container col-md-offset-2 col-md-4">
+                <h2 class="text-center">Register</h2>
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label" for="register_email">Email</label>
+                        <input class="form-control" type="email" name="register_email" id="register_email">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="register_password">Password</label>
+                        <input class="form-control" type="password" name="register_password" id="register_password">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="register_password_repeat">Password again</label>
+                        <input class="form-control" type="password" name="register_password_repeat" id="register_password_repeat">
+                    </div>
+                    <div class="form-group">
+                        <input class="hidden-sm btn btn-primary" type="submit" value="Register">
+                        <input class="visible-sm form-control btn btn-primary" type="submit" value="Register">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

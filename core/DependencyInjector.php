@@ -12,11 +12,18 @@ class DependencyInjector
     /** @var array Array of all loaded services */
     protected $services = [];
 
+    /** @var  DependencyInjector Singleton instance */
+    private static $instance;
+
     /**
-     * Creates new instance and registers itself
+     * Returns itself as a singleton
+     * @return DependencyInjector Singleton instance
      */
-    public function __construct() {
-        $this->services[self::class] = $this;
+    public static function getInstance(): DependencyInjector {
+        if (self::$instance == null)
+            self::$instance = new self();
+
+        return self::$instance;
     }
 
     /**

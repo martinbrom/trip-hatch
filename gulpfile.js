@@ -35,7 +35,7 @@ gulp.task('scss', function(){
         .pipe(gulp.dest('public/css/'));
 });
 
-gulp.task('watch', function() {
+gulp.task('watch', ['js', 'scss'], function() {
     gulp.watch(['resources/assets/js/*.js'], ['js']);
     gulp.watch(['resources/assets/scss/*.scss'], ['scss']);
 });
