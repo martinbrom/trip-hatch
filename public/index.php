@@ -4,11 +4,10 @@
 ini_set('display_errors', 1);
 
 require dirname(__DIR__) . '/vendor/autoload.php';
-
 $di = di();
 $di->readFile("services.php");
 require_once '../app/routes.php';
 
 // TODO: Dashboard should be in trip not home
-$request = new \Core\Request();
+$request = $di->getService(\Core\RequestFactory::class)->make();
 $di->getService(Core\Kernel::class)->handle($request);

@@ -13,25 +13,13 @@ class UserController extends Controller
         $this->userRepository = $userRepository;
     }
 
-    // TODO: Validate and sanitize input during request
     public function index() {
-        $data = $this->userRepository->complexEmails();
-        echo '<pre>';
-        var_dump($data);
-        echo '</pre>';
-
-        $data = $this->userRepository->firstWithImage();
-        echo '<pre>';
-        var_dump($data);
-        echo '</pre>';
+        $users = $this->userRepository->getUsers();
+        var_dump($users);
     }
 
     public function loginPage() {
         View::render('user/login.html.twig');
-    }
-
-    public function registerPage() {
-        View::render('user/register.html.twig');
     }
 
     public function login() {}

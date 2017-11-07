@@ -47,6 +47,19 @@ $(document).ready(function () {
     $("a.day-collapse-btn").click(function () {
         $(this).find(">:first-child").toggleClass("fa-plus");
         $(this).find(">:first-child").toggleClass("fa-minus");
+        // TODO: First load content, then collapse
+        // $(this).parent().parent().children(".trip-day-body-container").collapse("toggle");
+
+        var action_container = $(this).parent().parent().find(".trip-day-body");
+        if (action_container.html() == "") {
+            $.ajax({
+                url: "/trip/day/" + ($(this).attr("data-target").substring(4)) + "/actions",
+                success: function (result) {
+                    action_container.html(result);
+                }
+            });
+        }
+
     });
 
     $("a.trip-add-day").click(function () {

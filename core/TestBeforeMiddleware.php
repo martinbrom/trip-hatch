@@ -2,13 +2,12 @@
 
 namespace Core;
 
-use Closure;
-
 class TestBeforeMiddleware implements Middleware
 {
-    public function handle(Request $request, Closure $next) {
-        echo "processing before middleware";
-
-        return $next($request);
+    public function before(): bool {
+        echo "before middleware";
+        return true;
     }
+
+    public function after() {}
 }

@@ -47,7 +47,6 @@ class TripRepository
     }
 
     /**
-     *
      * Returns first trip for given trip_id from the database
      * @param int $trip_id ID of the trip
      * @return array Trip for given trip_id

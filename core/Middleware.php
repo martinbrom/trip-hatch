@@ -2,9 +2,8 @@
 
 namespace Core;
 
-use Closure;
-
 interface Middleware
 {
-    public function handle(Request $request, Closure $next);
+    public function before(): bool;
+    public function after();
 }

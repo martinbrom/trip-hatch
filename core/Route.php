@@ -9,7 +9,7 @@ class Route
     private $action;
     private $method;
     private $middleware;
-    private $ajax;
+    private $ajaxOnly;
 
     public function __construct($pattern, $controller, $action, $method = "GET") {
         $this->pattern = $pattern;
@@ -17,7 +17,7 @@ class Route
         $this->action = $action;
         $this->method = $method;
         $this->middleware = [];
-        $this->ajax = false;
+        $this->ajaxOnly = false;
     }
 
     public function middleware($middleware): self {
@@ -26,7 +26,7 @@ class Route
     }
 
     public function ajax(): self {
-        $this->ajax = true;
+        $this->ajaxOnly = true;
         return $this;
     }
 
@@ -50,7 +50,7 @@ class Route
         return $this->middleware;
     }
 
-    public function isAjax(): bool {
-        return $this->ajax;
+    public function isAjaxOnly(): bool {
+        return $this->ajaxOnly;
     }
 }

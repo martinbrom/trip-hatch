@@ -19,6 +19,7 @@ class TripController extends Controller {
         View::render('trip/index.html.twig', [
             'trips' => $trips
         ]);
+        // return new Response(['trips' => $trips]);
     }
 
     public function create() {
@@ -48,8 +49,8 @@ class TripController extends Controller {
     public function destroy() {}
 
     public function actions($day_id) {
-        // TODO: AJAX request return and then display on page using JS
         $actions = $this->tripRepository->getActions($day_id);
-        var_dump($actions);
+        // var_dump($actions);
+        View::render('trip/actions.html.twig', ['actions' => $actions]);
     }
 }

@@ -2,25 +2,52 @@
 
 namespace Core;
 
+/**
+ * Contains SERVER request data and calls action on a controller
+ * specified by a route, that matches request URL
+ * @package Core
+ * @author Martin Brom
+ */
 class Request
 {
+    /** Location of controller classes */
     const NAMESPACE = 'App\Controllers\\';
+
+    /** @var string HTTP request method */
     private $method;
-    private $ajax;
+
+    /** @var bool Only ajax access allowed */
+    private $ajaxOnly;
+
+    /** @var string Request URL */
     private $url;
+
+    /** @var array Parameters parsed from URL */
     private $params;
 
-    /** @var \Core\Route */
+    /** @var \Core\Route Route that matches request URL */
     private $route;
 
-    public function __construct() {
+    /** @var DependencyInjector Instance containing registered services */
+    private $di;
+
+    /**
+     * Creates new Request instance and injects DependencyInjector instance
+     * @param DependencyInjector $di Instance containing registered services
+     */
+    public function __construct(\Core\DependencyInjector $di) {
         // TODO: WHEN IN DOUBT, DUMP IT OUT
         // var_dump($_SERVER);
+        $this->di = $di;
         $this->method = $_SERVER['REQUEST_METHOD'];
-        $this->ajax = !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
+        $this->ajaxOnly = !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
         $this->url = $this->removeQueryStringVariables($_SERVER['QUERY_STRING']);
     }
 
+    /**
+     * Processes request, calls action on a controller,
+     * that is specified by a matching route
+     */
     public function process() {
         $controllerClass = self::NAMESPACE . $this->route->getController() . "Controller";
         if (!class_exists($controllerClass)) {
@@ -28,33 +55,18 @@ class Request
             return;
         }
 
-        di()->register($controllerClass);
-        $controller = di($controllerClass);
+        $this->di->register($controllerClass);
+        $controller = $this->di->getService($controllerClass);
 
         $action = $this->route->getAction();
         call_user_func_array([$controller, $action], $this->params);
     }
 
-    public function setParameters($params) {
-        $this->params = $params;
-    }
-
-    public function setRoute(Route $route) {
-        $this->route = $route;
-    }
-
-    public function getUrl() {
-        return $this->url;
-    }
-
-    public function getMethod() {
-        return $this->method;
-    }
-
-    public function isAjax(): bool {
-        return $this->ajax;
-    }
-
+    /**
+     * Cleans "ugly" URL
+     * @param string $url Full ugly URL
+     * @return string Clean URL
+     */
     protected function removeQueryStringVariables($url) {
         if ($url != '') {
             $parts = explode('&', $url, 2);
@@ -62,5 +74,49 @@ class Request
         }
 
         return $url;
+    }
+
+    /**
+     * Sets parameters from URL
+     * @param array $params Parameters from URL
+     */
+    public function setParameters($params) {
+        $this->params = $params;
+    }
+
+    /**
+     * Sets a matching Route instance
+     * @param Route $route
+     */
+    public function setRoute(Route $route) {
+        $this->route = $route;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUrl() {
+        return $this->url;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMethod() {
+        return $this->method;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isAjaxOnly(): bool {
+        return $this->ajaxOnly;
+    }
+
+    /**
+     * @return array
+     */
+    public function getMiddleware() {
+        return $this->route->getMiddleware();
     }
 }

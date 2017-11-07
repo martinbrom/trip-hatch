@@ -42,7 +42,7 @@ class Config
     /**
      * Checks if given configurations is registered
      * @param string $key Configuration name
-     * @return mixed|null True if key exists in configurations, false otherwise
+     * @return mixed|null Value of key if key exists in configurations, false otherwise
      */
     public function get($key) {
         // array_key_exists on its own provides a complete but slow array check
