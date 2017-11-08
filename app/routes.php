@@ -1,6 +1,6 @@
 <?php
 
-$router = di(\Core\Router::class);
+$router = di(\Core\Routing\Router::class);
 
 $router->add('GET', '', 'Home', 'index');
 $router->add('GET', 'layout', 'Home', 'layout');
@@ -17,7 +17,9 @@ $router->add('GET', 'trip/day/{id:\d+}/actions', 'Trip', 'actions')->ajax();
 
 $router->add('GET', 'users', 'User', 'index');
 $router->add('GET', 'login', 'User', 'loginPage');
+$router->add('GET', 'forgotten-password', 'User', 'forgottenPasswordPage');
 $router->add('POST', 'login', 'User', 'login');
 $router->add('POST', 'register', 'User', 'register');
+$router->add('POST', 'forgotten-password', 'User', 'forgottenPassword');
 
 $router->add('GET', 'testmw', 'Home', 'testMiddleware')->middleware(['TestBeforeMiddleware', 'TestAfterMiddleware']);

@@ -2,8 +2,9 @@
 
 namespace App\Controllers;
 
-use Core\Controller;
-use Core\View;
+use Core\Http\Controller;
+use Core\Http\Response\HtmlResponse;
+use Core\Http\Response\JsonResponse;
 
 class UserController extends Controller
 {
@@ -15,13 +16,21 @@ class UserController extends Controller
 
     public function index() {
         $users = $this->userRepository->getUsers();
-        var_dump($users);
+        // var_dump($users);
+        return new JsonResponse($users);
     }
 
     public function loginPage() {
-        View::render('user/login.html.twig');
+        return new HtmlResponse('user/login.html.twig');
+    }
+
+    public function forgottenPasswordPage() {
+        return new HtmlResponse('user/forgottenPassword.html.twig');
     }
 
     public function login() {}
     public function register() {}
+    public function forgottenPassword() {
+
+    }
 }

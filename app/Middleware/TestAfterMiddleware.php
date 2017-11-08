@@ -1,6 +1,8 @@
 <?php
 
-namespace Core;
+namespace App\Middleware;
+
+use Core\Middleware;
 
 class TestAfterMiddleware implements Middleware
 {

@@ -1,6 +1,8 @@
 <?php
 
-namespace Core;
+namespace Core\Routing;
+
+use Core\Http\Request;
 
 class Router
 {

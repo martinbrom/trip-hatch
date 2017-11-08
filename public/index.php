@@ -9,5 +9,5 @@ $di->readFile("services.php");
 require_once '../app/routes.php';
 
 // TODO: Dashboard should be in trip not home
-$request = $di->getService(\Core\RequestFactory::class)->make();
+$request = $di->getService(\Core\Factories\RequestFactory::class)->make();
 $di->getService(Core\Kernel::class)->handle($request);

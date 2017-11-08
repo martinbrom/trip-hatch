@@ -1,6 +1,6 @@
 <?php
 
-namespace Core;
+namespace Core\Database;
 
 /**
  * Instance of class provides a middle layer
@@ -18,7 +18,7 @@ class Repository
      * Creates new Repository instance and injects Database instance
      * @param Database $database Instance of connection to the database
      */
-    public function __construct(\Core\Database $database) {
+    public function __construct(\Core\Database\Database $database) {
         $this->database = $database;
     }
 

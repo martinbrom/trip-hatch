@@ -2,25 +2,25 @@
 
 namespace App\Controllers;
 
-use \Core\Controller;
-use Core\Router;
-use \Core\View;
+use Core\Http\Controller;
+use Core\Http\Response\HtmlResponse;
+use Core\Http\Response\JsonResponse;
 
 class HomeController extends Controller
 {
     public function index() {
-        View::render('home/index.html');
+        return new HtmlResponse('home/index.html');
     }
 
     public function layout() {
-        View::render('home/layout.html.twig');
+        return new HtmlResponse('home/layout.html.twig');
     }
 
     public function dashboard() {
-        View::render('home/dashboard.html.twig');
+        return new HtmlResponse('home/dashboard.html.twig', ['stuff' => 'value']);
     }
 
     public function testMiddleware() {
-        echo "rendering view kinda";
+        return new JsonResponse('json response content');
     }
 }

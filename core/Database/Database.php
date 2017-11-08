@@ -1,6 +1,8 @@
 <?php
 
-namespace Core;
+namespace Core\Database;
+
+use Core\Config;
 
 /**
  * Instance of class handles Database connection,

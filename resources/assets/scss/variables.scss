@@ -30,7 +30,7 @@ $application_trip_person_image_size: 24px;
 
 // LANDING PAGE VARIABLES
 $landing_text_color: $white;
-$landing_background: $darkgray; // TODO: Decide between teal and darkgray
+$landing_background: $darkgray;
 $landing_background2: $aqua;
 $landing_controls_background: $black;
 
@@ -46,6 +46,14 @@ $trip_overview_margin_medium: $application_margin - $application_margin_small;
 $trip_overview_text_color: $midgray;
 $trip_overview_text_color_hover: $darkgray;
 $trip_overview_sub_text_color: $midgray;
+
+// ACTION TYPE BADGE VARIABLES
+$color_transport: $aqua;
+$color_important: $yellow;
+$color_interest: $teal;
+$color_food: #a55134;
+$color_accommodation: orange;
+$color_other: $midgray;
 
 // NAVIGATION VARIABLES
 $navigation_height: 60px;

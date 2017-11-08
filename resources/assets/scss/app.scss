@@ -66,3 +66,12 @@ textarea {
   resize: vertical;
   max-width: 100%;
 }
+
+span.badge {
+  &.color-transport {background-color: $color_transport; }
+  &.color-important {background-color: $color_important; }
+  &.color-interest {background-color: $color_interest; }
+  &.color-food {background-color: $color_food; }
+  &.color-accommodation {background-color: $color_accommodation; }
+  &.color-other {background-color: $color_other; }
+}

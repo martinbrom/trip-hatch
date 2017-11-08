@@ -1,8 +1,10 @@
 <?php
 
-namespace Core;
+namespace Core\Factories;
 
-class RequestFactory
+use Core\Http\Request;
+
+class RequestFactory implements Factory
 {
     private $di;
 

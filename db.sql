@@ -61,7 +61,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `triphatch`.`trips` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `title` VARCHAR(50) NOT NULL,
+  `title` VARCHAR(100) NOT NULL,
   `image_id` INT UNSIGNED NULL,
   `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -82,7 +82,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `triphatch`.`days` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `title` VARCHAR(30) NOT NULL,
+  `title` VARCHAR(100) NOT NULL,
   `order` INT UNSIGNED NOT NULL,
   `image_id` INT UNSIGNED NULL,
   `trip_id` INT UNSIGNED NOT NULL,
@@ -125,7 +125,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `triphatch`.`actions` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `title` VARCHAR(30) NOT NULL,
+  `title` VARCHAR(100) NOT NULL,
   `content` VARCHAR(1000) NULL,
   `order` INT UNSIGNED NOT NULL,
   `day_id` INT UNSIGNED NOT NULL,

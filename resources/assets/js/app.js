@@ -55,6 +55,7 @@ $(document).ready(function () {
             $.ajax({
                 url: "/trip/day/" + ($(this).attr("data-target").substring(4)) + "/actions",
                 success: function (result) {
+                    console.log(result);
                     action_container.html(result);
                 }
             });

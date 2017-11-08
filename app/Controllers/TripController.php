@@ -2,8 +2,8 @@
 
 namespace App\Controllers;
 
-use \Core\Controller;
-use \Core\View;
+use Core\Http\Controller;
+use Core\Http\Response\HtmlResponse;
 
 class TripController extends Controller {
     private $tripRepository;
@@ -16,14 +16,11 @@ class TripController extends Controller {
         // TODO: Take user_id from session
         $user_id = 4;
         $trips = $this->tripRepository->getTrips($user_id);
-        View::render('trip/index.html.twig', [
-            'trips' => $trips
-        ]);
-        // return new Response(['trips' => $trips]);
+        return new HtmlResponse('trip/index.html.twig', ['trips' => $trips]);
     }
 
     public function create() {
-        View::render('trip/create.html.twig');
+        return new HtmlResponse('trip/create.html.twig');
     }
 
     public function store() {}
@@ -38,10 +35,7 @@ class TripController extends Controller {
         }
 
         $days = $this->tripRepository->getDays($trip_id);
-        View::render('trip/show.html.twig', [
-            'days' => $days,
-            'trip_title' => $trip['title']
-        ]);
+        return new HtmlResponse('trip/show.html.twig', ['days' => $days, 'title' => $trip['title']]);
     }
     
     public function edit() {}
@@ -51,6 +45,6 @@ class TripController extends Controller {
     public function actions($day_id) {
         $actions = $this->tripRepository->getActions($day_id);
         // var_dump($actions);
-        View::render('trip/actions.html.twig', ['actions' => $actions]);
+        return new HtmlResponse('trip/actions.html.twig', ['actions' => $actions]);
     }
 }

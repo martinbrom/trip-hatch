@@ -1,6 +1,9 @@
 <?php
 
-namespace Core;
+namespace Core\Http;
+
+use Core\DependencyInjector;
+Use Core\Routing\Route;
 
 /**
  * Contains SERVER request data and calls action on a controller
@@ -25,7 +28,7 @@ class Request
     /** @var array Parameters parsed from URL */
     private $params;
 
-    /** @var \Core\Route Route that matches request URL */
+    /** @var Route Route that matches request URL */
     private $route;
 
     /** @var DependencyInjector Instance containing registered services */
@@ -52,6 +55,7 @@ class Request
         $controllerClass = self::NAMESPACE . $this->route->getController() . "Controller";
         if (!class_exists($controllerClass)) {
             echo "Controller not found";
+            // TODO: Response redirect to index, controller not found
             return;
         }
 
@@ -59,7 +63,7 @@ class Request
         $controller = $this->di->getService($controllerClass);
 
         $action = $this->route->getAction();
-        call_user_func_array([$controller, $action], $this->params);
+        return call_user_func_array([$controller, $action], $this->params);
     }
 
     /**
@@ -93,28 +97,32 @@ class Request
     }
 
     /**
-     * @return string
+     * Returns request url
+     * @return string Request url
      */
     public function getUrl() {
         return $this->url;
     }
 
     /**
-     * @return string
+     * Returns request HTTP method
+     * @return string HTTP method
      */
     public function getMethod() {
         return $this->method;
     }
 
     /**
-     * @return bool
+     * Returns whether the request was sent using AJAX
+     * @return bool True if the request was sent using AJAX, false otherwise
      */
     public function isAjaxOnly(): bool {
         return $this->ajaxOnly;
     }
 
     /**
-     * @return array
+     * Returns a list of required middleware to be run before and after the request
+     * @return array List of required middleware for the request
      */
     public function getMiddleware() {
         return $this->route->getMiddleware();

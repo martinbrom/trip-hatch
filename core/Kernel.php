@@ -2,14 +2,17 @@
 
 namespace Core;
 
+use Core\Http\Request;
+
 class Kernel
 {
+    const NAMESPACE = 'App\Middleware\\';
     private $router;
     private $alwaysUsedMiddleware = [
         // 'AlwaysLoadedMiddleware'
     ];
 
-    function __construct(\Core\Router $router) {
+    function __construct(\Core\Routing\Router $router) {
         $this->router = $router;
     }
 
@@ -25,7 +28,7 @@ class Kernel
         if ($this->runBefore($middlewareInstances)) {
             $response = $request->process();
             $this->runAfter($middlewareInstances);
-            // View::render($response);
+            $response->send();
         }
 
         // TODO: If run before failed, handle errors
@@ -65,7 +68,7 @@ class Kernel
         $middlewareInstances = [];
 
         foreach ($middleware as $mw) {
-            $name = '\Core\\' . $mw;
+            $name = self::NAMESPACE . $mw;
             $middlewareInstances []= new $name;
         }
 

@@ -3,7 +3,7 @@
 return [
     Core\Config::class,
     Core\View::class,
-    Core\Router::class,
+    Core\Routing\Router::class,
     Core\Kernel::class,
-    Core\RequestFactory::class
+    Core\Factories\RequestFactory::class
 ];
