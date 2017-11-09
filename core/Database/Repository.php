@@ -18,7 +18,7 @@ class Repository
      * Creates new Repository instance and injects Database instance
      * @param Database $database Instance of connection to the database
      */
-    public function __construct(\Core\Database\Database $database) {
+    public function __construct(Database $database) {
         $this->database = $database;
     }
 
@@ -39,6 +39,7 @@ class Repository
      * @return array Associative array with first row from result
      */
     public function fetch(string $query, array $data = []): array {
-        return $this->database->query($query, $data)->fetch();
+        $result = $this->database->query($query, $data)->fetch();
+        return $result === false ? [] : $result;
     }
 }

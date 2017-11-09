@@ -41,5 +41,13 @@ abstract class Response
         $this->data = $data;
     }
 
+    public function getCode() {
+        return $this->code;
+    }
+
+    public function setCode($code) {
+        $this->code = $code;
+    }
+
     protected abstract function sendContent();
 }

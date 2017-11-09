@@ -2,13 +2,15 @@
 
 namespace App\Controllers;
 
+use App\Repositories\TripRepository;
 use Core\Http\Controller;
 use Core\Http\Response\HtmlResponse;
+use Core\Http\Response\RedirectResponse;
 
 class TripController extends Controller {
     private $tripRepository;
 
-    function __construct(\App\Repositories\TripRepository $tripRepository) {
+    function __construct(TripRepository $tripRepository) {
         $this->tripRepository = $tripRepository;
     }
 
@@ -29,9 +31,8 @@ class TripController extends Controller {
         $trip = $this->tripRepository->getTrip($trip_id);
 
         if ($trip == NULL) {
-            // TODO: Add popup that trip doesn't exist and return back
-            echo "trip doesn't exist";
-            return;
+            // TODO: Add warning message that trip doesn't exist
+            return new RedirectResponse('/trips');
         }
 
         $days = $this->tripRepository->getDays($trip_id);

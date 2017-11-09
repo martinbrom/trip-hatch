@@ -25,7 +25,7 @@ class Database
      * Creates new Database instance and injects Config instance
      * @param Config $config Instance containing configuration data
      */
-    public function __construct(\Core\Config $config) {
+    public function __construct(Config $config) {
         $this->config = $config;
         $this->initConnection();
     }
@@ -61,9 +61,9 @@ class Database
 
     /**
      * Get first row from result
-     * @return array Associative array with first row from result
+     * @return mixed Associative array with first row from result, false on failure
      */
-    public function fetch(): array {
+    public function fetch() {
         return $this->statement->fetch();
     }
 

@@ -2,6 +2,8 @@
 
 namespace App\Repositories;
 
+use Core\Database\Repository;
+
 /**
  * Instance of class provides simple functions,
  * that fetch data from Database, to be used in TripController
@@ -10,14 +12,14 @@ namespace App\Repositories;
  */
 class TripRepository
 {
-    /** @var \Core\Repository Instance of base repository used for communicating with database */
+    /** @var Repository Instance of base repository used for communicating with database */
     private $baseRepository;
 
     /**
      * Creates TripRepository instance and injects Repository instance
-     * @param \Core\Repository $baseRepository
+     * @param Repository $baseRepository
      */
-    public function __construct(\Core\Database\Repository $baseRepository) {
+    public function __construct(Repository $baseRepository) {
         $this->baseRepository = $baseRepository;
     }
 

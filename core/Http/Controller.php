@@ -4,9 +4,7 @@ namespace Core\Http;
 
 abstract class Controller
 {
-    public function __call($name, $args)
-    {
-        $method = $name;
+    public function __call($method, $args)  {
         if (!method_exists($this, $method)) {
             call_user_func_array([$this, $method], $args);
         } else {

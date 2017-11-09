@@ -3,6 +3,7 @@
 namespace Core\Http;
 
 use Core\DependencyInjector;
+use Core\Http\Response\RedirectResponse;
 Use Core\Routing\Route;
 
 /**
@@ -38,7 +39,7 @@ class Request
      * Creates new Request instance and injects DependencyInjector instance
      * @param DependencyInjector $di Instance containing registered services
      */
-    public function __construct(\Core\DependencyInjector $di) {
+    public function __construct(DependencyInjector $di) {
         // TODO: WHEN IN DOUBT, DUMP IT OUT
         // var_dump($_SERVER);
         $this->di = $di;
@@ -54,9 +55,8 @@ class Request
     public function process() {
         $controllerClass = self::NAMESPACE . $this->route->getController() . "Controller";
         if (!class_exists($controllerClass)) {
-            echo "Controller not found";
-            // TODO: Response redirect to index, controller not found
-            return;
+            // TODO: Error message controller not found
+            return new RedirectResponse('/');
         }
 
         $this->di->register($controllerClass);

@@ -3,17 +3,20 @@
 namespace Core;
 
 use Core\Http\Request;
+use Core\Routing\Router;
 
 class Kernel
 {
     const NAMESPACE = 'App\Middleware\\';
     private $router;
+    private $di;
     private $alwaysUsedMiddleware = [
         // 'AlwaysLoadedMiddleware'
     ];
 
-    function __construct(\Core\Routing\Router $router) {
+    function __construct(Router $router) {
         $this->router = $router;
+        $this->di = di();
     }
 
     public function handle(Request $request) {
@@ -67,9 +70,10 @@ class Kernel
         $middleware = array_merge($this->alwaysUsedMiddleware, $middleware);
         $middlewareInstances = [];
 
+        $aliases = require '../app/Middleware/middleware.php';
+
         foreach ($middleware as $mw) {
-            $name = self::NAMESPACE . $mw;
-            $middlewareInstances []= new $name;
+            $middlewareInstances []= $this->di->getService($aliases[$mw]);
         }
 
         return $middlewareInstances;
