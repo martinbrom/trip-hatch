@@ -5,6 +5,7 @@ namespace Core\Http;
 use Core\DependencyInjector;
 use Core\Http\Response\RedirectResponse;
 Use Core\Routing\Route;
+use Core\Validator;
 
 /**
  * Contains SERVER request data and calls action on a controller
@@ -49,10 +50,16 @@ class Request
     }
 
     /**
-     * Processes request, calls action on a controller,
+     * Validates and processes request, calls action on a controller,
      * that is specified by a matching route
      */
     public function process() {
+        $validator = new Validator();
+        $validator->setRules($this->getValidationRules());
+        if (!$validator->validate()) {
+            // TODO: Error handling
+        }
+
         $controllerClass = self::NAMESPACE . $this->route->getController() . "Controller";
         if (!class_exists($controllerClass)) {
             // TODO: Error message controller not found
@@ -122,9 +129,17 @@ class Request
 
     /**
      * Returns a list of required middleware to be run before and after the request
-     * @return array List of required middleware for the request
+     * @return array Required middleware for the request
      */
     public function getMiddleware() {
         return $this->route->getMiddleware();
+    }
+
+    /**
+     * Returns validation rules for a route, that matches this request
+     * @return array Validation rules
+     */
+    public function getValidationRules() {
+        return $this->route->getValidationRules();
     }
 }

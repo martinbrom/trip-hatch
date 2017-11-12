@@ -28,6 +28,9 @@ class Route
 
     /** @var bool True if route can only be accessed via AJAX, false otherwise */
     private $ajaxOnly = false;
+
+    /** @var array Validation rules for a request, that matches this route */
+    private $validationRules;
     // TODO: Named routes ?
 
     /**
@@ -60,6 +63,19 @@ class Route
      */
     public function ajax(): self {
         $this->ajaxOnly = true;
+        return $this;
+    }
+
+    /**
+     * Sets validation rules for route-matching request
+     * @param array $rules Validation rules
+     * @return self Returns itself for chaining setters
+     */
+    public function validate($rules) {
+        /*['title' => [
+            'max:100', 'notnull'
+        ]]*/
+        $this->validationRules = $rules;
         return $this;
     }
 
@@ -109,5 +125,13 @@ class Route
      */
     public function isAjaxOnly(): bool {
         return $this->ajaxOnly;
+    }
+
+    /**
+     * Returns validation rules
+     * @return array Validation rules
+     */
+    public function getValidationRules() {
+        return $this->validationRules;
     }
 }

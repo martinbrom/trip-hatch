@@ -13,6 +13,16 @@ namespace Core;
  */
 interface Middleware
 {
+    /**
+     * Middleware method that is run after response is created
+     * Returns whether the middleware ran without error
+     * @return bool True if middleware ran without error, false otherwise
+     */
     public function before(): bool;
+
+    /**
+     * Middleware method that is run after response is created
+     * @return void
+     */
     public function after();
 }

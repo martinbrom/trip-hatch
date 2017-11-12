@@ -12,7 +12,7 @@ class RequestFactory implements Factory
         $this->di = di();
     }
 
-    public function make(): Request {
+    public function make($args = []): Request {
         return new Request($this->di);
     }
 }

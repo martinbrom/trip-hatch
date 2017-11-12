@@ -73,4 +73,31 @@ class TripRepository
         $data = ['user_id' => $user_id];
         return $this->baseRepository->fetchAll($query, $data);
     }
+
+    /**
+     * Returns all action types from the database
+     * @return array All action types
+     */
+    public function getActionTypes() {
+        $query = "SELECT * FROM action_types";
+        return $this->baseRepository->fetchAll($query);
+    }
+
+    public function getTripPublic($public_url) {
+        $query = "SELECT * FROM trips WHERE public_url = :public_url";
+        $data = ['public_url' => $public_url];
+        return $this->baseRepository->fetch($query, $data);
+    }
+
+    public function publishTrip(int $trip_id, string $public_url) {
+        $query = "UPDATE trips SET public_url = :public_url WHERE id = :trip_id";
+        $data = ['trip_id' => $trip_id, 'public_url' => $public_url];
+        $this->baseRepository->run($query, $data);
+    }
+
+    public function classifyTrip(int $trip_id) {
+        $query = "UPDATE trips SET public_url = NULL WHERE id = :trip_id";
+        $data = ['trip_id' => $trip_id];
+        $this->baseRepository->run($query, $data);
+    }
 }

@@ -55,7 +55,7 @@ $(document).ready(function () {
             $.ajax({
                 url: "/trip/day/" + ($(this).attr("data-target").substring(4)) + "/actions",
                 success: function (result) {
-                    console.log(result);
+                    // console.log(result);
                     action_container.html(result);
                 }
             });
@@ -66,5 +66,15 @@ $(document).ready(function () {
     $("a.trip-add-day").click(function () {
         // TODO: Add a new day
         $("div.trip-days-container").append("new day");
+    });
+
+    $("button.action-add-btn").click(function () {
+        $.ajax({
+            url: "/action-types",
+            success: function (result) {
+                console.log(result);
+                $("select.action-type-select").html(result);
+            }
+        });
     });
 });

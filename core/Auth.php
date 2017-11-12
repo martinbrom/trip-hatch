@@ -21,7 +21,7 @@ class Auth
 
         if ($user == null) return false;
 
-        $this->session->put('user', 'stuff');
+        $this->session->put('user', $user);
         return true;
     }
 

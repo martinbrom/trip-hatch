@@ -74,4 +74,12 @@ class Database
     public function fetchAll(): array {
         return $this->statement->fetchAll();
     }
+
+    /**
+     * Returns the id of last row affected
+     * @return string ID of last row affected
+     */
+    public function lastInsertId() {
+        return $this->pdo->lastInsertId();
+    }
 }

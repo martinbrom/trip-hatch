@@ -65,7 +65,7 @@ class UserController extends Controller
      *                          login page on unsuccessful
      */
     public function login() {
-        if ($this->auth->login($_POST['login_email'], $_POST['login_password'])) {
+        if ($this->auth->login($_POST['email'], $_POST['password'])) {
             // TODO: Add success message
             return new RedirectResponse('/trips');
         }
@@ -83,7 +83,30 @@ class UserController extends Controller
         return new RedirectResponse('/login');
     }
 
-    public function register() {}
-    public function forgottenPassword() {}
-    public function profile() {}
+    /**
+     * Creates new user and redirects him to dashboard
+     * @return RedirectResponse Login page
+     */
+    public function register() {
+        // TODO: Registration
+        return new RedirectResponse('/trips');
+    }
+
+    /**
+     * Sends email with instructions to reset password
+     * and redirects user back to login page
+     * @return RedirectResponse Login page
+     */
+    public function forgottenPassword() {
+        // TODO: Forgotten password
+        return new RedirectResponse('/login');
+    }
+
+    /**
+     * Returns a html response with profile page content
+     * @return HtmlResponse Profile page
+     */
+    public function profile() {
+        return new HtmlResponse('user/profile.html.twig');
+    }
 }

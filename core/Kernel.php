@@ -20,6 +20,7 @@ class Kernel
     }
 
     public function handle(Request $request) {
+        var_dump($request);
         if (!$this->router->match($request)) {
             // TODO: 404
             echo 404;
@@ -32,9 +33,10 @@ class Kernel
             $response = $request->process();
             $this->runAfter($middlewareInstances);
             $response->send();
+        } else {
+            // TODO: If run before failed, handle errors
+            echo "middleware failed";
         }
-
-        // TODO: If run before failed, handle errors
     }
 
     /**

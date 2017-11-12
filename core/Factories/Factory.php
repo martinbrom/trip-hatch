@@ -4,5 +4,5 @@ namespace Core\Factories;
 
 interface Factory
 {
-    public function make();
+    public function make($args);
 }

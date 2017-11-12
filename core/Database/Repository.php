@@ -42,4 +42,16 @@ class Repository
         $result = $this->database->query($query, $data)->fetch();
         return $result === false ? [] : $result;
     }
+
+    public function run(string $query, array $data = []) {
+        $this->database->query($query, $data);
+    }
+
+    /**
+     * Returns the id of last database row affected
+     * @return string ID of last row affected
+     */
+    public function lastInsertId() {
+        return $this->database->lastInsertId();
+    }
 }
