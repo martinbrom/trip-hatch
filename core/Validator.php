@@ -18,25 +18,27 @@ class Validator
     public function validate(): bool {
         if (empty($this->rules)) return true;
         /*
-        exists
-        min:10
-        max:255
-        between:10,255
+        [
+            id => [
+                exists, min:10, max:255
+                OR between:10,255
+            ]
+        ]
          */
-        foreach ($this->rules as $rule) {
-            $parts = explode(":", $rule);
-            $parameters = count($parts) == 1 ? [] : explode(",", $parts[1]);
-            if (!call_user_func($parts[0], $parameters)) return false;
+        foreach ($this->rules as $item => $itemRules) {
+            foreach ($itemRules as $itemRule) {
+                // TODO: Validate
+            }
         }
 
         return true;
     }
 
-    public function min($min) {}
-    public function max($max) {}
-    public function between($min, $max) {}
-    public function exists($table) {}
-    public function unique($table) {}
-    public function email($email) {}
-    public function matches($item) {}
+    public function min($item, $min) {}
+    public function max($item, $max) {}
+    public function between($item, $min, $max) {}
+    public function exists($item, $table) {}
+    public function unique($item, $table) {}
+    public function email($item, $email) {}
+    public function matches($item, $match) {}
 }

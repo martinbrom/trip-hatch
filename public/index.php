@@ -10,4 +10,5 @@ $di->readFile("services.php");
 require_once '../app/routes.php';
 
 $request = $di->getService(\Core\Factories\RequestFactory::class)->make();
-$di->getService(Core\Kernel::class)->handle($request);
+$response = $di->getService(Core\Kernel::class)->handle($request);
+$response->send();

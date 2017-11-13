@@ -2,9 +2,9 @@
 
 namespace App\Controllers;
 
+use Core\Factories\ResponseFactory;
 use Core\Http\Controller;
 use Core\Http\Response\HtmlResponse;
-use Core\Http\Response\JsonResponse;
 
 /**
  * Handles creating responses for pages related to the main page
@@ -14,12 +14,23 @@ use Core\Http\Response\JsonResponse;
  */
 class HomeController extends Controller
 {
+    /** @var ResponseFactory Instance for creating responses */
+    private $responseFactory;
+
+    /**
+     * Creates new instance and injects response factory
+     * @param ResponseFactory $responseFactory
+     */
+    function __construct(ResponseFactory $responseFactory) {
+        $this->responseFactory = $responseFactory;
+    }
+
     /**
      * Returns a html response with a landing page content
      * @return HtmlResponse Landing page
      */
     public function index() {
-        return new HtmlResponse('home/index.html');
+        return $this->responseFactory->html('home/index.html');
     }
 
     /**
@@ -27,10 +38,6 @@ class HomeController extends Controller
      * @return HtmlResponse Page with layout
      */
     public function layout() {
-        return new HtmlResponse('home/layout.html.twig');
-    }
-
-    public function testMiddleware() {
-        return new JsonResponse('json response content');
+        return $this->responseFactory->html('home/layout.html.twig');
     }
 }

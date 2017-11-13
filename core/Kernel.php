@@ -3,6 +3,7 @@
 namespace Core;
 
 use Core\Http\Request;
+use Core\Http\Response\Response;
 use Core\Routing\Router;
 
 class Kernel
@@ -10,33 +11,25 @@ class Kernel
     const NAMESPACE = 'App\Middleware\\';
     private $router;
     private $di;
-    private $alwaysUsedMiddleware = [
-        // 'AlwaysLoadedMiddleware'
-    ];
+    private $alwaysUsedMiddleware = ['alerts'];
 
     function __construct(Router $router) {
         $this->router = $router;
         $this->di = di();
     }
 
-    public function handle(Request $request) {
-        var_dump($request);
-        if (!$this->router->match($request)) {
-            // TODO: 404
-            echo 404;
-            return;
-        }
+    public function handle(Request $request): Response {
+        if (!$this->router->match($request)) return error(404);
 
         $middlewareInstances = $this->createMiddlewareInstances($request->getMiddleware());
-
         if ($this->runBefore($middlewareInstances)) {
             $response = $request->process();
             $this->runAfter($middlewareInstances);
-            $response->send();
-        } else {
-            // TODO: If run before failed, handle errors
-            echo "middleware failed";
+            return $response;
         }
+
+        // TODO: If run before failed, handle errors
+        return redirect('/login');
     }
 
     /**

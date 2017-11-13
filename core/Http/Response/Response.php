@@ -15,14 +15,25 @@ abstract class Response
         $this->sendContent();
     }
 
-    protected function header($header) {
-        $this->headers[] = $header;
+    protected function sendHeaders() {
+        foreach ($this->headers as $header => $value) {
+            \header($header . ': ' . $value);
+        }
     }
 
-    protected function sendHeaders() {
-        foreach ($this->headers as $header) {
-            \header($header);
+    public function getHeaders() {
+        return $this->headers;
+    }
+
+    public function setHeaders($headers) {
+        $this->headers = [];
+        foreach ($headers as $header => $value) {
+            $this->addHeader($header, $value);
         }
+    }
+
+    public function addHeader($header, $value) {
+        $this->headers[$header] = $value;
     }
 
     public function getContent() {

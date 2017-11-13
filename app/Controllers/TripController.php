@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Repositories\TripRepository;
+use Core\Factories\ResponseFactory;
 use Core\Http\Controller;
 use Core\Http\Response\HtmlResponse;
 use Core\Http\Response\RedirectResponse;
@@ -21,14 +22,19 @@ class TripController extends Controller
     /** @var Session Instance for getting data from session */
     private $session;
 
+    /** @var ResponseFactory Instance for creating responses */
+    private $responseFactory;
+
     /**
-     * Creates new instance and injects trip repository and session
+     * Creates new instance and injects trip repository, session and response factory
      * @param TripRepository $tripRepository
-     * @param Session $session;
+     * @param Session $session
+     * @param ResponseFactory $responseFactory
      */
-    function __construct(TripRepository $tripRepository, Session $session) {
+    function __construct(TripRepository $tripRepository, Session $session, ResponseFactory $responseFactory) {
         $this->tripRepository = $tripRepository;
         $this->session = $session;
+        $this->responseFactory = $responseFactory;
     }
 
     /**
@@ -37,7 +43,7 @@ class TripController extends Controller
      */
     public function index() {
         $trips = $this->tripRepository->getTrips($this->session->get('user.id'));
-        return new HtmlResponse('trip/index.html.twig', ['trips' => $trips]);
+        return $this->responseFactory->html('trip/index.html.twig', ['trips' => $trips]);
     }
 
     /**
@@ -45,7 +51,7 @@ class TripController extends Controller
      * @return HtmlResponse New trip page
      */
     public function create() {
-        return new HtmlResponse('trip/create.html.twig');
+        return $this->responseFactory->html('trip/create.html.twig');
     }
 
     /**
@@ -55,7 +61,7 @@ class TripController extends Controller
     public function store() {
         // TODO: Create trip
         $id = 1; // later will be last insert ID from database
-        return new RedirectResponse('trip/' . $id);
+        return redirect('trip/' . $id);
     }
 
     /**
@@ -71,11 +77,11 @@ class TripController extends Controller
         // TODO: Validation on request
         if ($trip == NULL) {
             // TODO: Add warning message that trip doesn't exist
-            return new RedirectResponse('/trips');
+            return redirect('/trips');
         }
 
         $days = $this->tripRepository->getDays($trip_id);
-        return new HtmlResponse('trip/show.html.twig', ['days' => $days, 'title' => $trip['title']]);
+        return $this->responseFactory->html('trip/show.html.twig', ['days' => $days, 'title' => $trip['title']]);
     }
 
     // TODO: Do I really need all of these?
@@ -91,7 +97,7 @@ class TripController extends Controller
      */
     public function actions($day_id) {
         $actions = $this->tripRepository->getActions($day_id);
-        return new HtmlResponse('trip/actions.html.twig', ['actions' => $actions]);
+        return $this->responseFactory->html('trip/actions.html.twig', ['actions' => $actions]);
     }
 
     /**
@@ -101,7 +107,7 @@ class TripController extends Controller
      */
     public function actionTypes() {
         $action_types = $this->tripRepository->getActionTypes();
-        return new HtmlResponse('trip/actionTypesSelect.html.twig', ['action_types' => $action_types]);
+        return $this->responseFactory->html('trip/actionTypesSelect.html.twig', ['action_types' => $action_types]);
     }
 
     public function showPublic($public_url) {
@@ -110,11 +116,11 @@ class TripController extends Controller
         // TODO: Validation on request
         if ($trip == NULL) {
             // TODO: Add warning message that trip doesn't exist
-            return new RedirectResponse('/trips');
+            return redirect('/trips');
         }
 
         $days = $this->tripRepository->getDays($trip['id']);
-        return new HtmlResponse('trip/show.html.twig', ['days' => $days, 'title' => $trip['title']]);
+        return $this->responseFactory->html('trip/show.html.twig', ['days' => $days, 'title' => $trip['title']]);
     }
 
     public function publish($trip_id) {

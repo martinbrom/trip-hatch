@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Repositories\UserRepository;
 use Core\Auth;
+use Core\Factories\ResponseFactory;
 use Core\Http\Controller;
 use Core\Http\Response\HtmlResponse;
 use Core\Http\Response\JsonResponse;
@@ -23,14 +24,19 @@ class UserController extends Controller
     /** @var Auth Instance used for authenticating user */
     private $auth;
 
+    /** @var ResponseFactory Instance for creating responses */
+    private $responseFactory;
+
     /**
      * Creates new instance and injects user repository and auth
      * @param UserRepository $userRepository Instance for getting data from database
      * @param Auth $auth Instance for user authentication
+     * @param ResponseFactory $responseFactory
      */
-    function __construct(UserRepository $userRepository, Auth $auth) {
+    function __construct(UserRepository $userRepository, Auth $auth, ResponseFactory $responseFactory) {
         $this->userRepository = $userRepository;
         $this->auth = $auth;
+        $this->responseFactory = $responseFactory;
     }
 
     /**
@@ -39,8 +45,7 @@ class UserController extends Controller
      */
     public function index() {
         $users = $this->userRepository->getUsers();
-        // var_dump($users);
-        return new JsonResponse($users);
+        return $this->responseFactory->json($users);
     }
 
     /**
@@ -48,7 +53,7 @@ class UserController extends Controller
      * @return HtmlResponse Login and register page
      */
     public function loginPage() {
-        return new HtmlResponse('user/login.html.twig');
+        return $this->responseFactory->html('user/login.html.twig');
     }
 
     /**
@@ -56,7 +61,7 @@ class UserController extends Controller
      * @return HtmlResponse Forgotten password page
      */
     public function forgottenPasswordPage() {
-        return new HtmlResponse('user/forgottenPassword.html.twig');
+        return $this->responseFactory->html('user/forgottenPassword.html.twig');
     }
 
     /**
@@ -67,11 +72,11 @@ class UserController extends Controller
     public function login() {
         if ($this->auth->login($_POST['email'], $_POST['password'])) {
             // TODO: Add success message
-            return new RedirectResponse('/trips');
+            return redirect('/trips');
         }
 
         // TODO: Add error message
-        return new RedirectResponse('/login');
+        return redirect('/login');
     }
 
     /**
@@ -80,7 +85,7 @@ class UserController extends Controller
      */
     public function logout() {
         $this->auth->logout();
-        return new RedirectResponse('/login');
+        return redirect('/login');
     }
 
     /**
@@ -89,7 +94,7 @@ class UserController extends Controller
      */
     public function register() {
         // TODO: Registration
-        return new RedirectResponse('/trips');
+        return redirect('/trips');
     }
 
     /**
@@ -99,7 +104,7 @@ class UserController extends Controller
      */
     public function forgottenPassword() {
         // TODO: Forgotten password
-        return new RedirectResponse('/login');
+        return redirect('/login');
     }
 
     /**
@@ -107,6 +112,6 @@ class UserController extends Controller
      * @return HtmlResponse Profile page
      */
     public function profile() {
-        return new HtmlResponse('user/profile.html.twig');
+        return $this->responseFactory->html('user/profile.html.twig');
     }
 }

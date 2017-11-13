@@ -6,8 +6,10 @@ return [
     Core\Routing\Router::class,
     Core\Kernel::class,
     Core\Factories\RequestFactory::class,
+    Core\Factories\ResponseFactory::class,
     App\Middleware\AlwaysLoadedMiddleware::class,
     App\Middleware\AuthMiddleware::class,
     App\Middleware\TestAfterMiddleware::class,
-    App\Middleware\TestBeforeMiddleware::class
+    App\Middleware\TestBeforeMiddleware::class,
+    App\Middleware\AddAlertsMiddleware::class
 ];

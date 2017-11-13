@@ -6,10 +6,11 @@ use Core\View;
 
 class HtmlResponse extends Response
 {
-    public function __construct($content, $data = []) {
-        $this->header("Content-type: text/html");
-        $this->setContent($content);
+    public function __construct($view, $data = [], $code = 200) {
+        $this->addHeader('Content-type', 'text/html');
+        $this->setContent($view);
         $this->setData($data);
+        $this->setCode($code);
     }
 
     protected function sendContent() {

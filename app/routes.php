@@ -15,7 +15,7 @@ $router->add('PUT', 'trip/{id:\d+}', 'Trip', 'update')->middleware(['auth'])->va
 $router->add('DELETE', 'trip/{id:\d+}', 'Trip', 'destroy')->middleware(['auth'])->validate(['id' => ['exists:trips']]);
 
 // TODO: Regex for string???
-$router->add('GET', 'trip/public/{public_url}', 'Trip', 'showPublic')->validate(['public_url' => ['notnull', 'exists:trips']]);
+$router->add('GET', 'trip/public/{public_url:\w+}', 'Trip', 'showPublic')->validate(['public_url' => ['notnull', 'exists:trips']]);
 $router->add('GET', 'trip/{id:\d+}/publish', 'Trip', 'publish')
     ->middleware(['auth', 'trip-owner'])
     ->validate(['id' => ['exists:trips']])
@@ -39,5 +39,3 @@ $router->add('POST', 'register', 'User', 'register');
 $router->add('GET', 'logout', 'User', 'logout');
 $router->add('POST', 'forgotten-password', 'User', 'forgottenPassword');
 $router->add('GET', 'profile', 'User', 'profile')->middleware(['auth']);
-
-$router->add('GET', 'testmw', 'Home', 'testMiddleware')->middleware(['test1', 'test2']);

@@ -1,6 +1,7 @@
 <?php
 
 use Core\DependencyInjector;
+use Core\Factories\ResponseFactory;
 
 function di($service = null) {
     if ($service == null)
@@ -11,4 +12,16 @@ function di($service = null) {
 
 function bcrypt($password) {
     return password_hash($password, PASSWORD_BCRYPT, ['cost' => 10]);
+}
+
+function error($code) {
+    return getResponseFactory()->error($code);
+}
+
+function redirect($location) {
+    return getResponseFactory()->redirect($location);
+}
+
+function getResponseFactory(): ResponseFactory {
+    return di(ResponseFactory::class);
 }

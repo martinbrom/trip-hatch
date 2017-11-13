@@ -27,8 +27,8 @@ class Router
      */
     public function preparePattern($url) {
         $url = preg_replace('/\//', '\\/', $url);
-        $url = preg_replace('/\{([a-z]+)\}/', '(?P<\1>[a-z-]+)', $url);
-        $url = preg_replace('/\{([a-z]+):([^\}]+)\}/', '(?P<\1>\2)', $url);
+        $url = preg_replace('/\{([a-z_]+)\}/', '(?P<\1>[a-z-]+)', $url);
+        $url = preg_replace('/\{([a-z_]+):([^\}]+)\}/', '(?P<\1>\2)', $url);
         $url = '/^' . $url . '$/i';
         return $url;
     }

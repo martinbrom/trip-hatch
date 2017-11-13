@@ -2,6 +2,7 @@
 
 namespace Core\Http;
 
+
 abstract class Controller
 {
     public function __call($method, $args)  {
