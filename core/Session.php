@@ -12,6 +12,10 @@ class Session
         $_SESSION[$name] = $value;
     }
 
+    public function addTo($array_name, $value) {
+        $_SESSION[$array_name] []= $value;
+    }
+
     public function get($name) {
         // TODO: Helper function maybe
 

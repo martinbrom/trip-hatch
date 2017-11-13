@@ -4,7 +4,7 @@ namespace App\Middleware;
 
 use Core\Middleware;
 
-class TestBeforeMiddleware implements Middleware
+class TestBeforeMiddleware extends Middleware
 {
     public function before(): bool {
         echo "before middleware";

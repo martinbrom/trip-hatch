@@ -68,10 +68,21 @@ textarea {
 }
 
 span.badge {
-  &.color-transport {background-color: $color_transport; }
-  &.color-important {background-color: $color_important; }
-  &.color-interest {background-color: $color_interest; }
-  &.color-food {background-color: $color_food; }
-  &.color-accommodation {background-color: $color_accommodation; }
-  &.color-other {background-color: $color_other; }
+  &.color-transport { background-color: $color_transport; }
+  &.color-important { background-color: $color_important; }
+  &.color-interest { background-color: $color_interest; }
+  &.color-food { background-color: $color_food; }
+  &.color-accommodation { background-color: $color_accommodation; }
+  &.color-other { background-color: $color_other; }
+}
+
+.alert-container {
+  .alert {
+    z-index: 1020;
+    margin: $application_margin 0 0;
+
+    &:last-of-type {
+      margin-bottom: $application_margin;
+    }
+  }
 }

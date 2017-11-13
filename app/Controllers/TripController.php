@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Repositories\TripRepository;
+use Core\AlertHelper;
 use Core\Factories\ResponseFactory;
 use Core\Http\Controller;
 use Core\Http\Response\HtmlResponse;
@@ -25,16 +26,21 @@ class TripController extends Controller
     /** @var ResponseFactory Instance for creating responses */
     private $responseFactory;
 
+    /** @var AlertHelper Instance for creating alerts */
+    private $alertHelper;
+
     /**
      * Creates new instance and injects trip repository, session and response factory
      * @param TripRepository $tripRepository
      * @param Session $session
      * @param ResponseFactory $responseFactory
+     * @param AlertHelper $alertHelper
      */
-    function __construct(TripRepository $tripRepository, Session $session, ResponseFactory $responseFactory) {
+    function __construct(TripRepository $tripRepository, Session $session, ResponseFactory $responseFactory, AlertHelper $alertHelper) {
         $this->tripRepository = $tripRepository;
         $this->session = $session;
         $this->responseFactory = $responseFactory;
+        $this->alertHelper = $alertHelper;
     }
 
     /**
@@ -76,7 +82,7 @@ class TripController extends Controller
 
         // TODO: Validation on request
         if ($trip == NULL) {
-            // TODO: Add warning message that trip doesn't exist
+            $this->alertHelper->error('Trip doesn\'t exist!');
             return redirect('/trips');
         }
 
@@ -115,7 +121,7 @@ class TripController extends Controller
 
         // TODO: Validation on request
         if ($trip == NULL) {
-            // TODO: Add warning message that trip doesn't exist
+            $this->alertHelper->error('Trip doesn\'t exist!');
             return redirect('/trips');
         }
 

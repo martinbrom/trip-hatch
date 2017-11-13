@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Repositories\UserRepository;
+use Core\AlertHelper;
 use Core\Auth;
 use Core\Factories\ResponseFactory;
 use Core\Http\Controller;
@@ -27,16 +28,21 @@ class UserController extends Controller
     /** @var ResponseFactory Instance for creating responses */
     private $responseFactory;
 
+    /** @var AlertHelper */
+    private $alertHelper;
+
     /**
      * Creates new instance and injects user repository and auth
      * @param UserRepository $userRepository Instance for getting data from database
      * @param Auth $auth Instance for user authentication
      * @param ResponseFactory $responseFactory
+     * @param AlertHelper $alertHelper
      */
-    function __construct(UserRepository $userRepository, Auth $auth, ResponseFactory $responseFactory) {
+    function __construct(UserRepository $userRepository, Auth $auth, ResponseFactory $responseFactory, AlertHelper $alertHelper) {
         $this->userRepository = $userRepository;
         $this->auth = $auth;
         $this->responseFactory = $responseFactory;
+        $this->alertHelper = $alertHelper;
     }
 
     /**
@@ -71,7 +77,7 @@ class UserController extends Controller
      */
     public function login() {
         if ($this->auth->login($_POST['email'], $_POST['password'])) {
-            // TODO: Add success message
+            $this->alertHelper->success('You have been successfully logged in!');
             return redirect('/trips');
         }
 

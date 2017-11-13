@@ -4,7 +4,7 @@ namespace App\Middleware;
 
 use Core\Middleware;
 
-class TestAfterMiddleware implements Middleware
+class TestAfterMiddleware extends Middleware
 {
     public function before(): bool { return true; }
 

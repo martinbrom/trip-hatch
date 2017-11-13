@@ -52,6 +52,10 @@ abstract class Response
         $this->data = $data;
     }
 
+    public function addData($key, $value) {
+        $this->data[$key] = $value;
+    }
+
     public function getCode() {
         return $this->code;
     }

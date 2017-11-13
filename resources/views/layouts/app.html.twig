@@ -10,6 +10,13 @@
     <body>
         <script src="/js/app.js"></script>
         {% include 'layouts/_navigation.html.twig' %}
+        {% if alerts is not null %}
+            <div class="container alert-container">
+            {% for alert in alerts %}
+                {% include 'layouts/_alert.html.twig' %}
+            {% endfor %}
+            </div>
+        {% endif %}
         {% block content %}{% endblock %}
         {% include 'layouts/_footer.html.twig' %}
     </body>

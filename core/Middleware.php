@@ -2,6 +2,9 @@
 
 namespace Core;
 
+use Core\Http\Request;
+use Core\Http\Response\Response;
+
 /**
  * Interface defining Middleware class
  * Before function is run before request being processed,
@@ -11,18 +14,38 @@ namespace Core;
  * @package Core
  * @author Martin Brom
  */
-interface Middleware
+abstract class Middleware
 {
+    /** @var Response */
+    protected $response;
+
+    /** @var Request */
+    protected $request;
+
     /**
      * Middleware method that is run after response is created
      * Returns whether the middleware ran without error
      * @return bool True if middleware ran without error, false otherwise
      */
-    public function before(): bool;
+    public abstract function before(): bool;
 
     /**
      * Middleware method that is run after response is created
      * @return void
      */
-    public function after();
+    public abstract function after();
+
+    /**
+     * @param Response $response
+     */
+    public function setResponse(Response $response) {
+        $this->response = $response;
+    }
+
+    /**
+     * @param Request $request
+     */
+    public function setRequest(Request $request) {
+        $this->request = $request;
+    }
 }
