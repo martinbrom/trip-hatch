@@ -21,36 +21,45 @@ class Validator
     public function validate(): bool {
         $rules = $this->request->getValidationRules();
         if (empty($rules)) return true;
-        /*
-        [
-            id => [
-                exists, min:10, max:255
-                OR between:10,255
-            ]
-        ]
-         */
 
         $valid = true;
         foreach ($rules as $fieldName => $itemRules) {
-            // var_dump($item); var_dump($itemRules);
             foreach ($itemRules as $itemRule) {
                 $ruleParts = explode(":", $itemRule);
                 $rule = $ruleParts[0];
-                $parameters = $this->request->getData($fieldName);
+                $parameters = [$this->request->getData($fieldName)];
+
                 if (count($ruleParts) == 2) {
                     unset($ruleParts[0]);
-                    $parameters = array_merge([$parameters], explode(',', $ruleParts[1]));
+                    $constraints = explode(',', $ruleParts[1]);
+                    $parameters = array_merge($parameters, $constraints);
                 }
+
                 $result = call_user_func_array([$this, $rule], $parameters);
+
                 var_dump($result);
                 if (!$result) {
-                    // echo sprintf("%s must be between %d and %d!", $fieldName, $parameters[1], $parameters[2]);
+                    $this->errors[$fieldName] []= call_user_func_array([$this, 'getErrorMessage'], array_merge([$rule, $fieldName], $constraints));
                     $valid = false;
                 }
             }
         }
 
         return $valid;
+    }
+
+    // TODO: Until language is fully implemented
+    public function getErrorMessage($rule, $fieldName, $parameter1 = null, $parameter2 = null) {
+        $message = 'Field \'' . $fieldName . '\' must ';
+        switch ($rule) {
+            case 'min': $message .= 'be at most ' . $parameter1;break;
+            case 'max': $message .= 'be at least ' . $parameter1;break;
+            case 'between': $message .= 'be between ' . $parameter1 . ' and ' . $parameter2;break;
+            case 'email': $message .= 'be a valid email address';break;
+            case 'matches': $message .= 'match field ' . $parameter1;
+        }
+
+        return $message;
     }
 
     public function min($item, $min): bool {
@@ -76,7 +85,11 @@ class Validator
         return $item == $match;
     }
 
-    public function notnull($item): bool {
+    public function required($item): bool {
         return $item != null;
+    }
+
+    public function getErrors() {
+        return $this->errors;
     }
 }

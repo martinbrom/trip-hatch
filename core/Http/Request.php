@@ -3,6 +3,8 @@
 namespace Core\Http;
 
 use Core\DependencyInjector;
+use Core\Factories\ResponseFactory;
+use Core\Http\Response\HtmlResponse;
 use Core\Http\Response\RedirectResponse;
 Use Core\Routing\Route;
 use Core\Validator;
@@ -36,11 +38,15 @@ class Request
     /** @var DependencyInjector Instance containing registered services */
     private $di;
 
+    /** @var ResponseFactory Instance for creating responses */
+    private $responseFactory;
+
     /**
      * Creates new Request instance and injects DependencyInjector instance
      * @param DependencyInjector $di Instance containing registered services
+     * @param ResponseFactory $responseFactory
      */
-    public function __construct(DependencyInjector $di) {
+    public function __construct(DependencyInjector $di, ResponseFactory $responseFactory) {
         // TODO: WHEN IN DOUBT, DUMP IT OUT
         // var_dump($_SERVER);
         $this->di = $di;
@@ -57,13 +63,15 @@ class Request
         $validator = new Validator();
         $validator->setRequest($this);
         if (!$validator->validate()) {
-            // TODO: Error handling
+            var_dump($validator->getErrors());
+            // TODO: Redirect back
+            die();
         }
 
         $controllerClass = self::NAMESPACE . $this->route->getController() . "Controller";
         if (!class_exists($controllerClass)) {
             // TODO: Error message controller not found
-            return new RedirectResponse('/');
+            return $this->responseFactory->redirect('/');
         }
 
         $this->di->register($controllerClass);
