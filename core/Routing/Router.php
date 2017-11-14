@@ -41,7 +41,7 @@ class Router
         foreach ($this->routes as $route) {
             if (preg_match($route->getPattern(), $request->getUrl(), $matches)
                     && $route->getMethod() == $request->getMethod()
-                    && $route->isAjaxOnly() == $request->isAjaxOnly()) {
+                    && $route->isAjaxOnly() == $request->isAjax()) {
                 $this->addParametersToRequest($matches, $route, $request);
                 return true;
             }

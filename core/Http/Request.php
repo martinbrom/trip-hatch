@@ -21,8 +21,8 @@ class Request
     /** @var string HTTP request method */
     private $method;
 
-    /** @var bool Only ajax access allowed */
-    private $ajaxOnly;
+    /** @var bool If request is sent using ajax */
+    private $ajax;
 
     /** @var string Request URL */
     private $url;
@@ -45,7 +45,7 @@ class Request
         // var_dump($_SERVER);
         $this->di = $di;
         $this->method = $_SERVER['REQUEST_METHOD'];
-        $this->ajaxOnly = !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
+        $this->ajax = !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
         $this->url = $this->removeQueryStringVariables($_SERVER['QUERY_STRING']);
     }
 
@@ -55,7 +55,7 @@ class Request
      */
     public function process() {
         $validator = new Validator();
-        $validator->setRules($this->getValidationRules());
+        $validator->setRequest($this);
         if (!$validator->validate()) {
             // TODO: Error handling
         }
@@ -123,8 +123,8 @@ class Request
      * Returns whether the request was sent using AJAX
      * @return bool True if the request was sent using AJAX, false otherwise
      */
-    public function isAjaxOnly(): bool {
-        return $this->ajaxOnly;
+    public function isAjax(): bool {
+        return $this->ajax;
     }
 
     /**
@@ -141,5 +141,18 @@ class Request
      */
     public function getValidationRules() {
         return $this->route->getValidationRules();
+    }
+
+
+
+
+    public function getData($key) {
+        if (isset($this->params[$key])) return $this->params[$key];
+        return $this->getInput($key);
+    }
+
+    public function getInput($key) {
+        $input = $this->method == 'GET' ? $_GET[$key] : $_POST[$key];
+        return $input;
     }
 }
