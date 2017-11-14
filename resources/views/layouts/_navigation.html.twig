@@ -10,9 +10,16 @@
         </div>
         <div class="collapse navbar-collapse" id="navigation">
             <ul class="nav navbar-nav navbar-right">
-                <li>
-                    <a href="/login" class="login">Login</a>
-                </li>
+                {% if user is not null %}
+                    <li><a href="/logout" class="logout">Logout</a></li>
+                    <li class="user-avatar-wrapper">
+                        <a href="/profile">
+                            <img class="img img-responsive img-circle user-avatar" src="/images/thumbnails/{{ user.path }}" alt="{{ user.description }}">
+                        </a>
+                    </li>
+                {% else %}
+                    <li><a href="/login" class="login">Login</a></li>
+                {% endif %}
             </ul>
         </div>
     </div>

@@ -76,12 +76,12 @@ class UserController extends Controller
      *                          login page on unsuccessful
      */
     public function login() {
-        if ($this->auth->login($_POST['email'], $_POST['password'])) {
+        if ($this->auth->login($_POST['login_email'], $_POST['login_password'])) {
             $this->alertHelper->success('You have been successfully logged in!');
             return redirect('/trips');
         }
 
-        // TODO: Add error message
+        $this->alertHelper->error('Username and password combination does not exist in our database!');
         return redirect('/login');
     }
 

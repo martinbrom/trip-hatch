@@ -11,7 +11,7 @@ class Kernel
     const NAMESPACE = 'App\Middleware\\';
     private $router;
     private $di;
-    private $alwaysUsedMiddleware = ['alerts'];
+    private $alwaysUsedMiddleware = ['alerts', 'viewData'];
 
     function __construct(Router $router) {
         $this->router = $router;

@@ -68,6 +68,16 @@
         &:last-of-type {
           border-bottom: none;
         }
+
+        &.user-avatar-wrapper {
+          a {
+            padding-top: 10px;
+
+            img.user-avatar {
+              height: 40px;
+            }
+          }
+        }
       }
 
       a {
@@ -90,6 +100,11 @@
             background: $navigation_background;
             text-decoration: underline;
           }
+        }
+
+        &.logout {
+          float: right;
+          margin-right: $application_margin;
         }
       }
     }

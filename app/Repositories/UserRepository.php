@@ -33,16 +33,15 @@ class UserRepository
     }
 
     /**
-     * Returns first user with given email and password
+     * Returns first user with given email
      * @param string $email User email
-     * @param string $password User password
-     * @return array User with given email and password
+     * @return array User with given email
      */
-    public function getUser($email, $password): array {
+    public function getUser($email): array {
         $query = "SELECT * FROM users
                 INNER JOIN images ON users.image_id = images.id
-                WHERE password = :password AND email = :email";
-        $data = ['password' => $password, 'email' => $email];
+                WHERE email = :email";
+        $data = ['email' => $email];
         return $this->baseRepository->fetch($query, $data);
     }
 }

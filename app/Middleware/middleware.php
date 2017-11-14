@@ -5,5 +5,6 @@ return [
     'test1' => \App\Middleware\TestBeforeMiddleware::class,
     'test2' => \App\Middleware\TestAfterMiddleware::class,
     'always' => \App\Middleware\AlwaysLoadedMiddleware::class,
-    'alerts' => \App\Middleware\AddAlertsMiddleware::class
+    'alerts' => \App\Middleware\AddAlertsMiddleware::class,
+    'viewData' => \App\Middleware\AddViewDataMiddleware::class
 ];

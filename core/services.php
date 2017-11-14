@@ -12,5 +12,6 @@ return [
     App\Middleware\AuthMiddleware::class,
     App\Middleware\TestAfterMiddleware::class,
     App\Middleware\TestBeforeMiddleware::class,
-    App\Middleware\AddAlertsMiddleware::class
+    App\Middleware\AddAlertsMiddleware::class,
+    App\Middleware\AddViewDataMiddleware::class
 ];

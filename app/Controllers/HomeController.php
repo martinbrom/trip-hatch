@@ -40,4 +40,8 @@ class HomeController extends Controller
     public function layout() {
         return $this->responseFactory->html('home/layout.html.twig');
     }
+
+    public function testValidation($number) {
+        return $this->responseFactory->html('home/layout.html.twig');
+    }
 }

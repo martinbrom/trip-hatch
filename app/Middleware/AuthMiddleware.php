@@ -20,7 +20,7 @@ class AuthMiddleware extends Middleware
     }
 
     public function before(): bool {
-        $logged = $this->session->exists('user');
+        $logged = $this->auth->isLogged();
         if (!$logged) $this->alertHelper->error('You are not logged in!');
         // TODO: Proper way to check if user is logged
         // TODO: Something when user isn't logged
