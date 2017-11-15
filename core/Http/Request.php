@@ -151,8 +151,11 @@ class Request
         return $this->route->getValidationRules();
     }
 
+    /**
+     * @param $key
+     * @return string
+     */
     public function getInput($key) {
-        $input = $this->method == 'GET' ? $_GET[$key] : $_POST[$key];
-        return $input;
+        return $this->method == 'GET' ? (isset($_GET[$key]) ? $_GET[$key] : null) : (isset($_POST[$key]) ? $_POST[$key] : null);
     }
 }
