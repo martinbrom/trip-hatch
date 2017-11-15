@@ -10,39 +10,35 @@ class FlatArray
         $this->data = $data;
     }
 
-    public function get($flatKey) {
-        $keys = explode('.', $flatKey);
-        $array = $this->data;
-        foreach ($keys as $key) {
-            if (!is_array($array)) return null;
-            $array = $array[$key];
-        }
+    public function get(string $key = null) {
+        if (is_null($key)) return $this->data;
 
-        return $array;
-    }
-    
-    public function add($flatKey, $value) {
-        $keys = explode('.', $flatKey);
-        $array = &$this->data;
-        foreach ($keys as $key) {
-            if (!is_array($array)) return;
-            $array = &$array[$key];
-        }
+        $keys = explode('.', $key);
+        $value = $this->data;
 
-        foreach ($value as $key => $val) {
-            $array[$key] = $val;
+        foreach ($keys as $k) {
+            if (!is_array($value) || !array_key_exists($k, $value)) return null;
+            $value = $value[$k];
         }
+        
+        return $value;
     }
 
-    public function set($flatKey, $value) {
-        $keys = explode('.', $flatKey);
+    public function set(string $key, $value) {
+        $keys = explode('.', $key);
         $array = &$this->data;
-        foreach ($keys as $key) {
-            if (!is_array($array)) return;
-            $array = &$array[$key];
-        }
 
-        $array = $value;
+        foreach ($keys as $k) {
+            if (!is_array($array)) $array = [];
+            if (!array_key_exists($k, $array)) $array[$key] = null;
+            $array = &$array[$k];
+        }
+        
+        $array[end($keys)] = $value;
+    }
+
+    public function has(string $key): bool {
+        return $this->get($key) == null;
     }
 
     public function getAll() {

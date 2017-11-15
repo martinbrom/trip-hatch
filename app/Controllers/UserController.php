@@ -10,6 +10,7 @@ use Core\Http\Controller;
 use Core\Http\Response\HtmlResponse;
 use Core\Http\Response\JsonResponse;
 use Core\Http\Response\RedirectResponse;
+use Core\Language;
 
 /**
  * Handles creating responses for user related pages
@@ -31,18 +32,23 @@ class UserController extends Controller
     /** @var AlertHelper */
     private $alertHelper;
 
+    /** @var Language */
+    private $lang;
+
     /**
      * Creates new instance and injects user repository and auth
      * @param UserRepository $userRepository Instance for getting data from database
      * @param Auth $auth Instance for user authentication
      * @param ResponseFactory $responseFactory
      * @param AlertHelper $alertHelper
+     * @param Language $lang
      */
-    function __construct(UserRepository $userRepository, Auth $auth, ResponseFactory $responseFactory, AlertHelper $alertHelper) {
+    function __construct(UserRepository $userRepository, Auth $auth, ResponseFactory $responseFactory, AlertHelper $alertHelper, Language $lang) {
         $this->userRepository = $userRepository;
         $this->auth = $auth;
         $this->responseFactory = $responseFactory;
         $this->alertHelper = $alertHelper;
+        $this->lang = $lang;
     }
 
     /**
@@ -70,6 +76,8 @@ class UserController extends Controller
         return $this->responseFactory->html('user/forgottenPassword.html.twig');
     }
 
+    public function resetPasswordPage() {}
+
     /**
      * Tries to log user in and redirects him after
      * @return RedirectResponse Dashboard on successful login,
@@ -77,11 +85,12 @@ class UserController extends Controller
      */
     public function login() {
         if ($this->auth->login($_POST['login_email'], $_POST['login_password'])) {
-            $this->alertHelper->success('You have been successfully logged in!');
+            var_dump($this->lang);
+            $this->alertHelper->success($this->lang->get('alerts.login.success'));
             return redirect('/trips');
         }
 
-        $this->alertHelper->error('Username and password combination does not exist in our database!');
+        $this->alertHelper->error($this->lang->get('alerts.login.wrong'));
         return redirect('/login');
     }
 
@@ -91,6 +100,7 @@ class UserController extends Controller
      */
     public function logout() {
         $this->auth->logout();
+        $this->alertHelper->success($this->lang->get('alerts.logout.success'));
         return redirect('/login');
     }
 
@@ -112,6 +122,8 @@ class UserController extends Controller
         // TODO: Forgotten password
         return redirect('/login');
     }
+
+    public function resetPassword() {}
 
     /**
      * Returns a html response with profile page content

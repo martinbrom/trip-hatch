@@ -4,8 +4,7 @@ namespace Core\Http;
 
 use Core\DependencyInjector;
 use Core\Factories\ResponseFactory;
-use Core\Http\Response\HtmlResponse;
-use Core\Http\Response\RedirectResponse;
+use Core\Language;
 Use Core\Routing\Route;
 use Core\Validator;
 
@@ -53,6 +52,7 @@ class Request
         $this->method = $_SERVER['REQUEST_METHOD'];
         $this->ajax = !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
         $this->url = $this->removeQueryStringVariables($_SERVER['QUERY_STRING']);
+        $this->responseFactory = $responseFactory;
     }
 
     /**
@@ -60,7 +60,7 @@ class Request
      * that is specified by a matching route
      */
     public function process() {
-        $validator = new Validator();
+        $validator = new Validator($this->di->getService(Language::class));
         $validator->setRequest($this);
         if (!$validator->validate()) {
             var_dump($validator->getErrors());
@@ -149,14 +149,6 @@ class Request
      */
     public function getValidationRules() {
         return $this->route->getValidationRules();
-    }
-
-
-
-
-    public function getData($key) {
-        if (isset($this->params[$key])) return $this->params[$key];
-        return $this->getInput($key);
     }
 
     public function getInput($key) {

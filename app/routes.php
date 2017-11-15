@@ -34,7 +34,7 @@ $router->add('GET', 'action-types', 'Trip', 'actionTypes')->ajax();
 $router->add('GET', 'users', 'User', 'index');
 $router->add('GET', 'login', 'User', 'loginPage');
 $router->add('GET', 'forgotten-password', 'User', 'forgottenPasswordPage');
-$router->add('POST', 'login', 'User', 'login')->validate(['login_email' => ['email', 'max:255']]);
+$router->add('POST', 'login', 'User', 'login')->validate(['login_email' => ['email', 'maxLen:255']]);
 $router->add('POST', 'register', 'User', 'register');
 $router->add('GET', 'logout', 'User', 'logout');
 $router->add('POST', 'forgotten-password', 'User', 'forgottenPassword');

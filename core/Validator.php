@@ -2,17 +2,26 @@
 
 namespace Core;
 
-// TODO: Add base messages for validation errors
 use Core\Http\Request;
 
 class Validator
 {
     /** @var Request */
     private $request;
+
+    /** @var array */
     private $errors;
 
-    // TODO: Dependencies
-    function __construct() {}
+    /** @var Language */
+    private $lang;
+
+    /**
+     * Validator constructor.
+     * @param Language $lang
+     */
+    function __construct(Language $lang) {
+        $this->lang = $lang;
+    }
 
     public function setRequest(Request $request) {
         $this->request = $request;
@@ -24,42 +33,29 @@ class Validator
 
         $valid = true;
         foreach ($rules as $fieldName => $itemRules) {
+            $languagePrefix = 'validation.' . $fieldName . '.';
+
             foreach ($itemRules as $itemRule) {
                 $ruleParts = explode(":", $itemRule);
                 $rule = $ruleParts[0];
-                $parameters = [$this->request->getData($fieldName)];
+                $input = [$this->request->getInput($fieldName)];
 
+                $parameters = [];
                 if (count($ruleParts) == 2) {
-                    unset($ruleParts[0]);
-                    $constraints = explode(',', $ruleParts[1]);
-                    $parameters = array_merge($parameters, $constraints);
+                    $parameters = explode(',', $ruleParts[1]);
                 }
 
-                $result = call_user_func_array([$this, $rule], $parameters);
+                $result = call_user_func_array([$this, $rule], array_merge($input, $parameters));
 
-                var_dump($result);
+                // var_dump($result);
                 if (!$result) {
-                    $this->errors[$fieldName] []= call_user_func_array([$this, 'getErrorMessage'], array_merge([$rule, $fieldName], $constraints));
+                    $this->errors[$fieldName] []= $this->lang->get($languagePrefix . $rule, $parameters);
                     $valid = false;
                 }
             }
         }
 
         return $valid;
-    }
-
-    // TODO: Until language is fully implemented
-    public function getErrorMessage($rule, $fieldName, $parameter1 = null, $parameter2 = null) {
-        $message = 'Field \'' . $fieldName . '\' must ';
-        switch ($rule) {
-            case 'min': $message .= 'be at most ' . $parameter1;break;
-            case 'max': $message .= 'be at least ' . $parameter1;break;
-            case 'between': $message .= 'be between ' . $parameter1 . ' and ' . $parameter2;break;
-            case 'email': $message .= 'be a valid email address';break;
-            case 'matches': $message .= 'match field ' . $parameter1;
-        }
-
-        return $message;
     }
 
     public function min($item, $min): bool {
@@ -72,6 +68,18 @@ class Validator
 
     public function between($item, $min, $max): bool {
         return $this->min($item, $min) && $this->max($item, $max);
+    }
+
+    public function minLen($item, $min): bool {
+        return strlen($item) >= $min;
+    }
+
+    public function maxLen($item, $max): bool {
+        return strlen($item) <= $max;
+    }
+
+    public function betweenLen($item, $min, $max): bool {
+        return $this->minLen($item, $min) && $this->maxLen($item, $max);
     }
 
     public function exists($item, $table): bool { return true; }
