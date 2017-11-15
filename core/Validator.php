@@ -5,38 +5,44 @@ namespace Core;
 use Core\Http\Request;
 
 /**
- * Class Validator
+ * Handles request validating, runs validation rules
+ * from request route on input data from request and
+ * fetches translated validation errors from Language instance
  * @package Core
  * @author Martin Brom
  */
 class Validator
 {
-    /** @var Request */
+    /** @var Request Validated request */
     private $request;
 
-    /** @var array */
+    /** @var array Validation error messages */
     private $errors;
 
-    /** @var Language */
+    /** @var Language Dictionary of translations */
     private $lang;
 
     /**
-     * Validator constructor.
-     * @param Language $lang
+     * Creates new instance and injects language instance
+     * @param Language $lang Language instance
      */
     function __construct(Language $lang) {
         $this->lang = $lang;
     }
 
     /**
-     * @param Request $request
+     * Adds a reference to request, that is being validated
+     * to get input from
+     * @param Request $request Validated request
      */
     public function setRequest(Request $request) {
         $this->request = $request;
     }
 
     /**
-     * @return bool
+     * Runs all validation rules and returns whether
+     * all run without error
+     * @return bool True if all validation rules passed, false otherwise
      */
     public function validate(): bool {
         $rules = $this->request->getValidationRules();
@@ -67,106 +73,126 @@ class Validator
     }
 
     /**
-     * @param $item
-     * @param $min
-     * @return bool
+     * Checks whether item is greater or equal to min value
+     * @param mixed $item Validated input
+     * @param int $min Minimal value
+     * @return bool True if item is greater or equal to min, false otherwise
      */
     public function min($item, $min): bool {
         return $item >= $min;
     }
 
     /**
-     * @param $item
-     * @param $max
-     * @return bool
+     * Checks whether item is smaller or equal to max value
+     * @param mixed $item Validated input
+     * @param int $max Maximal value
+     * @return bool True if item is smaller or equal to max, false otherwise
      */
     public function max($item, $max): bool {
         return $item <= $max;
     }
 
     /**
-     * @param $item
-     * @param $min
-     * @param $max
-     * @return bool
+     * Checks whether item is greater or equal to min value and
+     * whether item is smaller or equal to max value at the same time
+     * @param mixed $item Validated input
+     * @param int $min Minimal value
+     * @param int $max Maximal value
+     * @return bool True if item is greater or equal to min
+     *              and smaller or equal to max, false otherwise
      */
     public function between($item, $min, $max): bool {
         return $this->min($item, $min) && $this->max($item, $max);
     }
 
     /**
-     * @param $item
-     * @param $min
-     * @return bool
+     * Checks whether length of item is greater or equal to min
+     * @param mixed $item Validated input
+     * @param int $min Minimal length
+     * @return bool True if item length is greater or equal to min, false otherwise
      */
     public function minLen($item, $min): bool {
         return strlen($item) >= $min;
     }
 
     /**
-     * @param $item
-     * @param $max
-     * @return bool
+     * Checks whether length of item is smaller or equal to max
+     * @param mixed $item Validated input
+     * @param int $max Maximal length
+     * @return bool True if item length is smaller or equal to max, false otherwise
      */
     public function maxLen($item, $max): bool {
         return strlen($item) <= $max;
     }
 
     /**
-     * @param $item
-     * @param $min
-     * @param $max
-     * @return bool
+     * Checks whether length of item is greater or equal to min and
+     * whether length of item is smaller or equal to max at the same time
+     * @param mixed $item Validated input
+     * @param int $min Minimal length
+     * @param int $max Maximal length
+     * @return bool True if item length is greater or equal to min
+     *              and smaller or equal to max, false otherwise
      */
     public function betweenLen($item, $min, $max): bool {
         return $this->minLen($item, $min) && $this->maxLen($item, $max);
     }
 
     /**
-     * @param $item
-     * @param $table
-     * @return bool
+     * Checks whether item exists in a given database table and column
+     * @param mixed $item Validated input
+     * @param string $table Name of database table
+     * @param string $column Name of column in table
+     * @return bool True if item exists in database, false otherwise
      */
-    public function exists($item, $table): bool {
+    public function exists($item, $table, $column): bool {
+        // TODO: Check if input exists in database
         return true;
     }
 
     /**
-     * @param $item
-     * @param $table
-     * @return bool
+     * Checks whether item doesn't exist in a given database table and column
+     * @param mixed $item Validated input
+     * @param string $table Name of database table
+     * @param string $column Name of column in table
+     * @return bool True if item doesn't exist in database, false otherwise
      */
-    public function unique($item, $table): bool {
+    public function unique($item, $table, $column): bool {
+        // TODO: Check if input is unique in database
         return true;
     }
 
     /**
-     * @param $item
-     * @return bool
+     * Checks whether item is a valid email address
+     * @param mixed $item Validated input
+     * @return bool True if item is a valid email address, false otherwise
      */
     public function email($item): bool {
         return filter_var($item, FILTER_VALIDATE_EMAIL);
     }
 
     /**
-     * @param $item
-     * @param $match
-     * @return bool
+     * Checks whether item is the same as match
+     * @param mixed $item Validated input
+     * @param string $match Name of input to match to
+     * @return bool True if both inputs match, false otherwise
      */
     public function matches($item, $match): bool {
-        return $item == $match;
+        return $item == $this->request->getInput($match);
     }
 
     /**
-     * @param $item
-     * @return bool
+     * Checks whether item is present in input
+     * @param mixed $item Validated input
+     * @return bool True if input is present, false otherwise
      */
     public function required($item): bool {
         return $item != null;
     }
 
     /**
-     * @return array
+     * Returns all validation errors
+     * @return array Validation errors
      */
     public function getErrors(): array {
         return $this->errors;
