@@ -35,7 +35,12 @@ $router->add('GET', 'users', 'User', 'index');
 $router->add('GET', 'login', 'User', 'loginPage');
 $router->add('GET', 'forgotten-password', 'User', 'forgottenPasswordPage');
 $router->add('POST', 'login', 'User', 'login')->validate(['login_email' => ['email', 'maxLen:255']]);
-$router->add('POST', 'register', 'User', 'register');
+$router->add('POST', 'register', 'User', 'register')
+    ->validate([
+        'register_email' => ['required', 'email', 'maxLen:255'],
+        'register_password' => ['required'],
+        'register_password_confirm' => ['required', 'matches:register_password']
+    ]);
 $router->add('GET', 'logout', 'User', 'logout');
 $router->add('POST', 'forgotten-password', 'User', 'forgottenPassword');
 $router->add('GET', 'profile', 'User', 'profile')->middleware(['auth']);

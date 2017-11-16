@@ -5,11 +5,16 @@ return [
         'email' => 'Login email must be a valid email address',
         'maxLen' => 'Login email must be at most :p1 characters long'
     ],
-    'a' => [
-        'between' => 'Parameter A must be between :p1 and :p2',
-        'email' => 'Parameter A must be a valid email address'
+    'register_email' => [
+        'required' => 'Registration email is required',
+        'email' => 'Registration email must be a valid email address',
+        'maxLen' => 'Registration email must be at most :p1 characters long'
     ],
-    'b' => [
-        'max' => 'Parameter B must be at most :p1'
+    'register_password' => [
+        'required' => 'Registration password is required'
+    ],
+    'register_password_confirm' => [
+        'required' => 'Confirmation of registration password is required',
+        'matches' => 'Confirmation of registration password must match registration password'
     ]
 ];

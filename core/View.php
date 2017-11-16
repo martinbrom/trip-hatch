@@ -19,6 +19,7 @@ class View
             ));
             */
             $twig = new \Twig_Environment($loader);
+            $twig->addFunction(new \Twig_Function('t', 'translate'));
         }
 
         return $twig->render($template, $args);

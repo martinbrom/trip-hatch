@@ -2,6 +2,7 @@
 
 use Core\DependencyInjector;
 use Core\Factories\ResponseFactory;
+use Core\Language\Language;
 
 function di($service = null) {
     if ($service == null)
@@ -34,4 +35,9 @@ function token(int $length) {
         $token .= $characterSet[random_int(0, $max)];
 
     return $token;
+}
+
+function translate($key, $parameters = []) {
+    $language = di(Language::class);
+    return $language->get($key, $parameters);
 }
