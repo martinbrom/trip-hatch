@@ -29,7 +29,7 @@ class ResponseFactory
     public function redirectBack() {}
     public function redirectToRoute() {}
 
-    public function error($code, $data = []) {
-        return new HtmlResponse('error/main.html.twig', $data, $code);
+    public function error(int $code, $data = []) {
+        return new HtmlResponse('error/index.html.twig', $data, $code);
     }
 }

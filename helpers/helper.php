@@ -14,8 +14,8 @@ function bcrypt($password) {
     return password_hash($password, PASSWORD_BCRYPT, ['cost' => 10]);
 }
 
-function error($code) {
-    return getResponseFactory()->error($code);
+function error($code, $data = []) {
+    return getResponseFactory()->error($code, $data);
 }
 
 function redirect($location) {

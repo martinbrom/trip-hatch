@@ -1,6 +1,6 @@
 <?php
 
-namespace Core;
+namespace Core\Middleware;
 
 use Core\Http\Request;
 use Core\Http\Response\Response;
@@ -16,18 +16,18 @@ use Core\Http\Response\Response;
  */
 abstract class Middleware
 {
-    /** @var Response */
+    /** @var Response A response created by processing request */
     protected $response;
 
-    /** @var Request */
+    /** @var Request Incoming request to check */
     protected $request;
 
     /**
-     * Middleware method that is run after response is created
-     * Returns whether the middleware ran without error
-     * @return bool True if middleware ran without error, false otherwise
+     * Middleware method that is run before request response is created
+     * Returns a response if middleware failed, null otherwise
+     * @return Response|null A response if middleware failed, null otherwise
      */
-    public abstract function before(): bool;
+    public abstract function before();
 
     /**
      * Middleware method that is run after response is created
@@ -36,14 +36,16 @@ abstract class Middleware
     public abstract function after();
 
     /**
-     * @param Response $response
+     * Sets a response created by processing request
+     * @param Response $response Response created by processing request
      */
     public function setResponse(Response $response) {
         $this->response = $response;
     }
 
     /**
-     * @param Request $request
+     * Sets an incoming request to check
+     * @param Request $request Incoming request to check
      */
     public function setRequest(Request $request) {
         $this->request = $request;

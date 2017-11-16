@@ -3,7 +3,7 @@
 namespace App\Middleware;
 
 use Core\Http\Response\HtmlResponse;
-use Core\Middleware;
+use Core\Middleware\Middleware;
 use Core\Session;
 
 class AddViewDataMiddleware extends Middleware
@@ -19,7 +19,7 @@ class AddViewDataMiddleware extends Middleware
         $this->session = $session;
     }
 
-    public function before(): bool { return true; }
+    public function before() { return null; }
 
     public function after() {
         if ($this->response instanceof HtmlResponse) {

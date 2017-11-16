@@ -33,6 +33,9 @@ class Request
     /** @var Route Route that matches request URL */
     private $route;
 
+    /** @var array|false All http request headers */
+    private $headers;
+
     /** @var DependencyInjector Instance containing registered services */
     private $di;
 
@@ -55,6 +58,7 @@ class Request
         $this->method = $_SERVER['REQUEST_METHOD'];
         $this->ajax = !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
         $this->url = $this->removeQueryStringVariables($_SERVER['QUERY_STRING']);
+        $this->headers = getallheaders();
         $this->responseFactory = $responseFactory;
         $this->validatorFactory = $validatorFactory;
     }
@@ -156,8 +160,27 @@ class Request
     }
 
     /**
-     * @param $key
-     * @return string
+     * Returns all http request headers
+     * @return array|false All http request headers
+     */
+    public function getHeaders() {
+        return $this->headers;
+    }
+
+    /**
+     * Returns a http request header with given name
+     * @param string $name Name of http header
+     * @return mixed|null Header if name exists, null otherwise
+     */
+    public function getHeader(string $name) {
+        return isset($this->headers[$name]) ? $this->headers[$name] : null;
+    }
+
+    /**
+     * Returns input with given key from super global
+     * variable matching request method
+     * @param string $key Name of input
+     * @return string|null Input if key exists, null otherwise
      */
     public function getInput($key) {
         return $this->method == 'GET' ? (isset($_GET[$key]) ? $_GET[$key] : null) : (isset($_POST[$key]) ? $_POST[$key] : null);

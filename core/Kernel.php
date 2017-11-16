@@ -4,80 +4,58 @@ namespace Core;
 
 use Core\Http\Request;
 use Core\Http\Response\Response;
+use Core\Middleware\MiddlewareHandler;
 use Core\Routing\Router;
 
+/**
+ * Handles incoming request, tries to match request and route,
+ * runs before and after middleware, processes request and returns
+ * a response
+ * @package Core
+ * @author Martin Brom
+ */
 class Kernel
 {
-    const NAMESPACE = 'App\Middleware\\';
+    /** @var Router Instance containing all application routes */
     private $router;
-    private $di;
-    private $alwaysUsedMiddleware = ['alerts', 'viewData'];
 
-    function __construct(Router $router) {
+    /** @var MiddlewareHandler Instance for running middleware on request and response */
+    private $middlewareHandler;
+
+    /**
+     * Creates new instance and injects router and middleware handler
+     * @param Router $router Instance containing all application routes
+     * @param MiddlewareHandler $middlewareHandler Instance for running middleware
+     *                                             on request and response
+     */
+    function __construct(Router $router, MiddlewareHandler $middlewareHandler) {
         $this->router = $router;
-        $this->di = di();
+        $this->middlewareHandler = $middlewareHandler;
     }
 
+    /**
+     * Checks whether incoming request parameters match any
+     * route, runs before middleware on it and the request is
+     * then being processed if middleware passed
+     * After obtaining a response from processing the request,
+     * after middleware is run to modify the response and it
+     * is then sent back to the client
+     * @param Request $request Incoming request to check using
+     *                         middleware and process afterwards
+     * @return Response Either failed middleware response
+     *                  or actual response
+     */
     public function handle(Request $request): Response {
-        if (!$this->router->match($request)) return error(404);
+        if (!$this->router->match($request))
+            return error(404);
 
-        $middlewareInstances = $this->createMiddlewareInstances($request);
-        if ($this->runBefore($middlewareInstances, $request)) {
-            $response = $request->process();
-            $this->runAfter($middlewareInstances, $response);
-            return $response;
-        }
+        $this->middlewareHandler->setRequest($request);
+        if (!$this->middlewareHandler->runBefore())
+            return $this->middlewareHandler->getResponse();
 
-        // TODO: If run before failed, handle errors
-        return redirect('/login');
-    }
+        $response = $request->process();
+        $this->middlewareHandler->runAfter($response);
 
-    /**
-     * @param Middleware[] $middleware Instances of middleware to be run
-     * @param Request $request
-     * @return bool True if before middleware ran without error
-     */
-    public function runBefore($middleware, Request $request) {
-
-        // TODO: Maybe throw exceptions???
-        foreach ($middleware as $mw) {
-            $mw->setRequest($request);
-
-            if (!$mw->before()) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * @param Middleware[] $middleware Instances of middleware to be run
-     * @param Response $response
-     */
-    public function runAfter($middleware, Response $response) {
-        foreach ($middleware as $mw) {
-            $mw->setResponse($response);
-            $mw->after();
-        }
-    }
-
-    /**
-     * @param Request $request
-     * @return Middleware[] Instances of created Middleware
-     */
-    public function createMiddlewareInstances(Request $request) {
-        $middleware = array_merge($this->alwaysUsedMiddleware, $request->getMiddleware());
-        $middlewareInstances = [];
-
-        $aliases = require '../app/Middleware/middleware.php';
-
-        foreach ($middleware as $mw) {
-            $middlewareInstance = $this->di->getService($aliases[$mw]);
-            $middlewareInstance->setRequest($request);
-            $middlewareInstances []= $middlewareInstance;
-        }
-
-        return $middlewareInstances;
+        return $response;
     }
 }
