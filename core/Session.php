@@ -8,7 +8,7 @@ class Session
         return isset($_SESSION[$name]);
     }
 
-    public function put($name, $value) {
+    public function set($name, $value) {
         $_SESSION[$name] = $value;
     }
 

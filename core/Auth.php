@@ -21,7 +21,7 @@ class Auth
 
         if (!password_verify($password, $hash)) return false;
 
-        $this->session->put('user', $user);
+        $this->session->set('user', $user);
         return true;
     }
 

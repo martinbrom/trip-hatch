@@ -21,7 +21,7 @@ class MiddlewareHandler
     private $responseFactory;
 
     // TODO: Add csrf here after it's finished
-    private $alwaysUsedMiddleware = ['alerts', 'viewData'];
+    private $alwaysUsedMiddleware = ['csrf', 'alerts', 'viewData'];
 
     function __construct(ResponseFactory $responseFactory) {
         $this->di = di();
