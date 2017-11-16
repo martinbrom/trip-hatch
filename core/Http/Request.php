@@ -4,9 +4,8 @@ namespace Core\Http;
 
 use Core\DependencyInjector;
 use Core\Factories\ResponseFactory;
-use Core\Language;
+use Core\Factories\ValidatorFactory;
 Use Core\Routing\Route;
-use Core\Validator;
 
 /**
  * Contains SERVER request data and calls action on a controller
@@ -40,12 +39,16 @@ class Request
     /** @var ResponseFactory Instance for creating responses */
     private $responseFactory;
 
+    /** @var ValidatorFactory Instance for creating validators */
+    private $validatorFactory;
+
     /**
-     * Creates new Request instance and injects DependencyInjector instance
+     * Creates new Request instance and injects DependencyInjector, ResponseFactory and ValidatorFactory
      * @param DependencyInjector $di Instance containing registered services
-     * @param ResponseFactory $responseFactory
+     * @param ResponseFactory $responseFactory Instance for creating responses
+     * @param ValidatorFactory $validatorFactory Instance for creating validators
      */
-    public function __construct(DependencyInjector $di, ResponseFactory $responseFactory) {
+    public function __construct(DependencyInjector $di, ResponseFactory $responseFactory, ValidatorFactory $validatorFactory) {
         // TODO: WHEN IN DOUBT, DUMP IT OUT
         // var_dump($_SERVER);
         $this->di = $di;
@@ -53,6 +56,7 @@ class Request
         $this->ajax = !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
         $this->url = $this->removeQueryStringVariables($_SERVER['QUERY_STRING']);
         $this->responseFactory = $responseFactory;
+        $this->validatorFactory = $validatorFactory;
     }
 
     /**
@@ -60,7 +64,7 @@ class Request
      * that is specified by a matching route
      */
     public function process() {
-        $validator = new Validator($this->di->getService(Language::class));
+        $validator = $this->validatorFactory->make();
         $validator->setRequest($this);
         if (!$validator->validate()) {
             var_dump($validator->getErrors());

@@ -4,7 +4,7 @@ namespace App\Middleware;
 
 use Core\AlertHelper;
 use Core\Auth;
-use Core\Language;
+use Core\Language\Language;
 use Core\Middleware;
 use Core\Session;
 

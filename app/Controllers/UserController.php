@@ -10,7 +10,7 @@ use Core\Http\Controller;
 use Core\Http\Response\HtmlResponse;
 use Core\Http\Response\JsonResponse;
 use Core\Http\Response\RedirectResponse;
-use Core\Language;
+use Core\Language\Language;
 
 /**
  * Handles creating responses for user related pages

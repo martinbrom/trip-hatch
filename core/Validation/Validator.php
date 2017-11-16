@@ -1,8 +1,10 @@
 <?php
 
-namespace Core;
+namespace Core\Validation;
 
 use Core\Http\Request;
+use Core\Language\Language;
+use Core\Validation\Exception\ValidationRuleNotExistsException;
 
 /**
  * Handles request validating, runs validation rules
@@ -43,6 +45,7 @@ class Validator
      * Runs all validation rules and returns whether
      * all run without error
      * @return bool True if all validation rules passed, false otherwise
+     * @throws ValidationRuleNotExistsException When a non-existent validation rule is called
      */
     public function validate(): bool {
         $rules = $this->request->getValidationRules();
@@ -59,6 +62,8 @@ class Validator
 
                 $parameters = [];
                 if (count($ruleParts) == 2) $parameters = explode(',', $ruleParts[1]);
+
+                if (!method_exists($this, $rule)) throw new ValidationRuleNotExistsException();
 
                 $result = call_user_func_array([$this, $rule], array_merge($input, $parameters));
 

@@ -5,7 +5,7 @@ return [
     Core\View::class,
     Core\Routing\Router::class,
     Core\Kernel::class,
-    Core\Language::class,
+    Core\Language\Language::class,
     Core\Factories\RequestFactory::class,
     Core\Factories\ResponseFactory::class,
     App\Middleware\AlwaysLoadedMiddleware::class,

@@ -1,9 +1,13 @@
 <?php
 
-namespace Core;
+namespace Core\Language;
+
+use Core\Config;
+use Core\FlatArray;
+use Core\Language\Exception\TranslationNotExistsException;
 
 /**
- * Class Language
+ * Handles translation of application messages
  * @package Core
  * @author Martin Brom
  */
@@ -12,18 +16,19 @@ class Language
     /** Location of language files */
     const FOLDER = "../resources/lang";
 
-    /** @var FlatArray */
+    /** @var FlatArray Dictionary of translations */
     private $translations;
 
-    /** @var mixed|null */
+    /** @var mixed|null Base locale of the application */
     private $locale;
 
-    /** @var mixed|null */
+    /** @var mixed|null Fallback locale if base locale translation isn't found */
     private $fallback;
 
     /**
-     * Language constructor.
-     * @param Config $config
+     * Creates new instance, injects config instance
+     * and loads base and fallback locales from config
+     * @param Config $config Instance containing configuration data
      */
     public function __construct(Config $config) {
         $this->translations = new FlatArray($this->loadTranslations());
@@ -32,22 +37,29 @@ class Language
     }
 
     /**
+     * Returns translation for a given key, replacing translation
+     * parameter placeholders with actual parameters
      * @param string $key
      * @param array $parameters
-     * @return mixed|string
+     * @return string Prepared translation if key exists
+     * @throws TranslationNotExistsException When translation doesn't exist in both locales
      */
     public function get(string $key, array $parameters = []) {
         $translation = $this->translations->get($this->locale . '.' . $key);
         if ($translation == null)
             $translation = $this->translations->get($this->fallback . '.' . $key);
 
-        return $translation == null ? 'Translation [' . $key . '] missing' : $this->replace($translation, $parameters);
+        if ($translation == null)
+            throw new TranslationNotExistsException($key, $this->locale, $this->fallback);
+
+        return $this->replace($translation, $parameters);
     }
 
     /**
-     * @param string $string
-     * @param array $replace
-     * @return string
+     * Replaces parameter placeholders with actual parameters
+     * @param string $string Translation message with parameter placeholders
+     * @param array $replace Array of parameters
+     * @return string Prepared translation message
      */
     private function replace(string $string, array $replace = []): string {
         for ($i = 0; $i < count($replace); $i++) {
@@ -58,14 +70,16 @@ class Language
     }
 
     /**
-     * @return array
+     * Returns all translations
+     * @return array All translations
      */
     public function getAll(): array {
         return $this->translations->getAll();
     }
 
     /**
-     * @return array
+     * Loads translations from language directories
+     * @return array Dictionary of translations
      */
     private function loadTranslations(): array {
         $result = [];
@@ -79,8 +93,9 @@ class Language
     }
 
     /**
-     * @param string $directory
-     * @return array
+     * Loads translations from language files
+     * @param string $directory Location of language files
+     * @return array Dictionary of translations
      */
     private function loadDirectory(string $directory): array {
         $result = [];
