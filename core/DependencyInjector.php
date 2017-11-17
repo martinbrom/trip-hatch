@@ -16,14 +16,10 @@ class DependencyInjector
     private static $instance;
 
     /**
-     * Returns itself as a singleton
-     * @return DependencyInjector Singleton instance
+     * DependencyInjector constructor.
      */
-    public static function getInstance(): DependencyInjector {
-        if (self::$instance == null)
-            self::$instance = new self();
-
-        return self::$instance;
+    function __construct() {
+        $this->services[self::class] = $this;
     }
 
     /**

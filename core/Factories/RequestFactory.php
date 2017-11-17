@@ -2,21 +2,22 @@
 
 namespace Core\Factories;
 
+use Core\DependencyInjector;
 use Core\Http\Request;
 
-class RequestFactory implements Factory
+class RequestFactory
 {
     private $di;
     private $responseFactory;
     private $validatorFactory;
 
-    public function __construct(ResponseFactory $responseFactory, ValidatorFactory $validatorFactory) {
-        $this->di = di();
+    public function __construct(ResponseFactory $responseFactory, ValidatorFactory $validatorFactory, DependencyInjector $di) {
+        $this->di = $di;
         $this->responseFactory = $responseFactory;
         $this->validatorFactory = $validatorFactory;
     }
 
-    public function make($args = []): Request {
+    public function make(): Request {
         return new Request($this->di, $this->responseFactory, $this->validatorFactory);
     }
 }

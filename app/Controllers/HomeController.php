@@ -14,17 +14,6 @@ use Core\Http\Response\HtmlResponse;
  */
 class HomeController extends Controller
 {
-    /** @var ResponseFactory Instance for creating responses */
-    private $responseFactory;
-
-    /**
-     * Creates new instance and injects response factory
-     * @param ResponseFactory $responseFactory
-     */
-    function __construct(ResponseFactory $responseFactory) {
-        $this->responseFactory = $responseFactory;
-    }
-
     /**
      * Returns a html response with a landing page content
      * @return HtmlResponse Landing page

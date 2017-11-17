@@ -5,7 +5,7 @@ namespace Core\Factories;
 use Core\Language\Language;
 use Core\Validation\Validator;
 
-class ValidatorFactory implements Factory
+class ValidatorFactory
 {
     private $language;
 
@@ -13,6 +13,7 @@ class ValidatorFactory implements Factory
         $this->language = $language;
     }
 
+    // TODO: Send validation rules here
     public function make($args = []): Validator {
         return new Validator($this->language);
     }

@@ -6,14 +6,18 @@ use Core\View;
 
 class HtmlResponse extends Response
 {
-    public function __construct($view, $data = [], $code = 200) {
+    /** @var View */
+    private $view;
+
+    public function __construct(View $view, $template, $data = [], $code = 200) {
+        $this->view = $view;
         $this->addHeader('Content-type', 'text/html');
-        $this->setContent($view);
+        $this->setContent($template);
         $this->setData($data);
         $this->setCode($code);
     }
 
     protected function sendContent() {
-        View::render($this->getContent(), $this->getData());
+        $this->view->render($this->getContent(), $this->getData());
     }
 }

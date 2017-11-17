@@ -18,11 +18,9 @@ class AddViewDataMiddleware extends Middleware
     /**
      * AddViewDataMiddleware constructor.
      * @param Session $session
-     * @param Language $language
      */
-    public function __construct(Session $session, Language $language) {
+    public function __construct(Session $session) {
         $this->session = $session;
-        $this->lang = $language;
     }
 
     public function before() { return null; }
@@ -30,7 +28,6 @@ class AddViewDataMiddleware extends Middleware
     public function after() {
         if ($this->response instanceof HtmlResponse) {
             $this->response->addData('user', $this->session->get('user'));
-            $this->response->addData('lang', $this->lang);
         }
     }
 }

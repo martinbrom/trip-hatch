@@ -2,6 +2,7 @@
 
 namespace Core\Middleware;
 
+use Core\DependencyInjector;
 use Core\Factories\ResponseFactory;
 use Core\Http\Request;
 use Core\Http\Response\Response;
@@ -23,8 +24,8 @@ class MiddlewareHandler
     // TODO: Add csrf here after it's finished
     private $alwaysUsedMiddleware = ['csrf', 'alerts', 'viewData'];
 
-    function __construct(ResponseFactory $responseFactory) {
-        $this->di = di();
+    function __construct(ResponseFactory $responseFactory, DependencyInjector $di) {
+        $this->di = $di;
         $this->responseFactory = $responseFactory;
     }
 
@@ -69,7 +70,7 @@ class MiddlewareHandler
 
     public function createMiddlewareInstances() {
         $middleware = array_merge($this->alwaysUsedMiddleware, $this->request->getMiddleware());
-        $aliases = require '../core/middleware.php';
+        $aliases = require __DIR__ . '/../middleware.php';
 
         foreach ($middleware as $mw) {
             $this->middleware []= $this->di->getService($aliases[$mw]);

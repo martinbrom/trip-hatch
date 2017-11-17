@@ -7,6 +7,7 @@ use Core\Factories\ResponseFactory;
 use Core\Http\Response\Response;
 use Core\Language\Language;
 use Core\Middleware\Middleware;
+use Core\Session;
 
 /**
  * Class CsrfMiddleware
@@ -24,19 +25,24 @@ class CsrfMiddleware extends Middleware
     /** @var CsrfTokenHandler */
     private $tokenHandler;
 
+    /** @var Session */
+    private $session;
+
     /**
      * CsrfMiddleware constructor.
      * @param CsrfTokenHandler $csrfTokenHandler
      * @param ResponseFactory $responseFactory
      * @param Language $language
      */
-    public function __construct(CsrfTokenHandler $csrfTokenHandler, ResponseFactory $responseFactory, Language $language) {
+    public function __construct(CsrfTokenHandler $csrfTokenHandler, ResponseFactory $responseFactory, Language $language, Session $session) {
         $this->responseFactory = $responseFactory;
         $this->lang = $language;
         $this->tokenHandler = $csrfTokenHandler;
 
         if (!$this->tokenHandler->hasToken())
             $this->tokenHandler->generate();
+
+        $this->session = $session;
     }
 
     /**
@@ -61,6 +67,6 @@ class CsrfMiddleware extends Middleware
      *
      */
     public function after() {
-        $this->response->addData('csrf_token', di(\Core\Session::class)->get('csrf_token'));
+        $this->response->addData('csrf_token', $this->session->get('csrf_token'));
     }
 }

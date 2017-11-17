@@ -4,7 +4,6 @@ namespace App\Controllers;
 
 use App\Repositories\TripRepository;
 use Core\AlertHelper;
-use Core\Factories\ResponseFactory;
 use Core\Http\Controller;
 use Core\Http\Response\HtmlResponse;
 use Core\Http\Response\RedirectResponse;
@@ -23,9 +22,6 @@ class TripController extends Controller
     /** @var Session Instance for getting data from session */
     private $session;
 
-    /** @var ResponseFactory Instance for creating responses */
-    private $responseFactory;
-
     /** @var AlertHelper Instance for creating alerts */
     private $alertHelper;
 
@@ -33,13 +29,11 @@ class TripController extends Controller
      * Creates new instance and injects trip repository, session and response factory
      * @param TripRepository $tripRepository
      * @param Session $session
-     * @param ResponseFactory $responseFactory
      * @param AlertHelper $alertHelper
      */
-    function __construct(TripRepository $tripRepository, Session $session, ResponseFactory $responseFactory, AlertHelper $alertHelper) {
+    function __construct(TripRepository $tripRepository, Session $session, AlertHelper $alertHelper) {
         $this->tripRepository = $tripRepository;
         $this->session = $session;
-        $this->responseFactory = $responseFactory;
         $this->alertHelper = $alertHelper;
     }
 
@@ -67,7 +61,7 @@ class TripController extends Controller
     public function store() {
         // TODO: Create trip
         $id = 1; // later will be last insert ID from database
-        return redirect('trip/' . $id);
+        return $this->redirect('trip/' . $id);
     }
 
     /**
@@ -83,7 +77,7 @@ class TripController extends Controller
         // TODO: Validation on request
         if ($trip == NULL) {
             $this->alertHelper->error('Trip doesn\'t exist!');
-            return redirect('/trips');
+            return $this->redirect('/trips');
         }
 
         $days = $this->tripRepository->getDays($trip_id);
@@ -122,7 +116,7 @@ class TripController extends Controller
         // TODO: Validation on request
         if ($trip == NULL) {
             $this->alertHelper->error('Trip doesn\'t exist!');
-            return redirect('/trips');
+            return $this->redirect('/trips');
         }
 
         $days = $this->tripRepository->getDays($trip['id']);

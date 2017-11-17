@@ -1,6 +1,6 @@
 <?php
 
-$router = di(\Core\Routing\Router::class);
+$router = $di->getService(\Core\Routing\Router::class);
 
 $router->add('GET', '', 'Home', 'index');
 $router->add('GET', 'layout', 'Home', 'layout');

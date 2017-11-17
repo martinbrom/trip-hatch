@@ -5,7 +5,6 @@ namespace App\Controllers;
 use App\Repositories\UserRepository;
 use Core\AlertHelper;
 use Core\Auth;
-use Core\Factories\ResponseFactory;
 use Core\Http\Controller;
 use Core\Http\Response\HtmlResponse;
 use Core\Http\Response\JsonResponse;
@@ -26,9 +25,6 @@ class UserController extends Controller
     /** @var Auth Instance used for authenticating user */
     private $auth;
 
-    /** @var ResponseFactory Instance for creating responses */
-    private $responseFactory;
-
     /** @var AlertHelper */
     private $alertHelper;
 
@@ -39,14 +35,12 @@ class UserController extends Controller
      * Creates new instance and injects user repository and auth
      * @param UserRepository $userRepository Instance for getting data from database
      * @param Auth $auth Instance for user authentication
-     * @param ResponseFactory $responseFactory
      * @param AlertHelper $alertHelper
      * @param Language $lang
      */
-    function __construct(UserRepository $userRepository, Auth $auth, ResponseFactory $responseFactory, AlertHelper $alertHelper, Language $lang) {
+    function __construct(UserRepository $userRepository, Auth $auth, AlertHelper $alertHelper, Language $lang) {
         $this->userRepository = $userRepository;
         $this->auth = $auth;
-        $this->responseFactory = $responseFactory;
         $this->alertHelper = $alertHelper;
         $this->lang = $lang;
     }
@@ -85,13 +79,12 @@ class UserController extends Controller
      */
     public function login() {
         if ($this->auth->login($_POST['login_email'], $_POST['login_password'])) {
-            var_dump($this->lang);
             $this->alertHelper->success($this->lang->get('alerts.login.success'));
-            return redirect('/trips');
+            return $this->redirect('/trips');
         }
 
         $this->alertHelper->error($this->lang->get('alerts.login.wrong'));
-        return redirect('/login');
+        return $this->redirect('/login');
     }
 
     /**
@@ -101,7 +94,7 @@ class UserController extends Controller
     public function logout() {
         $this->auth->logout();
         $this->alertHelper->success($this->lang->get('alerts.logout.success'));
-        return redirect('/login');
+        return $this->redirect('/login');
     }
 
     /**
@@ -110,7 +103,7 @@ class UserController extends Controller
      */
     public function register() {
         // TODO: Registration
-        return redirect('/trips');
+        return $this->redirect('/trips');
     }
 
     /**
@@ -120,7 +113,7 @@ class UserController extends Controller
      */
     public function forgottenPassword() {
         // TODO: Forgotten password
-        return redirect('/login');
+        return $this->redirect('/login');
     }
 
     public function resetPassword() {}

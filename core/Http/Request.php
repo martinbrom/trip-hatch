@@ -84,6 +84,7 @@ class Request
 
         $this->di->register($controllerClass);
         $controller = $this->di->getService($controllerClass);
+        $controller->setResponseFactory($this->responseFactory);
 
         $action = $this->route->getAction();
         return call_user_func_array([$controller, $action], $this->params);
