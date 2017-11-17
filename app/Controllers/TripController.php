@@ -9,6 +9,7 @@ use Core\Http\Controller;
 use Core\Http\Response\HtmlResponse;
 use Core\Http\Response\RedirectResponse;
 use Core\Http\Response\Response;
+use Core\Language\Language;
 use Core\Session;
 
 /**
@@ -30,18 +31,23 @@ class TripController extends Controller
     /** @var DayRepository */
     private $dayRepository;
 
+    /** @var Language */
+    private $lang;
+
     /**
      * Creates new instance and injects trip repository, session and response factory
      * @param TripRepository $tripRepository
      * @param Session $session
      * @param AlertHelper $alertHelper
      * @param DayRepository $dayRepository
+     * @param Language $lang
      */
-    function __construct(TripRepository $tripRepository, Session $session, AlertHelper $alertHelper, DayRepository $dayRepository) {
+    function __construct(TripRepository $tripRepository, Session $session, AlertHelper $alertHelper, DayRepository $dayRepository, Language $lang) {
         $this->tripRepository = $tripRepository;
         $this->session = $session;
         $this->alertHelper = $alertHelper;
         $this->dayRepository = $dayRepository;
+        $this->lang = $lang;
     }
 
     /**
@@ -114,10 +120,12 @@ class TripController extends Controller
     // TODO: Return json alert
     public function publish($trip_id) {
         $this->tripRepository->publishTrip($trip_id);
+        return $this->responseFactory->json(['message' => $this->lang->get('alerts.publish.success')], 200);
     }
 
     // TODO: Return json alert
     public function classify($trip_id) {
         $this->tripRepository->classifyTrip($trip_id);
+        return $this->responseFactory->json(['message' => $this->lang->get('alerts.classify.success')], 200);
     }
 }

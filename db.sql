@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS `triphatch`.`images` (
   `deleted_at` DATETIME NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC))
-ENGINE = InnoDB;
+  ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -31,6 +31,7 @@ CREATE TABLE IF NOT EXISTS `triphatch`.`users` (
   `email` VARCHAR(255) NOT NULL,
   `password` VARCHAR(255) NOT NULL,
   `display_name` VARCHAR(30) NULL,
+  `is_admin` TINYINT(1) NOT NULL,
   `image_id` INT UNSIGNED NULL,
   `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -40,11 +41,11 @@ CREATE TABLE IF NOT EXISTS `triphatch`.`users` (
   UNIQUE INDEX `email_UNIQUE` (`email` ASC),
   INDEX `fk_users_1_idx` (`image_id` ASC),
   CONSTRAINT `fk_users_1`
-    FOREIGN KEY (`image_id`)
-    REFERENCES `triphatch`.`images` (`id`)
+  FOREIGN KEY (`image_id`)
+  REFERENCES `triphatch`.`images` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+  ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -61,12 +62,13 @@ CREATE TABLE IF NOT EXISTS `triphatch`.`trips` (
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC),
   INDEX `fk_trips_1_idx` (`image_id` ASC),
+  UNIQUE INDEX `public_url_UNIQUE` (`public_url` ASC),
   CONSTRAINT `fk_trips_1`
-    FOREIGN KEY (`image_id`)
-    REFERENCES `triphatch`.`images` (`id`)
+  FOREIGN KEY (`image_id`)
+  REFERENCES `triphatch`.`images` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+  ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -86,16 +88,16 @@ CREATE TABLE IF NOT EXISTS `triphatch`.`days` (
   INDEX `fk_days_1_idx` (`image_id` ASC),
   INDEX `fk_days_2_idx` (`trip_id` ASC),
   CONSTRAINT `fk_days_1`
-    FOREIGN KEY (`image_id`)
-    REFERENCES `triphatch`.`images` (`id`)
+  FOREIGN KEY (`image_id`)
+  REFERENCES `triphatch`.`images` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_days_2`
-    FOREIGN KEY (`trip_id`)
-    REFERENCES `triphatch`.`trips` (`id`)
+  FOREIGN KEY (`trip_id`)
+  REFERENCES `triphatch`.`trips` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+  ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -109,7 +111,7 @@ CREATE TABLE IF NOT EXISTS `triphatch`.`action_types` (
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC),
   UNIQUE INDEX `name_UNIQUE` (`name` ASC))
-ENGINE = InnoDB;
+  ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -130,16 +132,16 @@ CREATE TABLE IF NOT EXISTS `triphatch`.`actions` (
   INDEX `fk_actions_1_idx` (`day_id` ASC),
   INDEX `fk_actions_2_idx` (`action_type_id` ASC),
   CONSTRAINT `fk_actions_1`
-    FOREIGN KEY (`day_id`)
-    REFERENCES `triphatch`.`days` (`id`)
+  FOREIGN KEY (`day_id`)
+  REFERENCES `triphatch`.`days` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_actions_2`
-    FOREIGN KEY (`action_type_id`)
-    REFERENCES `triphatch`.`action_types` (`id`)
+  FOREIGN KEY (`action_type_id`)
+  REFERENCES `triphatch`.`action_types` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+  ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -158,16 +160,16 @@ CREATE TABLE IF NOT EXISTS `triphatch`.`user_trip_xref` (
   INDEX `fk_user_trip_xref_1_idx` (`user_id` ASC),
   INDEX `fk_user_trip_xref_2_idx` (`trip_id` ASC),
   CONSTRAINT `fk_user_trip_xref_1`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `triphatch`.`users` (`id`)
+  FOREIGN KEY (`user_id`)
+  REFERENCES `triphatch`.`users` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_user_trip_xref_2`
-    FOREIGN KEY (`trip_id`)
-    REFERENCES `triphatch`.`trips` (`id`)
+  FOREIGN KEY (`trip_id`)
+  REFERENCES `triphatch`.`trips` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+  ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -184,11 +186,11 @@ CREATE TABLE IF NOT EXISTS `triphatch`.`trip_comments` (
   UNIQUE INDEX `id_UNIQUE` (`id` ASC),
   INDEX `fk_trip_comments_1_idx` (`user_trip_id` ASC),
   CONSTRAINT `fk_trip_comments_1`
-    FOREIGN KEY (`user_trip_id`)
-    REFERENCES `triphatch`.`user_trip_xref` (`id`)
+  FOREIGN KEY (`user_trip_id`)
+  REFERENCES `triphatch`.`user_trip_xref` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+  ENGINE = InnoDB;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

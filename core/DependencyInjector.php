@@ -12,9 +12,6 @@ class DependencyInjector
     /** @var array Array of all loaded services */
     protected $services = [];
 
-    /** @var  DependencyInjector Singleton instance */
-    private static $instance;
-
     /**
      * DependencyInjector constructor.
      */

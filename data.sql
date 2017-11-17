@@ -26,12 +26,12 @@ INSERT INTO `images` (`id`, `path`, `description`, `created_at`, `updated_at`, `
 -- -----------------------------------------------------
 -- USERS
 -- -----------------------------------------------------
-INSERT INTO `users` (`id`, `email`, `password`, `display_name`, `image_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
-  (NULL, 'testemail1@test.test', 'definitelynotrealpasswordhash', 'Test User 1', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL),
-  (NULL, 'testemail2@test.test', 'definitelynotrealpasswordhash', NULL, '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL),
-  (NULL, 'testemail3@test.test', 'definitelynotrealpasswordhash', 'Test User 3', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL),
-  (NULL, 'testemail4@test.test', 'definitelynotrealpasswordhash', NULL, '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL),
-  (NULL, 'testemail5@test.test', 'definitelynotrealpasswordhash', 'Test User 5', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL);
+INSERT INTO `users` (`id`, `email`, `password`, `display_name`, `is_admin`, `image_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
+  (NULL, 'testemail1@test.test', 'definitelynotrealpasswordhash', 'Test User 1', '1', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL),
+  (NULL, 'testemail2@test.test', 'definitelynotrealpasswordhash', NULL, '0', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL),
+  (NULL, 'testemail3@test.test', 'definitelynotrealpasswordhash', 'Test User 3', '0', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL),
+  (NULL, 'testemail4@test.test', 'definitelynotrealpasswordhash', NULL, '0', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL),
+  (NULL, 'testemail5@test.test', 'definitelynotrealpasswordhash', 'Test User 5', '0', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL);
 
 -- -----------------------------------------------------
 -- TRIPS

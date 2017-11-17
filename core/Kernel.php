@@ -2,6 +2,7 @@
 
 namespace Core;
 
+use Core\Factories\ResponseFactory;
 use Core\Http\Request;
 use Core\Http\Response\Response;
 use Core\Middleware\MiddlewareHandler;
@@ -22,15 +23,20 @@ class Kernel
     /** @var MiddlewareHandler Instance for running middleware on request and response */
     private $middlewareHandler;
 
+    /** @var ResponseFactory Instance for creating response instances */
+    private $responseFactory;
+
     /**
      * Creates new instance and injects router and middleware handler
      * @param Router $router Instance containing all application routes
      * @param MiddlewareHandler $middlewareHandler Instance for running middleware
      *                                             on request and response
+     * @param ResponseFactory $responseFactory Factory for creating responses
      */
-    function __construct(Router $router, MiddlewareHandler $middlewareHandler) {
+    function __construct(Router $router, MiddlewareHandler $middlewareHandler, ResponseFactory $responseFactory) {
         $this->router = $router;
         $this->middlewareHandler = $middlewareHandler;
+        $this->responseFactory = $responseFactory;
     }
 
     /**
@@ -47,7 +53,7 @@ class Kernel
      */
     public function handle(Request $request): Response {
         if (!$this->router->match($request))
-            return error(404);
+            return $this->responseFactory->error(404);
 
         $this->middlewareHandler->setRequest($request);
         if (!$this->middlewareHandler->runBefore())

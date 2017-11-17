@@ -8,8 +8,12 @@ return [
     Core\Language\Language::class,
     Core\Factories\RequestFactory::class,
     Core\Factories\ResponseFactory::class,
-    App\Middleware\AuthMiddleware::class,
     App\Middleware\AddAlertsMiddleware::class,
     App\Middleware\AddViewDataMiddleware::class,
-    App\Middleware\CsrfMiddleware::class
+    App\Middleware\CsrfMiddleware::class,
+    App\Middleware\UserAdminMiddleware::class,
+    App\Middleware\UserLoggedMiddleware::class,
+    App\Middleware\UserOrganiserMiddleware::class,
+    App\Middleware\UserOwnerMiddleware::class,
+    App\Middleware\UserTravellerMiddleware::class
 ];

@@ -2,6 +2,7 @@
 
 namespace Core\Http;
 
+use App\Exception\ControllerNotFoundException;
 use Core\DependencyInjector;
 use Core\Factories\ResponseFactory;
 use Core\Factories\ValidatorFactory;
@@ -72,14 +73,13 @@ class Request
         $validator->setRequest($this);
         if (!$validator->validate()) {
             var_dump($validator->getErrors());
-            // TODO: Redirect back
+            // TODO: Redirect back or return errors if ajax
             die();
         }
 
         $controllerClass = self::NAMESPACE . $this->route->getController() . "Controller";
         if (!class_exists($controllerClass)) {
-            // TODO: Error message controller not found
-            return $this->responseFactory->redirect('/');
+            throw new ControllerNotFoundException($controllerClass);
         }
 
         $this->di->register($controllerClass);
@@ -185,5 +185,14 @@ class Request
      */
     public function getInput($key) {
         return $this->method == 'GET' ? (isset($_GET[$key]) ? $_GET[$key] : null) : (isset($_POST[$key]) ? $_POST[$key] : null);
+    }
+
+    /**
+     * Returns a parameter parsed from route
+     * @param string $param Name of parameter
+     * @return mixed|null Parameter if present, null otherwise
+     */
+    public function getParameter($param) {
+        return isset($this->params[$param]) ? $this->params[$param] : null;
     }
 }

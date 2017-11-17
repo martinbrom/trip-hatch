@@ -21,7 +21,7 @@ class MiddlewareHandler
     private $di;
     private $responseFactory;
 
-    // TODO: Add csrf here after it's finished
+    // TODO: If user logged, check if his login is valid before each request
     private $alwaysUsedMiddleware = ['csrf', 'alerts', 'viewData'];
 
     function __construct(ResponseFactory $responseFactory, DependencyInjector $di) {

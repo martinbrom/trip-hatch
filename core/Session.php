@@ -17,8 +17,6 @@ class Session
     }
 
     public function get($name) {
-        // TODO: Helper function maybe
-
         // return $this->exists($name) ? $_SESSION[$name] : null;
         $parts = explode('.', $name);
 

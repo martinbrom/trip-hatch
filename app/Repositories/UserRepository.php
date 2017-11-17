@@ -6,7 +6,7 @@ use Core\Database\Repository;
 
 /**
  * Instance of class provides simple functions,
- * that fetch data from Database, to be used in UserController
+ * that fetch data from Database
  * @package App\Repositories
  * @author Martin Brom
  */
