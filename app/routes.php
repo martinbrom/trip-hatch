@@ -15,6 +15,7 @@ $router->add('GET', 'trip/{id:\d+}/edit', 'Trip', 'edit')->middleware(['auth']);
 $router->add('PUT', 'trip/{id:\d+}', 'Trip', 'update')->middleware(['auth']);
 $router->add('DELETE', 'trip/{id:\d+}', 'Trip', 'destroy')->middleware(['auth']);
 
+// TODO: Redirect to normal trip page if logged and accessing public url
 $router->add('GET', 'trip/public/{public_url:\w+}', 'Trip', 'showPublic');
 $router->add('GET', 'trip/{id:\d+}/publish', 'Trip', 'publish')
     ->middleware(['auth', 'trip-owner'])
@@ -25,11 +26,9 @@ $router->add('GET', 'trip/{id:\d+}/classify', 'Trip', 'classify')
     ->validate(['id' => ['exists:trips']])
     ->ajax();
 
-// TODO: Maybe POST?
-$router->add('GET', 'trip/day/{id:\d+}/actions', 'Trip', 'actions')->ajax()->middleware(['auth']);
+$router->add('GET', 'trip/day/{id:\d+}/actions', 'Action', 'actions')->ajax()->middleware(['auth']);
 
-// TODO: Maybe POST?
-$router->add('GET', 'action-types', 'Trip', 'actionTypes')->ajax();
+$router->add('GET', 'action-types', 'ActionType', 'index')->ajax();
 
 $router->add('GET', 'users', 'User', 'index');
 $router->add('GET', 'login', 'User', 'loginPage');

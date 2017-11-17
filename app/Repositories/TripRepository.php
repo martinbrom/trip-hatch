@@ -24,32 +24,6 @@ class TripRepository
     }
 
     /**
-     * Returns all actions for given day from the database
-     * @param int $day_id ID of the day
-     * @return array Actions for given day
-     */
-    public function getActions(int $day_id): array {
-        $query = "SELECT actions.*, action_types.icon_class, action_types.color_class FROM actions
-                INNER JOIN action_types ON actions.action_type_id = action_types.id
-                WHERE actions.day_id = :day_id";
-        $data = ['day_id' => $day_id];
-        return $this->baseRepository->fetchAll($query, $data);
-    }
-
-    /**
-     * Returns all days for given trip from the database
-     * @param int $trip_id ID of the trip
-     * @return array Days for given trip
-     */
-    public function getDays(int $trip_id): array {
-        $query = "SELECT days.*, images.path, images.description FROM days
-                INNER JOIN images ON days.image_id = images.id
-                WHERE trip_id = :trip_id";
-        $data = ['trip_id' => $trip_id];
-        return $this->baseRepository->fetchAll($query, $data);
-    }
-
-    /**
      * Returns first trip for given trip_id from the database
      * @param int $trip_id ID of the trip
      * @return array Trip for given trip_id
@@ -75,26 +49,28 @@ class TripRepository
     }
 
     /**
-     * Returns all action types from the database
-     * @return array All action types
+     * @param $public_url
+     * @return array
      */
-    public function getActionTypes() {
-        $query = "SELECT * FROM action_types";
-        return $this->baseRepository->fetchAll($query);
-    }
-
     public function getTripPublic($public_url) {
         $query = "SELECT * FROM trips WHERE public_url = :public_url";
         $data = ['public_url' => $public_url];
         return $this->baseRepository->fetch($query, $data);
     }
 
-    public function publishTrip(int $trip_id, string $public_url) {
+    /**
+     * @param int $trip_id
+     */
+    public function publishTrip(int $trip_id) {
+        $public_url = substr($trip_id . token(31), 0, 32);
         $query = "UPDATE trips SET public_url = :public_url WHERE id = :trip_id";
         $data = ['trip_id' => $trip_id, 'public_url' => $public_url];
         $this->baseRepository->run($query, $data);
     }
 
+    /**
+     * @param int $trip_id
+     */
     public function classifyTrip(int $trip_id) {
         $query = "UPDATE trips SET public_url = NULL WHERE id = :trip_id";
         $data = ['trip_id' => $trip_id];

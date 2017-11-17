@@ -2,11 +2,13 @@
 
 namespace App\Controllers;
 
+use App\Repositories\DayRepository;
 use App\Repositories\TripRepository;
 use Core\AlertHelper;
 use Core\Http\Controller;
 use Core\Http\Response\HtmlResponse;
 use Core\Http\Response\RedirectResponse;
+use Core\Http\Response\Response;
 use Core\Session;
 
 /**
@@ -24,17 +26,22 @@ class TripController extends Controller
 
     /** @var AlertHelper Instance for creating alerts */
     private $alertHelper;
+    
+    /** @var DayRepository */
+    private $dayRepository;
 
     /**
      * Creates new instance and injects trip repository, session and response factory
      * @param TripRepository $tripRepository
      * @param Session $session
      * @param AlertHelper $alertHelper
+     * @param DayRepository $dayRepository
      */
-    function __construct(TripRepository $tripRepository, Session $session, AlertHelper $alertHelper) {
+    function __construct(TripRepository $tripRepository, Session $session, AlertHelper $alertHelper, DayRepository $dayRepository) {
         $this->tripRepository = $tripRepository;
         $this->session = $session;
         $this->alertHelper = $alertHelper;
+        $this->dayRepository = $dayRepository;
     }
 
     /**
@@ -74,13 +81,12 @@ class TripController extends Controller
     public function show($trip_id) {
         $trip = $this->tripRepository->getTrip($trip_id);
 
-        // TODO: Validation on request
         if ($trip == NULL) {
             $this->alertHelper->error('Trip doesn\'t exist!');
             return $this->redirect('/trips');
         }
 
-        $days = $this->tripRepository->getDays($trip_id);
+        $days = $this->dayRepository->getDays($trip_id);
         return $this->responseFactory->html('trip/show.html.twig', ['days' => $days, 'title' => $trip['title']]);
     }
 
@@ -90,45 +96,27 @@ class TripController extends Controller
     public function destroy() {}
 
     /**
-     * [AJAX-ONLY]
-     * Returns a html response with all actions for given day
-     * @param int $day_id ID of a day
-     * @return HtmlResponse All actions for given day
+     * @param $public_url
+     * @return Response
      */
-    public function actions($day_id) {
-        $actions = $this->tripRepository->getActions($day_id);
-        return $this->responseFactory->html('trip/actions.html.twig', ['actions' => $actions]);
-    }
-
-    /**
-     * [AJAX-ONLY]
-     * Returns a html response with all action types
-     * @return HtmlResponse All action types
-     */
-    public function actionTypes() {
-        $action_types = $this->tripRepository->getActionTypes();
-        return $this->responseFactory->html('trip/actionTypesSelect.html.twig', ['action_types' => $action_types]);
-    }
-
     public function showPublic($public_url) {
         $trip = $this->tripRepository->getTripPublic($public_url);
 
-        // TODO: Validation on request
         if ($trip == NULL) {
             $this->alertHelper->error('Trip doesn\'t exist!');
             return $this->redirect('/trips');
         }
 
-        $days = $this->tripRepository->getDays($trip['id']);
+        $days = $this->dayRepository->getDays($trip['id']);
         return $this->responseFactory->html('trip/show.html.twig', ['days' => $days, 'title' => $trip['title']]);
     }
 
+    // TODO: Return json alert
     public function publish($trip_id) {
-        // TODO: Generate unique public url (32 long hash)
-        $public_url = "abcd";
-        $this->tripRepository->publishTrip($trip_id, $public_url);
+        $this->tripRepository->publishTrip($trip_id);
     }
 
+    // TODO: Return json alert
     public function classify($trip_id) {
         $this->tripRepository->classifyTrip($trip_id);
     }
