@@ -1,6 +1,9 @@
 <?php
 
-namespace Core;
+namespace Core\DependencyInjector;
+use Core\DependencyInjector\Exception\CircularDependencyFoundException;
+use Core\DependencyInjector\Exception\DependencyTypeNotFoundException;
+use Core\DependencyInjector\Exception\ServiceNotExistsException;
 
 /**
  * Handles registering all services and their dependencies
@@ -11,6 +14,9 @@ class DependencyInjector
 {
     /** @var array Array of all loaded services */
     protected $services = [];
+
+    /** @var array List of dependencies currently being built */
+    private $generating = [];
 
     /**
      * DependencyInjector constructor.
@@ -44,7 +50,7 @@ class DependencyInjector
      */
     public function getService($name) {
         if (!array_key_exists($name, $this->services))
-            throw new \Exception("Service $name doesn't exist!");
+            throw new ServiceNotExistsException($name);
 
         return $this->services[$name];
     }
@@ -58,6 +64,7 @@ class DependencyInjector
     }
 
     /**
+     *
      * Creates a service class with all its dependencies
      * Returns given service class if it is already loaded
      * @param string $className Name of service class
@@ -66,35 +73,40 @@ class DependencyInjector
      *                    in service class constructor
      */
     private function instantiate($className) {
+        if (isset($this->generating[$className]))
+            throw new CircularDependencyFoundException();
+
+        $this->generating[$className] = true;
 
         // service was already created, return the instance
-        if ($this->serviceExists($className))
+        if ($this->serviceExists($className)) {
+            unset($this->generating[$className]);
             return $this->services[$className];
+        }
 
         $reflection = new \ReflectionClass($className);
         $constructor = $reflection->getConstructor();
 
         // if the class has no constructor, that means it has
         // no dependencies, create it
-        if (is_null($constructor))
+        if (is_null($constructor)) {
+            unset($this->generating[$className]);
             return new $className;
+        }
 
         // get all dependencies from constructor parameters
         // and instantiate all of them
+        /** @var \ReflectionParameter[] $parameters */
         $parameters = $constructor->getParameters();
         $dependencies = array();
         foreach ($parameters as $parameter) {
             $dependency = $parameter->getClass();
 
             // if a parameter has no set class, it needs to have a default value
-            if (is_null($dependency)) {
-                if (!$parameter->isDefaultValueAvailable())
-                    throw new \Exception("No default value or type supplied for class $className!");
+            if (is_null($dependency))
+                throw new DependencyTypeNotFoundException($className);
 
-                $service = $parameter->getDefaultValue();
-            } else {
-                $service = $this->instantiate($dependency->name);
-            }
+            $service = $this->instantiate($dependency->name);
 
             // if this is the first time service is being
             // called for save it for further use
@@ -104,6 +116,7 @@ class DependencyInjector
             $dependencies []= $service;
         }
 
+        unset($this->generating[$className]);
         return $reflection->newInstanceArgs($dependencies);
     }
 
@@ -112,7 +125,7 @@ class DependencyInjector
      * @param string $fileName Name of services config file
      */
     public function readFile($fileName) {
-        $content = require_once $fileName;
+        $content = require $fileName;
         foreach ($content as $serviceName) {
             $this->register($serviceName);
         }

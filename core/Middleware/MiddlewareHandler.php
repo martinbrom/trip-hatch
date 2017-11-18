@@ -2,7 +2,7 @@
 
 namespace Core\Middleware;
 
-use Core\DependencyInjector;
+use Core\DependencyInjector\DependencyInjector;
 use Core\Factories\ResponseFactory;
 use Core\Http\Request;
 use Core\Http\Response\Response;

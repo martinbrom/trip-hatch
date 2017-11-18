@@ -3,7 +3,7 @@
 namespace Core\Http;
 
 use App\Exception\ControllerNotFoundException;
-use Core\DependencyInjector;
+use Core\DependencyInjector\DependencyInjector;
 use Core\Factories\ResponseFactory;
 use Core\Factories\ValidatorFactory;
 Use Core\Routing\Route;

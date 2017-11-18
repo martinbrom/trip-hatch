@@ -2,7 +2,7 @@
 
 namespace Core\Factories;
 
-use Core\DependencyInjector;
+use Core\DependencyInjector\DependencyInjector;
 use Core\Http\Request;
 
 class RequestFactory
