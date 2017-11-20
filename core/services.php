@@ -1,7 +1,7 @@
 <?php
 
 return [
-    Core\Config::class,
+    Core\Config\Config::class,
     Core\View::class,
     Core\Routing\Router::class,
     Core\Kernel::class,

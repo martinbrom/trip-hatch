@@ -2,7 +2,7 @@
 
 namespace Core\Database;
 
-use Core\Config;
+use Core\Config\Config;
 
 /**
  * Instance of class handles Database connection,
@@ -34,9 +34,9 @@ class Database
      * Initializes database connection from database config values
      */
     public function initConnection() {
-        $dsn = 'mysql:dbname=' . $this->config->get('db_name') . ';host=' . $this->config->get('db_host');
-        $username = $this->config->get('db_username');
-        $password = $this->config->get('db_password');
+        $dsn = 'mysql:dbname=' . $this->config->get('db.name') . ';host=' . $this->config->get('db.host');
+        $username = $this->config->get('db.username');
+        $password = $this->config->get('db.password');
         $settings = [
             \PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8",
             \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,

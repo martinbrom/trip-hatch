@@ -56,7 +56,7 @@ class Request
         // TODO: WHEN IN DOUBT, DUMP IT OUT
         // var_dump($_SERVER);
         $this->di = $di;
-        $this->method = $_SERVER['REQUEST_METHOD'];
+        $this->method = $this->determineMethod();
         $this->ajax = !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
         $this->url = $this->removeQueryStringVariables($_SERVER['QUERY_STRING']);
         $this->headers = getallheaders();
@@ -88,6 +88,11 @@ class Request
 
         $action = $this->route->getAction();
         return call_user_func_array([$controller, $action], $this->params);
+    }
+
+    public function determineMethod() {
+        if ($_SERVER['REQUEST_METHOD'] == 'GET') return 'GET';
+        return isset($_POST['method']) && $_POST['method'] == 'DELETE' ? 'DELETE' : 'POST';
     }
 
     /**

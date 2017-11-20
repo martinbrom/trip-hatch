@@ -15,7 +15,7 @@ class DependencyInjectorTest extends TestCase
 
     public function setUp() {
         $this->di = new DependencyInjector();
-        $this->di->readFile(__DIR__ . '/service_list.php');
+        $this->di->readFile('../../tests/DependencyInjectorTests/service_list.php');
     }
 
     public function testSimpleService() {

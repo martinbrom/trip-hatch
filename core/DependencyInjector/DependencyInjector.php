@@ -125,7 +125,7 @@ class DependencyInjector
      * @param string $fileName Name of services config file
      */
     public function readFile($fileName) {
-        $content = require $fileName;
+        $content = require __DIR__ . '/' . $fileName;
         foreach ($content as $serviceName) {
             $this->register($serviceName);
         }

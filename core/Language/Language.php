@@ -2,7 +2,7 @@
 
 namespace Core\Language;
 
-use Core\Config;
+use Core\Config\Config;
 use Core\FlatArray;
 use Core\Language\Exception\TranslationNotExistsException;
 
@@ -14,7 +14,7 @@ use Core\Language\Exception\TranslationNotExistsException;
 class Language
 {
     /** Location of language files */
-    const FOLDER = "../resources/lang";
+    const FOLDER = "../../resources/lang";
 
     /** @var FlatArray Dictionary of translations */
     private $translations;
@@ -32,8 +32,8 @@ class Language
      */
     public function __construct(Config $config) {
         $this->translations = new FlatArray($this->loadTranslations());
-        $this->locale = $config->get('base_locale');
-        $this->fallback = $config->get('fallback_locale');
+        $this->locale = $config->get('app.base_locale');
+        $this->fallback = $config->get('app.fallback_locale');
     }
 
     /**
@@ -83,15 +83,13 @@ class Language
      */
     private function loadTranslations(): array {
         $result = [];
-        $dirs = glob(self::FOLDER . '/*', GLOB_ONLYDIR);
+        $dirs = glob(__DIR__ . '/' . self::FOLDER . '/*', GLOB_ONLYDIR);
         foreach ($dirs as $dir) {
             $locale = basename($dir);
             $result[$locale] = $this->loadDirectory($dir);
         }
-
         return $result;
     }
-
     /**
      * Loads translations from language files
      * @param string $directory Location of language files
@@ -100,12 +98,10 @@ class Language
     private function loadDirectory(string $directory): array {
         $result = [];
         $files = glob($directory . '/*');
-
         foreach ($files as $file) {
             $key = basename($file, '.php');
             $result[$key] = require($file);
         }
-
         return $result;
     }
 }
