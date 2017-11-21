@@ -1,6 +1,6 @@
 <?php
 
-namespace ConfigTests;
+namespace Tests\ConfigTests;
 
 use Core\Config\Config;
 use Core\Config\Exception\ConfigurationNotExistsException;

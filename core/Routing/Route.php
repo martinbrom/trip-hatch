@@ -72,9 +72,6 @@ class Route
      * @return self Returns itself for chaining setters
      */
     public function validate($rules) {
-        /*['title' => [
-            'max:100', 'notnull'
-        ]]*/
         $this->validationRules = $rules;
         return $this;
     }

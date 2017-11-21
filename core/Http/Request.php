@@ -3,6 +3,7 @@
 namespace Core\Http;
 
 use App\Exception\ControllerNotFoundException;
+use App\Exception\MethodNotFoundException;
 use Core\DependencyInjector\DependencyInjector;
 use Core\Factories\ResponseFactory;
 use Core\Factories\ValidatorFactory;
@@ -78,15 +79,17 @@ class Request
         }
 
         $controllerClass = self::NAMESPACE . $this->route->getController() . "Controller";
-        if (!class_exists($controllerClass)) {
+        if (!class_exists($controllerClass))
             throw new ControllerNotFoundException($controllerClass);
-        }
 
         $this->di->register($controllerClass);
         $controller = $this->di->getService($controllerClass);
         $controller->setResponseFactory($this->responseFactory);
 
         $action = $this->route->getAction();
+        if (!method_exists($controller, $action))
+            throw new MethodNotFoundException($controllerClass, $action);
+
         return call_user_func_array([$controller, $action], $this->params);
     }
 
