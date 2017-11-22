@@ -61,6 +61,6 @@ class UserTripRepository
                 AND trip_id = :trip_id
                 AND role >= :role";
         $data = ['user_id' => $user_id, 'trip_id' => $trip_id, 'role' => $role];
-        return $this->baseRepository->fetch($query, $data)['count'] == 1;
+        return $this->baseRepository->fetch($query, $data)['count'] >= 1;
     }
 }

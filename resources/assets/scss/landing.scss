@@ -56,27 +56,16 @@ html, body {
     }
   }
 
-  .menu-button-container {
+  .login-button-container {
     top: 5%;
     right: 0;
 
-    button.menu-toggle {
-      float: left;
-      border: 0;
-      background: none;
-      padding: 9px 10px;
+    a {
+      color: $landing_text_color;
 
-      span.icon-bar {
-        background: $landing_text_color;
-        display: block;
-        width: 22px;
-        height: 2px;
-        border-radius: 1px;
-        margin-top: 4px;
-
-        &:first-of-type {
-          margin-top: 0;
-        }
+      &:hover, &:focus {
+        color: $landing_text_color_hover;
+        text-decoration: none;
       }
     }
   }
@@ -104,7 +93,7 @@ html, body {
 
   .hero-text,
   .scroll-down-container,
-  .menu-button-container {
+  .login-button-container {
     position: absolute;
     text-align: center;
     transform: translate(-50%, -50%);

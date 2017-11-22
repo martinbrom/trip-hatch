@@ -37,6 +37,26 @@ div.trip-days-container {
       div.trip-day-head {
         padding: $trip_overview_padding_medium;
 
+        a {
+          display: block;
+          height: 50px;
+          padding-left: $application_padding_small;
+          padding-right: $application_padding_small;
+          margin-left: $application_margin_small;
+          line-height: 50px;
+          color: $trip_overview_text_color;
+          font-size: 25px;
+          float: right;
+
+          &:last-of-type {
+            margin-left: 0;
+          }
+
+          &:hover, &:focus {
+            color: $trip_overview_text_color_hover;
+          }
+        }
+
         img.trip-day-thumbnail {
           float: left;
           width: 50px;
@@ -51,23 +71,6 @@ div.trip-days-container {
           font-size: 24px;
           display: inline-block;
           float: left;
-        }
-
-        a.day-collapse-btn {
-          float: right;
-          display: inline-block;
-          line-height: 30px;
-          height: 50px;
-          padding: $trip_overview_padding_medium;
-          color: $trip_overview_text_color;
-
-          &:hover {
-            color: $trip_overview_text_color_hover;
-          }
-
-          i.fa {
-            line-height: 30px;
-          }
         }
       }
 

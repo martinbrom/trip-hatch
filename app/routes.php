@@ -15,6 +15,8 @@ $router->add('GET', 'trip/{id:\d+}/edit', 'Trip', 'edit')->middleware(['logged']
 $router->add('PUT', 'trip/{id:\d+}', 'Trip', 'update')->middleware(['logged']);
 $router->add('DELETE', 'trip/{id:\d+}', 'Trip', 'destroy')->middleware(['logged']);
 
+$router->add('GET', 'trip/{id:\d+}/day/{day_id:\d+}/delete', 'Day', 'delete')->middleware(['organiser'])->ajax();
+
 // TODO: Redirect to normal trip page if logged and accessing public url
 $router->add('GET', 'trip/public/{public_url:\w+}', 'Trip', 'showPublic');
 $router->add('GET', 'trip/{id:\d+}/publish', 'Trip', 'publish')

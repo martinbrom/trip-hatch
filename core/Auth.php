@@ -51,13 +51,14 @@ class Auth
     }
 
     /**
-     * @return bool|null
+     * @return bool
      */
     public function isAdmin() {
         if (!$this->isLogged())
             return false;
 
-        return $this->session->get('user.isAdmin');
+        $isAdmin = $this->session->get('user.isAdmin');
+        return $isAdmin != null && !$isAdmin;
     }
 
     /**

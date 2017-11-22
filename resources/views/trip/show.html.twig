@@ -95,7 +95,7 @@
 
 <section class="container-section">
     <div class="container">
-        <h1 class="text-center trip-title">{{ trip_title }}</h1>
+        <h1 class="text-center trip-title">{{ trip.title }}</h1>
         <!-- if permissions > normal user (organizer or creator) -->
         <div class="trip-detail-controls">
             <div class="trip-manage-people-container col-xs-6">
@@ -113,9 +113,14 @@
             {% for day in days %}
                 <div class="trip-day-container col-xs-12">
                     <div class="trip-day">
-                        <div class="trip-day-head">
+                        <div class="trip-day-head" data-toggle="collapse" data-target="#day{{ day.id }}">
                             <img src="../images/thumbnails/{{ day.path }}" class="img-responsive trip-day-thumbnail" alt="{{ day.description }}">
-                            <a class="day-collapse-btn" data-toggle="collapse" data-target="#day{{ day.id }}"><i class="fa fa-2x fa-plus"></i></a>
+                            <a data-trip-id="{{ trip.id }}" data-day-id="{{ day.id }}" class="day-delete-btn non-collapse">
+                                <i data-trip-id="{{ trip.id }}" data-day-id="{{ day.id }}" class="fa fa-remove non-collapse"></i>
+                            </a>
+                            <a data-trip-id="{{ trip.id }}" data-day-id="{{ day.id }}" class="day-edit-btn non-collapse">
+                                <i data-trip-id="{{ trip.id }}" data-day-id="{{ day.id }}" class="fa fa-pencil non-collapse"></i>
+                            </a>
                             <h2>{{ day.title }}</h2>
                         </div>
                         <div id="day{{ day.id }}" class="trip-day-body-container collapse">

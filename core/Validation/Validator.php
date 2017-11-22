@@ -10,7 +10,7 @@ use Core\Validation\Exception\ValidationRuleNotExistsException;
  * Handles request validating, runs validation rules
  * from request route on input data from request and
  * fetches translated validation errors from Language instance
- * @package Core
+ * @package Core\Validation
  * @author Martin Brom
  */
 class Validator
@@ -150,7 +150,7 @@ class Validator
      * @param string $column Name of column in table
      * @return bool True if item exists in database, false otherwise
      */
-    public function exists($item, $table, $column): bool {
+    public function exists($item, $table, $column = null): bool {
         // TODO: Check if input exists in database
         return true;
     }
@@ -162,7 +162,7 @@ class Validator
      * @param string $column Name of column in table
      * @return bool True if item doesn't exist in database, false otherwise
      */
-    public function unique($item, $table, $column): bool {
+    public function unique($item, $table, $column = null): bool {
         // TODO: Check if input is unique in database
         return true;
     }

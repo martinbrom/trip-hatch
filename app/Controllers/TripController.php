@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Repositories\DayRepository;
 use App\Repositories\TripRepository;
 use Core\AlertHelper;
+use Core\Auth;
 use Core\Http\Controller;
 use Core\Http\Response\HtmlResponse;
 use Core\Http\Response\RedirectResponse;
@@ -33,6 +34,8 @@ class TripController extends Controller
 
     /** @var Language */
     private $lang;
+    /** @var Auth */
+    private $auth;
 
     /**
      * Creates new instance and injects trip repository, session and response factory
@@ -41,13 +44,21 @@ class TripController extends Controller
      * @param AlertHelper $alertHelper
      * @param DayRepository $dayRepository
      * @param Language $lang
+     * @param Auth $auth
      */
-    function __construct(TripRepository $tripRepository, Session $session, AlertHelper $alertHelper, DayRepository $dayRepository, Language $lang) {
+    function __construct(
+            TripRepository $tripRepository,
+            Session $session,
+            AlertHelper $alertHelper,
+            DayRepository $dayRepository,
+            Language $lang,
+            Auth $auth) {
         $this->tripRepository = $tripRepository;
         $this->session = $session;
         $this->alertHelper = $alertHelper;
         $this->dayRepository = $dayRepository;
         $this->lang = $lang;
+        $this->auth = $auth;
     }
 
     /**
@@ -93,7 +104,7 @@ class TripController extends Controller
         }
 
         $days = $this->dayRepository->getDays($trip_id);
-        return $this->responseFactory->html('trip/show.html.twig', ['days' => $days, 'title' => $trip['title']]);
+        return $this->responseFactory->html('trip/show.html.twig', ['days' => $days, 'trip' => $trip]);
     }
 
     // TODO: Do I really need all of these?
@@ -113,17 +124,18 @@ class TripController extends Controller
             return $this->redirect('/trips');
         }
 
+        if ($this->auth->isLogged())
+            return $this->redirect('/trip/' . $trip['id']);
+
         $days = $this->dayRepository->getDays($trip['id']);
         return $this->responseFactory->html('trip/show.html.twig', ['days' => $days, 'title' => $trip['title']]);
     }
 
-    // TODO: Return json alert
     public function publish($trip_id) {
         $this->tripRepository->publishTrip($trip_id);
         return $this->responseFactory->json(['message' => $this->lang->get('alerts.publish.success')], 200);
     }
 
-    // TODO: Return json alert
     public function classify($trip_id) {
         $this->tripRepository->classifyTrip($trip_id);
         return $this->responseFactory->json(['message' => $this->lang->get('alerts.classify.success')], 200);

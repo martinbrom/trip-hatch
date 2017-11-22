@@ -2,9 +2,10 @@
 
 namespace App\Controllers;
 
-use Core\Factories\ResponseFactory;
+use Core\Auth;
 use Core\Http\Controller;
 use Core\Http\Response\HtmlResponse;
+use Core\Http\Response\Response;
 
 /**
  * Handles creating responses for pages related to the main page
@@ -14,11 +15,25 @@ use Core\Http\Response\HtmlResponse;
  */
 class HomeController extends Controller
 {
+    /** @var Auth Instance for checking user logged-in state */
+    private $auth;
+
+    /**
+     * HomeController constructor.
+     * @param Auth $auth
+     */
+    function __construct(Auth $auth) {
+        $this->auth = $auth;
+    }
+
     /**
      * Returns a html response with a landing page content
-     * @return HtmlResponse Landing page
+     * or redirects to dashboard if user is logged
+     * @return Response Landing page
      */
     public function index() {
+        if ($this->auth->isLogged())
+            return $this->responseFactory->redirect('/trips');
         return $this->responseFactory->html('home/index.html');
     }
 
@@ -30,7 +45,7 @@ class HomeController extends Controller
         return $this->responseFactory->html('home/layout.html.twig');
     }
 
-    public function testValidation($number) {
+    public function testValidation() {
         return $this->responseFactory->html('home/layout.html.twig');
     }
 }

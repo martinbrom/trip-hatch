@@ -44,23 +44,44 @@ $(document).ready(function () {
         scrollToPageID($(this).attr("data-scroll-target"), animation_time_slow);
     });
 
-    $("a.day-collapse-btn").click(function () {
-        $(this).find(">:first-child").toggleClass("fa-plus");
-        $(this).find(">:first-child").toggleClass("fa-minus");
-        // TODO: First load content, then collapse
-        // $(this).parent().parent().children(".trip-day-body-container").collapse("toggle");
+    $(".trip-day-head").click(function (e) {
+        // console.log(event.target);
 
+        if ($(event.target).hasClass('non-collapse')) {
+            e.stopPropagation();
+            return;
+        }
+
+        // TODO: First load content, then collapse
         var action_container = $(this).parent().parent().find(".trip-day-body");
         if (action_container.html() == "") {
+            e.stopPropagation();
             $.ajax({
                 url: "/trip/day/" + ($(this).attr("data-target").substring(4)) + "/actions",
                 success: function (result) {
                     // console.log(result);
                     action_container.html(result);
+                    action_container.parent().collapse("toggle");
                 }
             });
         }
 
+    });
+
+    $("a.day-edit-btn").click(function () {
+        var day_id = $(this).attr('data-day-id');
+        alert('Editing day ' + day_id);
+    });
+
+    $("a.day-delete-btn").click(function () {
+        var day_id = $(this).attr('data-day-id');
+        var trip_id = $(this).attr('data-trip-id');
+        $.ajax({
+            url: "/trip/" + trip_id + "/day/" + day_id + "/delete",
+            success: function (result) {
+                console.log(result);
+            }
+        });
     });
 
     $("a.trip-add-day").click(function () {
