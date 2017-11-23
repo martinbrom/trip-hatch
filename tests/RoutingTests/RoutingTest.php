@@ -7,127 +7,95 @@ use Core\Factories\ResponseFactory;
 use Core\Factories\ValidatorFactory;
 use Core\Http\Request;
 use Core\Routing\Route;
+use Core\Routing\RouteBuilder;
 use Core\Routing\Router;
 use PHPUnit\Framework\TestCase;
 
 class RouteTest extends TestCase
 {
-    public function createRouter(): Router {
-        $di = new DependencyInjector();
-        $di->register(Router::class);
-        return $di->getService(Router::class);
+    /** @var DependencyInjector */
+    private $di;
+
+    /** @var Route */
+    private $route;
+
+    /** @var Router */
+    private $router;
+
+    /** @var Request */
+    private $request;
+
+    /** @var RouteBuilder */
+    private $rb;
+
+    public function setUp() {
+        $this->di = new DependencyInjector();
+        $this->di->register(RouteBuilder::class);
+        $this->rb = $this->di->getService(RouteBuilder::class);
+        $this->router = $this->di->getService(Router::class);
     }
 
-    public function initBasicRoute(): Route {
-        $router = $this->createRouter();
-        $router->add('GET', '', 'Test', 'index');
-        return $router->getRoutes()[0];
+    public function createRequest() {
+        $this->di->register(ResponseFactory::class);
+        $this->di->register(ValidatorFactory::class);
+        $this->request = new Request($this->di, $this->di->getService(ResponseFactory::class), $this->di->getService(ValidatorFactory::class));
     }
 
-    public function initComplexRoute(): Route {
-        $router = $this->createRouter();
-        $router->add('POST', '/test/{name:\w+}/action/{id:\d+}', 'Test', 'action')
+    public function createRoute() {
+        $this->rb->create();
+        $this->route = $this->router->getRoutes()[0];
+    }
+
+    public function initInvalidRoutes() {
+        $this->rb->add('POST', '/test/{name:\w+}/action/{id:\d+}', 'Test', 'action');
+        $this->rb->add('POST', '/invalid url', 'Test', 'action')->ajax();
+        $this->createRoute();
+    }
+
+    public function initSimpleRoute() {
+        $this->rb->add('GET', '', 'Test', 'index');
+        $this->createRoute();
+    }
+
+    public function initComplexRoute() {
+        $this->rb = $this->di->getService(RouteBuilder::class);
+        $this->rb->add('POST', '/test/{name:\w+}/action/{id:\d+}', 'Test', 'action')
             ->ajax()
             ->middleware(['test'])
             ->validate(['a' => ['required', 'min:5']]);
-        return $router->getRoutes()[0];
+        $this->createRoute();
     }
     
-    public function initBasicRequest(): Request {
-        $di = new DependencyInjector();
-        $di->register(ResponseFactory::class);
-        $di->register(ValidatorFactory::class);
+    public function initSimpleRequest() {
         $_SERVER['QUERY_STRING'] = '';
         $_SERVER['REQUEST_METHOD'] = 'GET';
-        return new Request($di, $di->getService(ResponseFactory::class), $di->getService(ValidatorFactory::class));
+        $this->createRequest();
     }
     
     public function initComplexRequest() {
-        $di = new DependencyInjector();
-        $di->register(ResponseFactory::class);
-        $di->register(ValidatorFactory::class);
         $_SERVER['HTTP_X_REQUESTED_WITH'] = 'xmlhttprequest';
         $_SERVER['REQUEST_METHOD'] = 'POST';
         unset($_POST['method']);
         $_SERVER['QUERY_STRING'] = '/test/name/action/1';
-        return new Request($di, $di->getService(ResponseFactory::class), $di->getService(ValidatorFactory::class));
-    }
-
-    public function testBasicRoutePattern() {
-        $route = $this->initBasicRoute();
-        $this->assertSame($route->getPattern(), '/^$/i');
-    }
-
-    public function testBasicRouteMethod() {
-        $route = $this->initBasicRoute();
-        $this->assertSame($route->getMethod(), 'GET');
-    }
-
-    public function testBasicRouteAjaxAccess() {
-        $route = $this->initBasicRoute();
-        $this->assertSame($route->isAjaxOnly(), false);
-    }
-
-    public function testBasicRouteMiddleware() {
-        $route = $this->initBasicRoute();
-        $this->assertSame($route->getMiddleware(), []);
-    }
-
-    public function testBasicRouteController() {
-        $route = $this->initBasicRoute();
-        $this->assertSame($route->getController(), 'Test');
-    }
-
-    public function testBasicRouteAction() {
-        $route = $this->initBasicRoute();
-        $this->assertSame($route->getAction(), 'index');
-    }
-
-    public function testBasicRouteValidationRules() {
-        $route = $this->initBasicRoute();
-        $this->assertSame($route->getValidationRules(), null);
-    }
-
-    public function testComplexRoutePattern() {
-        $route = $this->initComplexRoute();
-        $this->assertSame($route->getPattern(), '/^\/test\/(?P<name>\w+)\/action\/(?P<id>\d+)$/i');
-    }
-
-    public function testComplexRouteMiddleware() {
-        $route = $this->initComplexRoute();
-        $this->assertSame($route->getMiddleware(), ['test']);
-    }
-
-    public function testComplexRouteValidationRules() {
-        $route = $this->initComplexRoute();
-        $this->assertSame($route->getValidationRules(), ['a' => ['required', 'min:5']]);
+        $this->createRequest();
     }
     
-    public function testBasicRouteRequestMatching() {
-        $request = $this->initBasicRequest();
-        $router = $this->createRouter();
-        $router->add('GET', '', 'Test', 'index');
-        $this->assertSame($router->match($request), true);
+    public function testSimpleRouteRequestMatching() {
+        $this->initSimpleRoute();
+        $this->initSimpleRequest();
+        $this->assertSame($this->router->match($this->request), true);
     }
 
     public function testComplexRouteRequestMatching() {
-        $request = $this->initComplexRequest();
-        $router = $this->createRouter();
-        $router->add('POST', '/test/{name:\w+}/action/{id:\d+}', 'Test', 'action')
-            ->ajax()
-            ->middleware(['test'])
-            ->validate(['a' => ['required', 'min:5']]);
-        $this->assertSame($router->match($request), true);
+        $this->initComplexRequest();
+        $this->initComplexRoute();
+        $this->assertSame($this->router->match($this->request), true);
     }
 
     public function testInvalidRouteRequestMatching() {
-        $request = $this->initComplexRequest();
-        $router = $this->createRouter();
-        $router->add('POST', '/test/{name:\w+}/action/{id:\d+}', 'Test', 'action');
-        $this->assertSame($router->match($request), false);
-
-        $router = $this->createRouter();
-        $router->add('POST', '/invalid url', 'Test', 'action')->ajax();
-        $this->assertSame($router->match($request), false);
+        $this->initComplexRequest();
+        $this->initInvalidRoutes();
+        $this->assertSame($this->router->match($this->request), false);
+        $this->assertSame($this->router->match($this->request), false);
     }
 }

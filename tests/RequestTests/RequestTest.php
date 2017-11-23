@@ -8,6 +8,7 @@ use Core\DependencyInjector\DependencyInjector;
 use Core\Factories\ResponseFactory;
 use Core\Factories\ValidatorFactory;
 use Core\Http\Request;
+use Core\Routing\RouteBuilder;
 use Core\Routing\Router;
 use PHPUnit\Framework\TestCase;
 
@@ -102,33 +103,42 @@ class RequestTest extends TestCase
     }
 
     public function testGettingParameter() {
-        $router = new Router();
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $_SERVER['QUERY_STRING'] = '1';
-        $router->add('GET', '{id:\d+}', 'Test', 'testAction');
+        $di = new DependencyInjector();
+        $di->register(RouteBuilder::class);
+        $rb = $di->getService(RouteBuilder::class);
+        $rb->add('GET', '{id:\d+}', 'Test', 'testAction');
+        $rb->create();
         $request = $this->createRequest();
-        $router->match($request);
+        $di->getService(Router::class)->match($request);
         $this->assertSame($request->getParameter('non-existent-parameter'), null);
         $this->assertSame($request->getParameter('id'), '1');
     }
 
     public function testNonExistentController() {
         $this->expectException(ControllerNotFoundException::class);
-        $router = new Router();
+        $di = new DependencyInjector();
+        $di->register(RouteBuilder::class);
+        $rb = $di->getService(RouteBuilder::class);
+        $rb->add('GET', '', 'Non-existent-controller', 'action-name');
+        $rb->create();
         $_SERVER['REQUEST_METHOD'] = 'GET';
-        $router->add('GET', '', 'Test', 'testAction');
         $request = $this->createRequest();
-        $request->setRoute($router->getRoutes()[0]);
+        $request->setRoute($di->getService(Router::class)->getRoutes()[0]);
         $request->process();
     }
 
     public function testNonExistentAction() {
         $this->expectException(MethodNotFoundException::class);
-        $router = new Router();
+        $di = new DependencyInjector();
+        $di->register(RouteBuilder::class);
+        $rb = $di->getService(RouteBuilder::class);
+        $rb->add('GET', '', 'Trip', 'non-existent-action-name');
+        $rb->create();
         $_SERVER['REQUEST_METHOD'] = 'GET';
-        $router->add('GET', '', 'Trip', 'non-existent-action-name');
         $request = $this->createRequest();
-        $request->setRoute($router->getRoutes()[0]);
+        $request->setRoute($di->getService(Router::class)->getRoutes()[0]);
         $request->process();
     }
 
