@@ -10,6 +10,9 @@ return [
     ],
     'admin' => [
         'back' => 'Back to website',
-        'title' => 'Administration'
+        'index' => 'Admin dashboard',
+        'title' => 'Administration',
+        'trips' => 'Administrate trips',
+        'users' => 'Administrate users'
     ]
 ];

@@ -19,5 +19,22 @@ return [
         'welcome' => 'Welcome to Trip Hatch',
         'back-to-top' => 'Back to top',
         'login' => 'Log in'
+    ],
+    'admin' => [
+        'dashboard' => [
+            'title' => 'Administration',
+            'heading' => 'Admin dashboard',
+            'text' => 'Admin dashboard and stuff'
+        ],
+        'users' => [
+            'title' => 'Administration',
+            'heading' => 'User administration',
+            'text' => 'User administration and stuff'
+        ],
+        'trips' => [
+            'title' => 'Administration',
+            'heading' => 'Trip administration',
+            'text' => 'Trip administration and stuff'
+        ]
     ]
 ];

@@ -36,6 +36,7 @@ div.sidebar {
 
         @media screen and (min-width: $size-sm) {
           display: block;
+          font-weight: bold;
           margin-right: $application_margin;
           border-bottom: 1px solid $admin_sidebar_sub_text_color;
         }

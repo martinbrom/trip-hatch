@@ -1,12 +1,12 @@
 {% extends "layouts/admin.html.twig" %}
 
-{% block title %}Administration{% endblock %}
+{% block title %}{{ t('pages.admin.dashboard.title') }}{% endblock %}
 
 {% block content %}
 
     <div class="admin-content">
-        <h2 class="text-center">Administration</h2>
-        <p class="text-center">Admin dashboard and stuff</p>
+        <h1 class="text-center">{{ t('pages.admin.dashboard.heading') }}</h1>
+        <p class="text-center">{{ t('pages.admin.dashboard.text') }}</p>
     </div>
 
 {% endblock %}

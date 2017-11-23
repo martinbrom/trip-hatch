@@ -24,6 +24,12 @@ $rb = $di->getService(Core\Routing\RouteBuilder::class);
 $rb->add('GET', 'admin', 'Admin', 'index')
     ->middleware(['admin'])
     ->name('admin');
+$rb->add('GET', 'admin/users', 'Admin', 'usersPage')
+    ->middleware(['admin'])
+    ->name('admin.users');
+$rb->add('GET', 'admin/trips', 'Admin', 'tripsPage')
+    ->middleware(['admin'])
+    ->name('admin.trips');
 
 // ------------- DAY ------------
 
