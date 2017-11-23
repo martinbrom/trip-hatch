@@ -9,8 +9,7 @@
     </head>
     <body class="no-footer">
         <script src="/js/app.js"></script>
-        <!-- TODO: Add admin side bar -->
-        <a href="/">{{ t('layout.admin.back') }}</a>
+        {% include 'layouts/_adminSideBar.html.twig' %}
         {% block content %}{% endblock %}
     </body>
 </html>

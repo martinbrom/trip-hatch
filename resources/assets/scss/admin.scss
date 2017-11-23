@@ -1,0 +1,9 @@
+@import "variables";
+
+div.admin-content {
+  @media screen and (min-width: $size-sm) {
+    margin-left: 20%;
+    width: 80%;
+    float: left;
+  }
+}

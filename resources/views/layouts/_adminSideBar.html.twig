@@ -1,0 +1,19 @@
+<div class="sidebar">
+    <div class="admin-sidebar container">
+        <div class="navbar-header">
+            <a class="index-link" href="{{ route('admin') }}">Index</a>
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#sidebar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse" id="sidebar">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="">Administrate users</a></li>
+                <li><a href="">Administrate trips</a></li>
+                <li><a href="/">{{ t('layout.admin.back') }}</a></li>
+            </ul>
+        </div>
+    </div>
+</div>

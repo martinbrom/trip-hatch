@@ -82,3 +82,11 @@ $footer_copyright_background: #132423;
 $footer_total_height: $footer_main_height + $footer_copyright_height;
 $footer_margin: 2*$application_margin;
 $footer_margin_small: 2*$application_margin_small;
+
+// ADMIN SIDEBAR VARIABLES
+$admin_sidebar_mobile_height: 60px;
+$admin_sidebar_background: $darkgray;
+$admin_sidebar_text_color: $white;
+$admin_sidebar_sub_background: $white;
+$admin_sidebar_sub_text_color: $midgray;
+$admin_sidebar_sub_text_color_hover: $darkgray;

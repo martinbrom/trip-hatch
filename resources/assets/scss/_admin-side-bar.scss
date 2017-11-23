@@ -1,0 +1,125 @@
+@import "variables";
+
+div.sidebar {
+  background: $admin_sidebar_background;
+  height: $admin_sidebar_mobile_height;
+
+  @media screen and (min-width: $size-sm) {
+    float: left;
+    width: 20%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+  }
+
+  div.admin-sidebar {
+    @media screen and (min-width: $size-sm) {
+      width: 100%;
+      padding-left: 0;
+      padding-right: 0;
+      text-align: center;
+    }
+
+    div.navbar-header {
+      @media screen and (min-width: $size-sm) {
+        float: none;
+      }
+
+      a.index-link {
+        color: $admin_sidebar_text_color;
+        margin-left: $application_margin;
+        line-height: $admin_sidebar_mobile_height;
+        height: $admin_sidebar_mobile_height;
+        display: inline-block;
+
+        @media screen and (min-width: $size-sm) {
+          display: block;
+          margin-right: $application_margin;
+          border-bottom: 1px solid $admin_sidebar_sub_text_color;
+        }
+      }
+
+      button.navbar-toggle {
+        margin-top: (($admin_sidebar_mobile_height - 34) / 2);
+        margin-bottom: (($admin_sidebar_mobile_height - 34) / 2);
+        margin-right: $application_margin;
+
+        span {
+          background: $admin_sidebar_text_color;
+        }
+      }
+    }
+
+    #sidebar {
+      z-index: 1021;
+      position: relative;
+      margin-left: 0;
+      margin-right: 0;
+      border-bottom-left-radius: $application_border_radius;
+      border-bottom-right-radius: $application_border_radius;
+      box-shadow: 0 0 $application_shadow_distance $application_shadow_color;
+      background: $admin_sidebar_sub_background;
+
+      @media screen and (min-width: $size-sm) {
+        background: $admin_sidebar_background;
+        box-shadow: none;
+        border-radius: 0;
+      }
+
+      ul.navbar-nav {
+        list-style-type: none;
+        margin: $application_margin / 2 0;
+        padding-left: 0;
+
+        @media screen and (min-width: $size-sm) {
+          margin-top: 0;
+        }
+
+        li {
+          float: left;
+          display: inline-block;
+          width: 100%;
+          border-bottom: 1px solid $admin_sidebar_sub_text_color;
+
+          @media screen and (min-width: $size-sm) {
+            border-bottom: none;
+          }
+
+          &:last-of-type {
+            border-bottom: none;
+
+            a {
+              @media screen and (min-width: $size-sm) {
+                border-bottom: none;
+              }
+            }
+          }
+
+          a {
+            color: $admin_sidebar_sub_text_color;
+            display: inline-block;
+            width: 100%;
+
+            @media screen and (min-width: $size-sm) {
+              color: $admin_sidebar_text_color;
+              border-bottom: 1px solid $admin_sidebar_sub_text_color;
+            }
+
+            &:hover, &:focus {
+              background: $admin_sidebar_sub_background;
+              color: $admin_sidebar_sub_text_color_hover;
+
+              @media screen and (min-width: $size-sm) {
+                background: $admin_sidebar_background;
+                color: $admin_sidebar_text_color;
+                text-decoration: underline;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
