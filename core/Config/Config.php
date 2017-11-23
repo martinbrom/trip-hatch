@@ -23,7 +23,7 @@ class Config
 
     public function get($flatKey) {
         $configuration = $this->configurations->get($flatKey);
-        if ($configuration == null)
+        if ($configuration === null)
             throw new ConfigurationNotExistsException($flatKey);
 
         return $configuration;

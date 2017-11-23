@@ -20,7 +20,7 @@ class FlatArray
             if (!is_array($value) || !array_key_exists($k, $value)) return null;
             $value = $value[$k];
         }
-        
+
         return $value;
     }
 

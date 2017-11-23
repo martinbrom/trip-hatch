@@ -1,5 +1,15 @@
 <?php
 
+// ------------------------------------------------------
+//  IT IS ESSENTIAL THAT YOU CALL ADD METHOD FIRST
+//  OTHERWISE YOU COULD ACCESS PREVIOUS ROUTE
+//  AND APPLICATION COULD BEHAVE UNEXPECTEDLY
+//
+//  YOU SHOULD ALSO CALL ROUTE BUILDER -> CREATE
+//  AS A LAST LINE IN THIS FILE, ANY ROUTES DEFINED
+//  AFTER IT WILL NOT BE CREATED
+// ------------------------------------------------------
+
 /** @var \Core\Routing\RouteBuilder $rb */
 $rb = $di->getService(Core\Routing\RouteBuilder::class);
 
@@ -12,7 +22,8 @@ $rb = $di->getService(Core\Routing\RouteBuilder::class);
 
 // ------------ ADMIN -----------
 $rb->add('GET', 'admin', 'Admin', 'index')
-    ->middleware(['admin']);
+    ->middleware(['admin'])
+    ->name('admin');
 
 // ------------- DAY ------------
 
@@ -43,11 +54,10 @@ $rb->add('DELETE', 'trip/{id:\d+}', 'Trip', 'destroy')
     ->middleware(['logged']);
 $rb->add('GET', 'trip/public/{public_url:\w+}', 'Trip', 'showPublic');
 
-$rb->add('GET', 'testredirect/{id:\d+}', 'Trip', 'testRedirect');
-
 // ------------ USER ------------
 $rb->add('GET', 'login', 'User', 'loginPage');
-$rb->add('GET', 'forgotten-password', 'User', 'forgottenPasswordPage');
+$rb->add('GET', 'forgotten-password', 'User', 'forgottenPasswordPage')
+    ->name('login');
 $rb->add('POST', 'login', 'User', 'login')
     ->validate(['login_email' => ['email', 'maxLen:255']]);
 $rb->add('POST', 'register', 'User', 'register')
@@ -56,12 +66,15 @@ $rb->add('POST', 'register', 'User', 'register')
         'register_password' => ['required'],
         'register_password_confirm' => ['required', 'matches:register_password']
     ]);
-$rb->add('GET', 'logout', 'User', 'logout');
-$rb->add('POST', 'forgotten-password', 'User', 'forgottenPassword');
+$rb->add('GET', 'logout', 'User', 'logout')
+    ->name('logout');
+$rb->add('POST', 'forgotten-password', 'User', 'forgottenPassword')
+    ->name('forgotten-password');
 
 // -------- USER SETTINGS -------
 $rb->add('GET', 'profile', 'UserSettings', 'profile')
-    ->middleware(['logged']);
+    ->middleware(['logged'])
+    ->name('profile');
 $rb->add('GET', 'change-display-name', 'UserSettings', 'changeDisplayNamePage')
     ->middleware(['logged']);
 $rb->add('POST', 'change-display-name', 'UserSettings', 'changeDisplayName')

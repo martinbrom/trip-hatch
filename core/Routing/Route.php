@@ -34,7 +34,6 @@ class Route
 
     /** @var array Validation rules for a request, that matches this route */
     private $validationRules;
-    // TODO: Named routes ?
 
     /**
      * Creates new instance with four needed route parameters
@@ -56,8 +55,10 @@ class Route
      * @return mixed
      */
     public function prepareCleanUrl($url) {
-        // TODO: Finish
-        // $url = preg_replace('/\{([a-z_]+):([^\}]+)\}/', '(?P<\1>\2)', $url);
+        $url = str_replace(':\d+', '', $url);
+        $url = str_replace(':\w+', '', $url);
+        $url = str_replace('{', '', $url);
+        $url = str_replace('}', '', $url);
         $url = '/' . $url;
         return $url;
     }

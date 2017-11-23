@@ -79,12 +79,6 @@ class TripController extends Controller
         return $this->responseFactory->html('trip/create.html.twig');
     }
 
-    public function testRedirect($id) {
-        var_dump($this->route('trip-show', ['id' => $id]));
-        die();
-        return $this->route('trip-show', ['id' => $id]);
-    }
-
     /**
      * Creates new trip and redirects user to its page
      * @return RedirectResponse Newly created trip page
@@ -92,7 +86,7 @@ class TripController extends Controller
     public function store() {
         // TODO: Create trip
         $id = 1; // later will be last insert ID from database
-        return $this->redirect('trip/' . $id);
+        return $this->route('trip-show', ['id' => $id]);
     }
 
     /**

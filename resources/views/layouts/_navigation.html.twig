@@ -12,19 +12,19 @@
             <ul class="nav navbar-nav navbar-right">
                 {% if user is not null %}
                     {% if user.is_admin %}
-                        <li><a href="/admin">{{ t('layout.navigation.administration') }}</a></li>
+                        <li><a href="{{ route('admin') }}">{{ t('layout.navigation.administration') }}</a></li>
                     {% endif %}
-                    <li><a href="/trips">{{ t('layout.navigation.dashboard') }}</a></li>
-                    <li class="hidden-xs"><a href="/logout">{{ t('layout.navigation.logout') }}</a></li>
+                    <li><a href="{{ route('dashboard') }}">{{ t('layout.navigation.dashboard') }}</a></li>
+                    <li class="hidden-xs"><a href="{{ route('logout') }}">{{ t('layout.navigation.logout') }}</a></li>
                     <li class="user-avatar-wrapper">
-                        <a href="/profile">
+                        <a href="{{ route('profile') }}">
                             <img class="hidden-xs img img-responsive img-circle user-avatar" src="/images/thumbnails/{{ user.path }}" alt="{{ user.description }}">
                             <p class="visible-xs">{{ t('layout.navigation.profile') }}</p>
                         </a>
                     </li>
-                    <li class="visible-xs"><a href="/logout">{{ t('layout.navigation.logout') }}</a></li>
+                    <li class="visible-xs"><a href="{{ route('logout') }}">{{ t('layout.navigation.logout') }}</a></li>
                 {% else %}
-                    <li><a href="/login" class="login">{{ t('layout.navigation.login') }}</a></li>
+                    <li><a href="{{ route('login') }}" class="login">{{ t('layout.navigation.login') }}</a></li>
                 {% endif %}
             </ul>
         </div>
