@@ -46,15 +46,6 @@ class UserController extends Controller
     }
 
     /**
-     * Returns a json response with all users from database
-     * @return JsonResponse All users from database
-     */
-    public function index() {
-        $users = $this->userRepository->getUsers();
-        return $this->responseFactory->json($users);
-    }
-
-    /**
      * Returns a html response with login and register page content
      * @return HtmlResponse Login and register page
      */

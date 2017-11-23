@@ -33,6 +33,21 @@ class UserRepository
     }
 
     /**
+     * @param int $limit
+     * @param int $page
+     * @return array
+     */
+    public function getNewUsers($limit = 100, $page = 0): array {
+        // TODO: Maybe validate limit and page
+        $now = (new \DateTime())->format('Y-m-d H:i:s');
+        $offset = $page * $limit;
+        $query = "SELECT * FROM users
+                WHERE created_at <= '$now'
+                LIMIT $limit OFFSET $offset";
+        return $this->baseRepository->fetchAll($query);
+    }
+
+    /**
      * Returns first user with given email
      * @param string $email User email
      * @return array User with given email

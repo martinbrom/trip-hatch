@@ -33,4 +33,8 @@ class Session
     public function delete($name) {
         unset($_SESSION[$name]);
     }
+
+    public function getAll() {
+        return $_SESSION;
+    }
 }

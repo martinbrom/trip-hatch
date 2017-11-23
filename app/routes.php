@@ -31,7 +31,6 @@ $router->add('GET', 'trip/day/{id:\d+}/actions', 'Action', 'actions')->ajax()->m
 
 $router->add('GET', 'action-types', 'ActionType', 'index')->ajax();
 
-$router->add('GET', 'users', 'User', 'index');
 $router->add('GET', 'login', 'User', 'loginPage');
 $router->add('GET', 'forgotten-password', 'User', 'forgottenPasswordPage');
 $router->add('POST', 'login', 'User', 'login')->validate(['login_email' => ['email', 'maxLen:255']]);
@@ -44,3 +43,5 @@ $router->add('POST', 'register', 'User', 'register')
 $router->add('GET', 'logout', 'User', 'logout');
 $router->add('POST', 'forgotten-password', 'User', 'forgottenPassword');
 $router->add('GET', 'profile', 'User', 'profile')->middleware(['logged']);
+
+$router->add('GET', 'admin', 'Admin', 'index')->middleware(['admin']);

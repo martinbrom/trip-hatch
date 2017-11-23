@@ -34,6 +34,7 @@ class TripController extends Controller
 
     /** @var Language */
     private $lang;
+
     /** @var Auth */
     private $auth;
 

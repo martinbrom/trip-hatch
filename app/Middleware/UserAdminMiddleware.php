@@ -46,12 +46,14 @@ class UserAdminMiddleware extends Middleware
      * @return Response|null
      */
     public function before() {
-        if (!$this->auth->isAdmin()) {
+        if ($this->auth->isAdmin() != 1) {
             if ($this->request->isAjax())
                 return $this->responseFactory->json(['message' => $this->lang->get('middleware.admin.failure')], 401);
 
             $this->alertHelper->error($this->lang->get('middleware.admin.failure'));
-            return $this->responseFactory->redirect('/trip/' . $this->request->getParameter('id'));
+            $trip_id = $this->request->getParameter('id');
+            $redirect = $trip_id == null ? '/trips' : '/trip' . $trip_id;
+            return $this->responseFactory->redirect($redirect);
         }
 
         return null;

@@ -57,8 +57,7 @@ class Auth
         if (!$this->isLogged())
             return false;
 
-        $isAdmin = $this->session->get('user.isAdmin');
-        return $isAdmin != null && !$isAdmin;
+        return $this->session->get('user.is_admin');
     }
 
     /**

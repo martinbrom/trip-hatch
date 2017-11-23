@@ -13,21 +13,16 @@ class DayController extends Controller
     /** @var Auth */
     private $auth;
 
-    /** @var ResponseFactory */
-    protected $responseFactory;
-
     /** @var DayRepository */
     private $dayRepository;
 
     /**
      * DayController constructor.
      * @param Auth $auth
-     * @param ResponseFactory $responseFactory
      * @param DayRepository $dayRepository
      */
-    public function __construct(Auth $auth, ResponseFactory $responseFactory, DayRepository $dayRepository) {
+    public function __construct(Auth $auth, DayRepository $dayRepository) {
         $this->auth = $auth;
-        $this->responseFactory = $responseFactory;
         $this->dayRepository = $dayRepository;
     }
 
