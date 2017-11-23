@@ -4,6 +4,7 @@ return [
     Core\Config\Config::class,
     Core\View::class,
     Core\Routing\Router::class,
+    Core\Routing\RouteBuilder::class,
     Core\Kernel::class,
     Core\Language\Language::class,
     Core\Factories\RequestFactory::class,

@@ -5,6 +5,7 @@ namespace Core\Factories;
 use Core\DependencyInjector\DependencyInjector;
 use Core\Http\Response\JsonResponse;
 use Core\Http\Response\RedirectResponse;
+use Core\Routing\RouteHelper;
 
 class ResponseFactory
 {
@@ -14,9 +15,13 @@ class ResponseFactory
     /** @var HtmlResponseFactory */
     private $htmlResponseFactory;
 
-    public function __construct(DependencyInjector $di, HtmlResponseFactory $htmlResponseFactory) {
+    /** @var RouteHelper */
+    private $routeHelper;
+
+    public function __construct(DependencyInjector $di, HtmlResponseFactory $htmlResponseFactory, RouteHelper $routeHelper) {
         $this->di = $di;
         $this->htmlResponseFactory = $htmlResponseFactory;
+        $this->routeHelper = $routeHelper;
     }
 
     public function html($template, $data = [], $code = 200) {
@@ -32,7 +37,11 @@ class ResponseFactory
     }
 
     public function redirectBack() {}
-    public function redirectToRoute() {}
+
+    public function redirectToRoute($routeName, $params = []) {
+        $path = $this->routeHelper->get($routeName, $params);
+        return $this->redirect($path);
+    }
 
     public function error(int $code, $data = []) {
         $separateErrorPages = [404, 500, 401];

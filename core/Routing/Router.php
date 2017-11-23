@@ -3,6 +3,7 @@
 namespace Core\Routing;
 
 use Core\Http\Request;
+use Core\Routing\Exception\RouteNotExistsException;
 
 /**
  * Class Router
@@ -15,22 +16,22 @@ class Router
     protected $routes = [];
 
     /**
+     * @param $name
+     * @return Route
+     * @throws RouteNotExistsException
+     */
+    public function getRoute($name) {
+        if (!isset($this->routes[$name]))
+            throw new RouteNotExistsException($name);
+
+        return $this->routes[$name];
+    }
+
+    /**
      * @return Route[]
      */
     public function getRoutes() {
         return $this->routes;
-    }
-
-    /**
-     * @param $url
-     * @return mixed|string
-     */
-    public function preparePattern($url) {
-        $url = preg_replace('/\//', '\\/', $url);
-        $url = preg_replace('/\{([a-z_]+)\}/', '(?P<\1>[a-z-]+)', $url);
-        $url = preg_replace('/\{([a-z_]+):([^\}]+)\}/', '(?P<\1>\2)', $url);
-        $url = '/^' . $url . '$/i';
-        return $url;
     }
 
     /**
@@ -69,16 +70,9 @@ class Router
     }
 
     /**
-     * @param $method
-     * @param $url
-     * @param $controller
-     * @param $action
-     * @return Route
+     * @param $routes
      */
-    public function add($method, $url, $controller, $action): Route {
-        $pattern = $this->preparePattern($url);
-        $route = new Route($pattern, $controller, $action, $method);
-        $this->routes []= $route;
-        return $route;
+    public function setRoutes($routes) {
+        $this->routes = $routes;
     }
 }

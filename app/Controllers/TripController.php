@@ -79,6 +79,12 @@ class TripController extends Controller
         return $this->responseFactory->html('trip/create.html.twig');
     }
 
+    public function testRedirect($id) {
+        var_dump($this->route('trip-show', ['id' => $id]));
+        die();
+        return $this->route('trip-show', ['id' => $id]);
+    }
+
     /**
      * Creates new trip and redirects user to its page
      * @return RedirectResponse Newly created trip page
@@ -101,7 +107,7 @@ class TripController extends Controller
 
         if ($trip == NULL) {
             $this->alertHelper->error('Trip doesn\'t exist!');
-            return $this->redirect('/trips');
+            return $this->route('dashboard');
         }
 
         $days = $this->dayRepository->getDays($trip_id);

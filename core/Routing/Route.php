@@ -14,6 +14,9 @@ class Route
     /** @var string Regex URL pattern */
     private $pattern;
 
+    /** @var string URL with parameter placeholders */
+    private $url;
+
     /** @var string Name of controller to be called when accessing this route */
     private $controller;
 
@@ -35,45 +38,47 @@ class Route
 
     /**
      * Creates new instance with four needed route parameters
-     * @param string $pattern Regex URL pattern
+     * @param string $url Url of route with regex parameter placeholders
      * @param string $controller Name of controller to be called
      * @param string $action Name of action on the controller
      * @param string $method HTTP request method
      */
-    public function __construct($pattern, $controller, $action, $method = "GET") {
-        $this->pattern = $pattern;
+    public function __construct($url, $controller, $action, $method = "GET") {
+        $this->url = $this->prepareCleanUrl($url);
+        $this->pattern = $this->preparePattern($url);
         $this->controller = $controller;
         $this->action = $action;
         $this->method = $method;
     }
 
     /**
-     * Sets aliases of middleware
-     * @param array $middleware List of middleware aliases
-     * @return self Returns itself for chaining setters
+     * @param $url
+     * @return mixed
      */
-    public function middleware($middleware): self {
-        $this->middleware = $middleware;
-        return $this;
+    public function prepareCleanUrl($url) {
+        // TODO: Finish
+        // $url = preg_replace('/\{([a-z_]+):([^\}]+)\}/', '(?P<\1>\2)', $url);
+        $url = '/' . $url;
+        return $url;
     }
 
     /**
-     * Sets ajax-only state of Route to true
-     * @return self Returns itself for chaining setters
+     * @param $url
+     * @return mixed|string
      */
-    public function ajax(): self {
-        $this->ajaxOnly = true;
-        return $this;
+    public function preparePattern($url) {
+        $url = preg_replace('/\//', '\\/', $url);
+        $url = preg_replace('/\{([a-z_]+)\}/', '(?P<\1>[a-z-]+)', $url);
+        $url = preg_replace('/\{([a-z_]+):([^\}]+)\}/', '(?P<\1>\2)', $url);
+        $url = '/^' . $url . '$/i';
+        return $url;
     }
 
     /**
-     * Sets validation rules for route-matching request
-     * @param array $rules Validation rules
-     * @return self Returns itself for chaining setters
+     * @return string
      */
-    public function validate($rules) {
-        $this->validationRules = $rules;
-        return $this;
+    public function getUrl(): string {
+        return $this->url;
     }
 
     /**
@@ -117,6 +122,13 @@ class Route
     }
 
     /**
+     * @param $middleware
+     */
+    public function setMiddleware($middleware) {
+        $this->middleware = $middleware;
+    }
+
+    /**
      * Returns whether the route is only accessible via AJAX
      * @return bool True if route can only be accessed via AJAX, false otherwise
      */
@@ -125,10 +137,24 @@ class Route
     }
 
     /**
+     * @param $ajaxOnly
+     */
+    public function setAjaxOnly($ajaxOnly) {
+        $this->ajaxOnly = $ajaxOnly;
+    }
+
+    /**
      * Returns validation rules
      * @return array Validation rules
      */
     public function getValidationRules() {
         return $this->validationRules;
+    }
+
+    /**
+     * @param $rules
+     */
+    public function setValidationRules($rules) {
+        $this->validationRules = $rules;
     }
 }

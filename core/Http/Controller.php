@@ -18,19 +18,6 @@ abstract class Controller
     protected $responseFactory;
 
     /**
-     * @param $method
-     * @param $args
-     * @throws MethodNotFoundException
-     */
-    public function __call($method, $args)  {
-        if (!method_exists($this, $method)) {
-            call_user_func_array([$this, $method], $args);
-        } else {
-            throw new MethodNotFoundException($method, get_class($this));
-        }
-    }
-
-    /**
      * @param ResponseFactory $responseFactory
      */
     public function setResponseFactory(ResponseFactory $responseFactory) {
@@ -52,5 +39,14 @@ abstract class Controller
      */
     protected function redirect($location) {
         return $this->responseFactory->redirect($location);
+    }
+
+    /**
+     * @param $name
+     * @param array $params
+     * @return RedirectResponse
+     */
+    protected function route($name, $params = []) {
+        return $this->responseFactory->redirectToRoute($name, $params);
     }
 }
