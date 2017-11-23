@@ -4,7 +4,6 @@ namespace App\Controllers;
 
 use Core\Auth;
 use Core\Http\Controller;
-use Core\Http\Response\HtmlResponse;
 use Core\Http\Response\Response;
 
 /**
@@ -33,16 +32,8 @@ class HomeController extends Controller
      */
     public function index() {
         if ($this->auth->isLogged())
-            return $this->responseFactory->redirect('/trips');
+            return $this->route('dashboard');
         return $this->responseFactory->html('home/index.html.twig');
-    }
-
-    /**
-     * Returns a html response with a layout page content
-     * @return HtmlResponse Page with layout
-     */
-    public function layout() {
-        return $this->responseFactory->html('home/layout.html.twig');
     }
 
     public function testValidation() {

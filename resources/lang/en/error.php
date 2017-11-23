@@ -35,6 +35,6 @@ return [
             'text' => 'You can try going back or visit our',
             'content' => 'homepage'
         ],
-        'title' => 'Trip Hatch - error'
+        'title' => 'Trip Hatch - something went wrong'
     ]
 ];

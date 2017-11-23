@@ -29,7 +29,6 @@ $rb->add('GET', 'admin', 'Admin', 'index')
 
 // ------------ HOME ------------
 $rb->add('GET', '', 'Home', 'index');
-$rb->add('GET', 'layout', 'Home', 'layout');
 $rb->add('GET', 'testvalidate', 'Home', 'testValidation')
     ->validate(['a' => ['between:10,100', 'email'], 'b' => ['max:30']]);
 // TODO: FAQ, terms etc.
@@ -55,21 +54,23 @@ $rb->add('DELETE', 'trip/{id:\d+}', 'Trip', 'destroy')
 $rb->add('GET', 'trip/public/{public_url:\w+}', 'Trip', 'showPublic');
 
 // ------------ USER ------------
-$rb->add('GET', 'login', 'User', 'loginPage');
-$rb->add('GET', 'forgotten-password', 'User', 'forgottenPasswordPage')
+$rb->add('GET', 'login', 'User', 'loginPage')
     ->name('login');
+$rb->add('GET', 'forgotten-password', 'User', 'forgottenPasswordPage')
+    ->name('forgotten-password');
 $rb->add('POST', 'login', 'User', 'login')
-    ->validate(['login_email' => ['email', 'maxLen:255']]);
+    ->validate(['login_email' => ['email', 'maxLen:255']])
+    ->name('login-submit');
 $rb->add('POST', 'register', 'User', 'register')
     ->validate([
         'register_email' => ['required', 'email', 'maxLen:255'],
         'register_password' => ['required'],
         'register_password_confirm' => ['required', 'matches:register_password']
-    ]);
+    ])
+    ->name('register-submit');
 $rb->add('GET', 'logout', 'User', 'logout')
     ->name('logout');
-$rb->add('POST', 'forgotten-password', 'User', 'forgottenPassword')
-    ->name('forgotten-password');
+$rb->add('POST', 'forgotten-password', 'User', 'forgottenPassword');
 
 // -------- USER SETTINGS -------
 $rb->add('GET', 'profile', 'UserSettings', 'profile')

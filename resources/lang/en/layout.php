@@ -7,5 +7,9 @@ return [
         'login' => 'Login',
         'logout' => 'Logout',
         'profile' => 'Profile'
+    ],
+    'admin' => [
+        'back' => 'Back to website',
+        'title' => 'Administration'
     ]
 ];

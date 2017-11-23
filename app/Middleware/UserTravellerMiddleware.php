@@ -52,7 +52,7 @@ class UserTravellerMiddleware extends Middleware
                 return $this->responseFactory->json(['message' => $this->lang->get('middleware.traveller.failure')], 401);
 
             $this->alertHelper->error($this->lang->get('middleware.traveller.failure'));
-            return $this->responseFactory->redirect('/trips');
+            return $this->responseFactory->redirectToRoute('dashboard');
         }
 
         return null;

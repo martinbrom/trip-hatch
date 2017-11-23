@@ -5,10 +5,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
         <title>{{ t('pages.landing.title') }}</title>
-        <link rel="stylesheet" type="text/css" href="css/app.css">
+        <link rel="stylesheet" type="text/css" href="/css/app.css">
     </head>
     <body class="no-footer">
-        <script src="js/app.js"></script>
+        <script src="/js/app.js"></script>
         <section class="full-height-section hero-image">
             <div class="hero-text">
                 <!-- TODO: Insert big-egg logo later -->
@@ -21,7 +21,7 @@
                 <a class="scroll-down" data-scroll-target="1"><i class="fa fa-2x fa-chevron-down"></i></a>
             </div>
             <div class="login-button-container">
-                <a href="/login">{{ t('pages.landing.login') }} <i class="fa fa-user"></i></a>
+                <a href="{{ route('login') }}">{{ t('pages.landing.login') }} <i class="fa fa-user"></i></a>
             </div>
         </section>
         <section class="full-height-section">

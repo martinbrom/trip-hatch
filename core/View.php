@@ -56,5 +56,9 @@ class View
         $this->twig->addFunction(new \Twig_Function('route', function ($name, $params = []) {
             return $this->routeHelper->get($name, $params);
         }));
+
+        $this->twig->addFunction(new \Twig_Function('routeTripShow', function ($trip_id) {
+            return $this->routeHelper->get('trip-show', ['id' => $trip_id]);
+        }));
     }
 }

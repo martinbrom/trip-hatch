@@ -51,7 +51,7 @@ class UserLoggedMiddleware extends Middleware
                 return $this->responseFactory->json(['message' => $this->lang->get('middleware.logged.failure')], 401);
 
             $this->alertHelper->error($this->lang->get('middleware.logged.failure'));
-            return $this->responseFactory->redirect('/login');
+            return $this->responseFactory->redirectToRoute('login');
         }
 
         return null;

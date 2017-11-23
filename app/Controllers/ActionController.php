@@ -25,7 +25,6 @@ class ActionController extends Controller
     }
 
     /**
-     * [AJAX-ONLY]
      * Returns a html response with all actions for given day
      * @param int $day_id ID of a day
      * @return HtmlResponse All actions for given day

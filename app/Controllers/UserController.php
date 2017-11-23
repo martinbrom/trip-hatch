@@ -7,8 +7,8 @@ use Core\AlertHelper;
 use Core\Auth;
 use Core\Http\Controller;
 use Core\Http\Response\HtmlResponse;
-use Core\Http\Response\JsonResponse;
 use Core\Http\Response\RedirectResponse;
+use Core\Http\Response\Response;
 use Core\Language\Language;
 
 /**
@@ -47,9 +47,13 @@ class UserController extends Controller
 
     /**
      * Returns a html response with login and register page content
-     * @return HtmlResponse Login and register page
+     * @return Response Login and register page or
+     *                  redirect to dashboard if logged in
      */
     public function loginPage() {
+        if ($this->auth->isLogged())
+            return $this->route('dashboard');
+
         return $this->responseFactory->html('user/login.html.twig');
     }
 
@@ -71,11 +75,11 @@ class UserController extends Controller
     public function login() {
         if ($this->auth->login($_POST['login_email'], $_POST['login_password'])) {
             $this->alertHelper->success($this->lang->get('alerts.login.success'));
-            return $this->redirect('/trips');
+            return $this->route('dashboard');
         }
 
         $this->alertHelper->error($this->lang->get('alerts.login.wrong'));
-        return $this->redirect('/login');
+        return $this->route('login');
     }
 
     /**
@@ -85,7 +89,7 @@ class UserController extends Controller
     public function logout() {
         $this->auth->logout();
         $this->alertHelper->success($this->lang->get('alerts.logout.success'));
-        return $this->redirect('/login');
+        return $this->route('login');
     }
 
     /**
@@ -94,7 +98,7 @@ class UserController extends Controller
      */
     public function register() {
         // TODO: Registration
-        return $this->redirect('/trips');
+        return $this->route('dashboard');
     }
 
     /**
@@ -104,7 +108,7 @@ class UserController extends Controller
      */
     public function forgottenPassword() {
         // TODO: Forgotten password
-        return $this->redirect('/login');
+        return $this->route('login');
     }
 
     public function resetPassword() {}

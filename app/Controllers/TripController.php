@@ -113,7 +113,6 @@ class TripController extends Controller
     public function update() {}
     public function destroy() {}
 
-    // TODO: Redirect to normal trip page if logged and accessing public url
     /**
      * @param $public_url
      * @return Response
@@ -123,14 +122,14 @@ class TripController extends Controller
 
         if ($trip == NULL) {
             $this->alertHelper->error('Trip doesn\'t exist!');
-            return $this->redirect('/trips');
+            return $this->route('dashboard');
         }
 
         if ($this->auth->isLogged())
-            return $this->redirect('/trip/' . $trip['id']);
+            return $this->route('trip-show', ['id' => $trip['id']]);
 
         $days = $this->dayRepository->getDays($trip['id']);
-        return $this->responseFactory->html('trip/show.html.twig', ['days' => $days, 'title' => $trip['title']]);
+        return $this->responseFactory->html('trip/show.html.twig', ['days' => $days, 'trip' => $trip]);
     }
 
     /**

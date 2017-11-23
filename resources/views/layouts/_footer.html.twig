@@ -9,10 +9,12 @@
                     <li><a href="http://www.facebook.com"><i class="fa fa-facebook"></i></a></li>
                     <li><a href="http://www.instagram.com"><i class="fa fa-instagram"></i></a></li>
                 </ul>
-                <ul class="links">
-                    <li><a href="/profile">Profile</a></li>
-                    <li><a href="/trips">Dashboard</a></li>
-                </ul>
+                {% if user %}
+                    <ul class="links">
+                        <li><a href="{{ route('profile') }}">Profile</a></li>
+                        <li><a href="{{ route('dashboard') }}">Dashboard</a></li>
+                    </ul>
+                {% endif %}
             </nav>
         </div>
     </div>

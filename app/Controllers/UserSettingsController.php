@@ -48,7 +48,7 @@ class UserSettingsController extends Controller
     public function changeDisplayName() {
         // TODO: Change display name
         $this->alertHelper->success($this->lang->get('alerts.change-display-name.success'));
-        return $this->responseFactory->redirect('/profile');
+        return $this->responseFactory->route('profile');
     }
 
     /**
@@ -65,6 +65,6 @@ class UserSettingsController extends Controller
     public function changePassword() {
         // TODO: Change password
         $this->alertHelper->success($this->lang->get('alerts.change-password.success'));
-        return $this->responseFactory->redirect('/profile');
+        return $this->responseFactory->route('profile');
     }
 }

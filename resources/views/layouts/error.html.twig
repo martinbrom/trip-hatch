@@ -4,11 +4,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>{% block title %}Trip Hatch - Something went wrong{% endblock %}</title>
-    <link rel="stylesheet" type="text/css" href="css/app.css">
+    <title>{% block title %}{{ t('error.base.title') }}{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="/css/app.css">
 </head>
 <body class="no-footer error-page">
-<script src="js/app.js"></script>
+<script src="/js/app.js"></script>
 <section class="full-height-section error-hero-page">
     <div class="hero-text">
         {% block content %}{% endblock %}

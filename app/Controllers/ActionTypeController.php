@@ -25,7 +25,6 @@ class ActionTypeController extends Controller
     }
 
     /**
-     * [AJAX-ONLY]
      * Returns a html response with all action types
      * @return HtmlResponse All action types
      */

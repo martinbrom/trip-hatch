@@ -4,13 +4,13 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>{% block title %}Administration{% endblock %}</title>
+        <title>{% block title %}{{ t('layout.admin.title') }}{% endblock %}</title>
         <link rel="stylesheet" type="text/css" href="/css/app.css">
     </head>
     <body class="no-footer">
         <script src="/js/app.js"></script>
-        <!-- TODO: Admin layout -->
-        <a href="/">Back to website</a>
+        <!-- TODO: Add admin side bar -->
+        <a href="/">{{ t('layout.admin.back') }}</a>
         {% block content %}{% endblock %}
     </body>
 </html>

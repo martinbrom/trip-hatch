@@ -28,7 +28,7 @@
                                 <img src="images/trip-cards/{{ trip.path }}" class="trip-image img-responsive" alt="{{ trip.description }}">
                             </div>
                             <div class="trip-text">
-                                <a href="/trip/{{ trip.id }}">
+                                <a href="{{ routeTripShow(trip.id) }}">
                                     <h3>{{ trip.title }}</h3>
                                 </a>
                                 <!-- TODO: People on trip

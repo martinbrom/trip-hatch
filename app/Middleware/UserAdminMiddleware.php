@@ -52,8 +52,11 @@ class UserAdminMiddleware extends Middleware
 
             $this->alertHelper->error($this->lang->get('middleware.admin.failure'));
             $trip_id = $this->request->getParameter('id');
-            $redirect = $trip_id == null ? '/trips' : '/trip' . $trip_id;
-            return $this->responseFactory->redirect($redirect);
+
+            if ($trip_id == null)
+                return $this->responseFactory->redirectToRoute('dashboard');
+
+            return $this->responseFactory->redirectToRoute('trip-show', ['id' => $trip_id]);
         }
 
         return null;

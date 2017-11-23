@@ -52,7 +52,7 @@ class UserOrganiserMiddleware extends Middleware
                 return $this->responseFactory->json(['message' => $this->lang->get('middleware.organiser.failure')], 401);
 
             $this->alertHelper->error($this->lang->get('middleware.organiser.failure'));
-            return $this->responseFactory->redirect('/trip/' . $trip_id);
+            return $this->responseFactory->redirectToRoute('trip-show', ['id' => $trip_id]);
         }
 
         return null;
