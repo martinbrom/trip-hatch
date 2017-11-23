@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>Trip Hatch - Landing Page</title>
+        <title>{{ t('pages.landing.title') }}</title>
         <link rel="stylesheet" type="text/css" href="css/app.css">
     </head>
     <body class="no-footer">
@@ -12,16 +12,16 @@
         <section class="full-height-section hero-image">
             <div class="hero-text">
                 <!-- TODO: Insert big-egg logo later -->
-                <h1 class="text-center">Welcome to Trip Hatch!</h1>
+                <h1 class="text-center">{{ t('pages.landing.welcome') }}</h1>
             </div>
             <div class="back-to-top-button-container">
-                <button type="button" data-scroll-target="0" class="back-to-top">Back to top <i class="fa fa-chevron-up"></i></button>
+                <button type="button" data-scroll-target="0" class="back-to-top">{{ t('pages.landing.back-to-top') }} <i class="fa fa-chevron-up"></i></button>
             </div>
             <div class="scroll-down-container">
                 <a class="scroll-down" data-scroll-target="1"><i class="fa fa-2x fa-chevron-down"></i></a>
             </div>
             <div class="login-button-container">
-                <a href="/login">Log in <i class="fa fa-user"></i></a>
+                <a href="/login">{{ t('pages.landing.login') }} <i class="fa fa-user"></i></a>
             </div>
         </section>
         <section class="full-height-section">

@@ -56,9 +56,14 @@
       ul.navbar-nav {
         margin-left: 0;
         margin-right: 0;
+
+        @media screen and (min-width: $size-sm) {
+          margin-right: -$application_margin;
+        }
       }
 
       li {
+        margin-left: $application_margin;
         border-bottom: 1px solid $navigation_sub_text_color;
 
         @media screen and (min-width: $size-sm) {
@@ -74,7 +79,11 @@
             padding-top: 10px;
 
             img.user-avatar {
-              height: 40px;
+              height: 20px;
+
+              @media screen and (min-width: $size-sm) {
+                height: 40px;
+              }
             }
           }
         }
@@ -87,7 +96,7 @@
           height: $navigation_height;
           line-height: $navigation_height;
           padding: 0;
-          margin-right: -$application_margin;
+          // margin-right: -$application_margin;
           color: $navigation_text_color;
         }
 
@@ -102,9 +111,8 @@
           }
         }
 
-        &.logout {
-          float: right;
-          margin-right: $application_margin;
+        p {
+          margin-bottom: 0;
         }
       }
     }

@@ -1,14 +1,9 @@
-{% extends "layouts/app.html.twig" %}
-
-{% block title %}Error{% endblock %}
+{% extends "layouts/error.html.twig" %}
 
 {% block content %}
 
-    <section class="container-section">
-        <div class="container">
-            <h1 class="text-center">Something went wrong</h1>
-            <h2 class="text-center">{{ message }}</h2>
-        </div>
-    </section>
+    <h1 class="text-center">{{ t('error.base.heading') }}</h1>
+    <p class="text-center">{{ t('error.base.message') }}</p>
+    <p class="text-center">{{ t('error.base.link.text') }} <a href="/">{{ t('error.base.link.content') }}</a></p>
 
 {% endblock %}

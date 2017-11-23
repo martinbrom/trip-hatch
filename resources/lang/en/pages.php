@@ -13,5 +13,11 @@ return [
         ],
         'login-submit' => 'Log in',
         'register-submit' => 'Register'
+    ],
+    'landing' => [
+        'title' => 'Trip Hatch - Landing Page',
+        'welcome' => 'Welcome to Trip Hatch',
+        'back-to-top' => 'Back to top',
+        'login' => 'Log in'
     ]
 ];

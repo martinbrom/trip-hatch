@@ -34,7 +34,7 @@ class HomeController extends Controller
     public function index() {
         if ($this->auth->isLogged())
             return $this->responseFactory->redirect('/trips');
-        return $this->responseFactory->html('home/index.html');
+        return $this->responseFactory->html('home/index.html.twig');
     }
 
     /**

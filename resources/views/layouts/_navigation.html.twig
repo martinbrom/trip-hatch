@@ -11,14 +11,20 @@
         <div class="collapse navbar-collapse" id="navigation">
             <ul class="nav navbar-nav navbar-right">
                 {% if user is not null %}
-                    <li><a href="/logout" class="logout">Logout</a></li>
+                    {% if user.is_admin %}
+                        <li><a href="/admin">{{ t('layout.navigation.administration') }}</a></li>
+                    {% endif %}
+                    <li><a href="/trips">{{ t('layout.navigation.dashboard') }}</a></li>
+                    <li class="hidden-xs"><a href="/logout">{{ t('layout.navigation.logout') }}</a></li>
                     <li class="user-avatar-wrapper">
                         <a href="/profile">
-                            <img class="img img-responsive img-circle user-avatar" src="/images/thumbnails/{{ user.path }}" alt="{{ user.description }}">
+                            <img class="hidden-xs img img-responsive img-circle user-avatar" src="/images/thumbnails/{{ user.path }}" alt="{{ user.description }}">
+                            <p class="visible-xs">{{ t('layout.navigation.profile') }}</p>
                         </a>
                     </li>
+                    <li class="visible-xs"><a href="/logout">{{ t('layout.navigation.logout') }}</a></li>
                 {% else %}
-                    <li><a href="/login" class="login">Login</a></li>
+                    <li><a href="/login" class="login">{{ t('layout.navigation.login') }}</a></li>
                 {% endif %}
             </ul>
         </div>

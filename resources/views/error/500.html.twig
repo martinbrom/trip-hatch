@@ -1,0 +1,11 @@
+{% extends "layouts/error.html.twig" %}
+
+{% block title %}{{ t('error.500.title') }}{% endblock %}
+
+{% block content %}
+
+    <h1 class="text-center">{{ t('error.500.heading') }}</h1>
+    <p class="text-center">{% if message %}{{ message }}{% else %}{{ t('error.500.message') }}{% endif %}</p>
+    <p class="text-center">{{ t('error.500.link.text') }} <a href="mailto:martinbrom97@gmail.com">{{ t('error.500.link.content') }}</a></p>
+
+{% endblock %}

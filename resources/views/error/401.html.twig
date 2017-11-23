@@ -1,0 +1,11 @@
+{% extends "layouts/error.html.twig" %}
+
+{% block title %}{{ t('error.401.title') }}{% endblock %}
+
+{% block content %}
+
+    <h1 class="text-center">{{ t('error.401.heading') }}</h1>
+    <p class="text-center">{% if message %}{{ message }}{% else %}{{ t('error.401.message') }}{% endif %}</p>
+    <p class="text-center">{{ t('error.401.link.text') }} <a href="/">{{ t('error.401.link.content') }}</a></p>
+
+{% endblock %}

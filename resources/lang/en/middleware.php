@@ -2,7 +2,7 @@
 
 return [
     'csrf' => [
-        'failure' => 'Page expired, please refresh'
+        'failure' => 'Page expired, please refresh the page'
     ],
     'logged' => [
         'failure' => 'You are not logged in'

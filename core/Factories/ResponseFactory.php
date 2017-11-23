@@ -35,6 +35,8 @@ class ResponseFactory
     public function redirectToRoute() {}
 
     public function error(int $code, $data = []) {
-        return $this->htmlResponseFactory->make('error/index.html.twig', $data, $code);
+        $separateErrorPages = [404, 500, 401];
+        $page = in_array($code, $separateErrorPages) ? $code : 'index';
+        return $this->htmlResponseFactory->make('error/' . $page . '.html.twig', $data, $code);
     }
 }
