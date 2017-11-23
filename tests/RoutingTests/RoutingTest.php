@@ -11,7 +11,7 @@ use Core\Routing\RouteBuilder;
 use Core\Routing\Router;
 use PHPUnit\Framework\TestCase;
 
-class RouteTest extends TestCase
+class RoutingTest extends TestCase
 {
     /** @var DependencyInjector */
     private $di;
