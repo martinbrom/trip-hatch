@@ -15,7 +15,7 @@ class AlertHelper
         $this->session = $session;
     }
 
-    public function add($type, $message, $title = null) {
+    private function add($type, $message, $title = null) {
         $this->session->addTo('alerts', [
             'type' => $type,
             'message' => $message . '!',

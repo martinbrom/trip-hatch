@@ -108,12 +108,4 @@ class UserController extends Controller
     }
 
     public function resetPassword() {}
-
-    /**
-     * Returns a html response with profile page content
-     * @return HtmlResponse Profile page
-     */
-    public function profile() {
-        return $this->responseFactory->html('user/profile.html.twig');
-    }
 }

@@ -113,6 +113,7 @@ class TripController extends Controller
     public function update() {}
     public function destroy() {}
 
+    // TODO: Redirect to normal trip page if logged and accessing public url
     /**
      * @param $public_url
      * @return Response
@@ -132,11 +133,19 @@ class TripController extends Controller
         return $this->responseFactory->html('trip/show.html.twig', ['days' => $days, 'title' => $trip['title']]);
     }
 
+    /**
+     * @param $trip_id
+     * @return Response
+     */
     public function publish($trip_id) {
         $this->tripRepository->publishTrip($trip_id);
         return $this->responseFactory->json(['message' => $this->lang->get('alerts.publish.success')], 200);
     }
 
+    /**
+     * @param $trip_id
+     * @return Response
+     */
     public function classify($trip_id) {
         $this->tripRepository->classifyTrip($trip_id);
         return $this->responseFactory->json(['message' => $this->lang->get('alerts.classify.success')], 200);

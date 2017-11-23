@@ -13,5 +13,8 @@ return [
     ],
     'classify' => [
         'success' => 'The trip has been successfully classified'
+    ],
+    'change-display-name' => [
+        'success' => 'Your display name has been successfully changed'
     ]
 ];
