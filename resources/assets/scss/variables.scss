@@ -42,6 +42,8 @@ $dashboard_text_color_hover: $black;
 
 // TRIP OVERVIEW VARIABLES
 $trip_overview_day_background: $white;
+$trip_overview_navigation_background: $aqua;
+$trip_overview_navigation_height: 35px;
 $trip_overview_padding_medium: $application_padding - $application_padding_small;
 $trip_overview_margin_medium: $application_margin - $application_margin_small;
 $trip_overview_text_color: $midgray;
@@ -64,7 +66,7 @@ $error_page_link_color_hover: $black;
 
 // NAVIGATION VARIABLES
 $navigation_height: 60px;
-$navigation_background: $aqua;
+$navigation_background: $teal;
 $navigation_text_color: $white;
 $navigation_sub_background: $white;
 $navigation_sub_text_color: $midgray;

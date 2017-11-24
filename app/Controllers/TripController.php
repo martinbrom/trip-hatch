@@ -86,7 +86,7 @@ class TripController extends Controller
     public function store() {
         // TODO: Create trip
         $id = 1; // later will be last insert ID from database
-        return $this->route('trip-show', ['id' => $id]);
+        return $this->route('trip.show', ['id' => $id]);
     }
 
     /**
@@ -108,10 +108,24 @@ class TripController extends Controller
         return $this->responseFactory->html('trip/show.html.twig', ['days' => $days, 'trip' => $trip]);
     }
 
-    // TODO: Do I really need all of these?
-    public function edit() {}
-    public function update() {}
-    public function destroy() {}
+    public function edit($trip_id) {
+
+    }
+
+    /**
+     * @param $trip_id
+     * @return Response
+     */
+    public function editPage($trip_id) {
+        $trip = $this->tripRepository->getTrip($trip_id);
+
+        if ($trip == null) {
+            $this->alertHelper->error('Trip doesn\'t exist!');
+            return $this->route('dashboard');
+        }
+
+        return $this->responseFactory->html('trip/edit.html.twig', ['trip' => $trip]);
+    }
 
     /**
      * @param $public_url
@@ -126,7 +140,7 @@ class TripController extends Controller
         }
 
         if ($this->auth->isLogged())
-            return $this->route('trip-show', ['id' => $trip['id']]);
+            return $this->route('trip.show', ['id' => $trip['id']]);
 
         $days = $this->dayRepository->getDays($trip['id']);
         return $this->responseFactory->html('trip/show.html.twig', ['days' => $days, 'trip' => $trip]);

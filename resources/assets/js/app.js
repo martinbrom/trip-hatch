@@ -11,6 +11,9 @@ $(document).ready(function () {
     var animation_time_slow      = 750;
     var animation_time_very_slow = 1000;
 
+    // height of navigation bar in pixels
+    var navigation_height         = 60;
+
 
     // *************
     // * FUNCTIONS *
@@ -98,4 +101,10 @@ $(document).ready(function () {
             }
         });
     });
+
+    if ($('.trip-navigation').length) {
+        $(window).scroll(function () {
+            $('.trip-navigation').toggleClass('navbar-fixed-top', $(this).scrollTop() > navigation_height);
+        })
+    }
 });

@@ -36,5 +36,14 @@ return [
             'heading' => 'Trip administration',
             'text' => 'Trip administration and stuff'
         ]
+    ],
+    'trip' => [
+        'show' => [
+            'title' => 'Trip overview',
+            'add-action' => 'Add a new action'
+        ],
+        'edit' => [
+            'title' => 'Trip edit'
+        ]
     ]
 ];

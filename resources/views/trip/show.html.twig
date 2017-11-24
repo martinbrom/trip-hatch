@@ -1,114 +1,35 @@
 {% extends "layouts/app.html.twig" %}
 
-{% block title %}Trip overview{% endblock %}
+{% block title %}{{ t('pages.trip.show.title') }}{% endblock %}
 
 {% block content %}
 
-<!-- Include only after clicking -->
-<div id="managePeopleModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Manage people</h4>
-            </div>
-            <div class="modal-body">
-                <!-- TODO: select for roles -->
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th class="col-xs-7">Display name</th>
-                            <th class="col-xs-3">Role</th>
-                            <th class="col-xs-2">Remove</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>John Doe</td>
-                            <td>Organizer</td>
-                            <td>
-                                <a href="/trip/{{ trip.id }}/removeUser/username"><i class="fa fa-remove"></i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Mary Moe</td>
-                            <td>Traveller</td>
-                            <td>
-                                <a href="/trip/{{ trip.id }}/removeUser/username"><i class="fa fa-remove"></i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>July Dooley</td>
-                            <td>Traveller</td>
-                            <td>
-                                <a href="/trip/{{ trip.id }}/removeUser/username"><i class="fa fa-remove"></i></a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="form-group">
-                    <label for="invite">Invite a person</label>
-                    <input type="email" class="form-control" name="invite" id="invite">
-                </div>
-                <button class="btn btn-primary">Invite</button>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-        </div>
+<!-- if permissions > normal user (organiser or owner) -->
+<nav class="trip-navigation">
+    <div class="container">
+        <ul class="links-left">
+            <!-- TODO: ajax add as last day -->
+            <li><a href="#"><i class="fa fa-plus"></i> {{ t('layout.trip.add-day') }}</a></li>
 
+            <!-- TODO: another page prob -->
+            <li><a href="#"><i class="fa fa-users"></i> {{ t('layout.trip.manage-people') }}</a></li>
+
+            <!-- if permissions == owner -->
+            <li><a href="#"><i class="fa fa-wrench"></i> {{ t('layout.trip.manage-staff') }}</a></li>
+        </ul>
+        <ul class="links-right">
+            <!-- TODO: edit trip stuff, another page prob -->
+            <li><a href="{{ routeTrip('trip.edit', trip.id) }}"><i class="fa fa-pencil"></i> {{ t('layout.trip.edit') }}</a></li>
+
+            <!-- TODO: confirm prompt, then redirect to dashboard -->
+            <li><a href="#"><i class="fa fa-trash"></i> {{ t('layout.trip.archive') }}</a></li>
+        </ul>
     </div>
-</div>
-
-<div id="addActionModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Add a new action</h4>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="form-group">
-                        <label for="action_type">Select a action type:</label>
-                        <select title="Action type" class="form-control action-type-select" name="action_type" id="action_type">
-                            <!-- TODO: Get all available action types -->
-                            <option value="1">action type 1</option>
-                            <option value="2">action type 2</option>
-                            <option value="3">action type 3</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="action_content">Create action content:</label>
-                        <textarea title="Content" name="content" id="action_content" class="form-control"></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-
-    </div>
-</div>
+</nav>
 
 <section class="container-section">
     <div class="container">
         <h1 class="text-center trip-title">{{ trip.title }}</h1>
-        <!-- if permissions > normal user (organizer or creator) -->
-        <div class="trip-detail-controls">
-            <div class="trip-manage-people-container col-xs-6">
-                <a class="btn btn-primary btn-block trip-manage-people" data-toggle="modal" data-target="#managePeopleModal">
-                    <i class="fa fa-user"></i> Manage people
-                </a>
-            </div>
-            <div class="trip-add-day-container col-xs-6">
-                <a class="btn btn-primary btn-block trip-add-day">
-                    <i class="fa fa-calendar-plus-o"></i> Add a new day
-                </a>
-            </div>
-        </div>
         <div class="trip-days-container">
             {% for day in days %}
                 <div class="trip-day-container col-xs-12">

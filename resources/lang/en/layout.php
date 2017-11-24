@@ -14,5 +14,12 @@ return [
         'title' => 'Administration',
         'trips' => 'Administrate trips',
         'users' => 'Administrate users'
+    ],
+    'trip' => [
+        'add-day' => 'Add day',
+        'manage-people' => 'Manage people',
+        'manage-staff' => 'Manage staff',
+        'edit' => 'Edit',
+        'archive' => 'Archive'
     ]
 ];

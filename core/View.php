@@ -57,8 +57,8 @@ class View
             return $this->routeHelper->get($name, $params);
         }));
 
-        $this->twig->addFunction(new \Twig_Function('routeTripShow', function ($trip_id) {
-            return $this->routeHelper->get('trip-show', ['id' => $trip_id]);
+        $this->twig->addFunction(new \Twig_Function('routeTrip', function ($route, $trip_id) {
+            return $this->routeHelper->get($route, ['id' => $trip_id]);
         }));
     }
 }

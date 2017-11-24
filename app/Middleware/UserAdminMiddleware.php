@@ -56,7 +56,7 @@ class UserAdminMiddleware extends Middleware
             if ($trip_id == null)
                 return $this->responseFactory->redirectToRoute('dashboard');
 
-            return $this->responseFactory->redirectToRoute('trip-show', ['id' => $trip_id]);
+            return $this->responseFactory->redirectToRoute('trip.show', ['id' => $trip_id]);
         }
 
         return null;

@@ -50,12 +50,11 @@ $rb->add('POST', 'trips', 'Trip', 'store')
     ->validate(['title' => ['required', 'max:100']]);
 $rb->add('GET', 'trip/{id:\d+}', 'Trip', 'show')
     ->middleware(['logged'])
-    ->name('trip-show');
-$rb->add('GET', 'trip/{id:\d+}/edit', 'Trip', 'edit')
-    ->middleware(['logged']);
-$rb->add('PUT', 'trip/{id:\d+}', 'Trip', 'update')
-    ->middleware(['logged']);
-$rb->add('DELETE', 'trip/{id:\d+}', 'Trip', 'destroy')
+    ->name('trip.show');
+$rb->add('GET', 'trip/{id:\d+}/edit', 'Trip', 'editPage')
+    ->middleware(['logged'])
+    ->name('trip.edit');
+$rb->add('POST', 'trip/{id:\d+}/edit', 'Trip', 'edit')
     ->middleware(['logged']);
 $rb->add('GET', 'trip/public/{public_url:\w+}', 'Trip', 'showPublic');
 
@@ -66,14 +65,14 @@ $rb->add('GET', 'forgotten-password', 'User', 'forgottenPasswordPage')
     ->name('forgotten-password');
 $rb->add('POST', 'login', 'User', 'login')
     ->validate(['login_email' => ['email', 'maxLen:255']])
-    ->name('login-submit');
+    ->name('login.submit');
 $rb->add('POST', 'register', 'User', 'register')
     ->validate([
         'register_email' => ['required', 'email', 'maxLen:255'],
         'register_password' => ['required'],
         'register_password_confirm' => ['required', 'matches:register_password']
     ])
-    ->name('register-submit');
+    ->name('register.submit');
 $rb->add('GET', 'logout', 'User', 'logout')
     ->name('logout');
 $rb->add('POST', 'forgotten-password', 'User', 'forgottenPassword');
