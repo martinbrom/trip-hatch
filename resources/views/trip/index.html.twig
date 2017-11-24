@@ -1,6 +1,6 @@
 {% extends "layouts/app.html.twig" %}
 
-{% block title %}Trips{% endblock %}
+{% block title %}{{ t('pages.trip.dashboard.title') }}{% endblock %}
 
 {% block content %}
 
@@ -12,12 +12,12 @@
                     <form class="trip-search-form">
                         <div class="input-group">
                             <span class="input-group-addon" id="addon1"><i class="fa fa-search"></i></span>
-                            <input type="text" placeholder="Search" class="form-control trip-search" aria-describedby="addon1">
+                            <input type="text" placeholder="{{ t('pages.trip.dashboard.search') }}" class="form-control trip-search" aria-describedby="addon1">
                         </div>
                     </form>
                 </div>
                 <div class="col-sm-3 trip-add-container">
-                    <a href="/trip/create" class="btn btn-primary btn-block trip-add">Hatch a new trip</a>
+                    <a href="{{ route('trip.create') }}" class="btn btn-primary btn-block trip-add">{{ t('pages.trip.dashboard.hatch-trip') }}</a>
                 </div>
             </div>
             {% if trips is defined %}

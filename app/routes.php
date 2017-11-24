@@ -43,11 +43,13 @@ $rb->add('GET', 'testvalidate', 'Home', 'testValidation')
 $rb->add('GET', 'trips', 'Trip', 'index')
     ->middleware(['logged'])
     ->name('dashboard');
-$rb->add('GET', 'trip/create', 'Trip', 'create')
-    ->middleware(['logged']);
-$rb->add('POST', 'trips', 'Trip', 'store')
+$rb->add('GET', 'trip/create', 'Trip', 'createPage')
     ->middleware(['logged'])
-    ->validate(['title' => ['required', 'max:100']]);
+    ->name('trip.create');
+$rb->add('POST', 'trips', 'Trip', 'create')
+    ->middleware(['logged'])
+    ->validate(['title' => ['required', 'max:100']])
+    ->name('trip.create.submit');
 $rb->add('GET', 'trip/{id:\d+}', 'Trip', 'show')
     ->middleware(['traveller'])
     ->name('trip.show');

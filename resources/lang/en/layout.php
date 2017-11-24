@@ -20,6 +20,8 @@ return [
         'manage-people' => 'Manage people',
         'manage-staff' => 'Manage staff',
         'edit' => 'Edit',
-        'archive' => 'Archive'
+        'archive' => 'Archive',
+        'hatch-trip' => 'Hatch a new trip',
+        ''
     ]
 ];

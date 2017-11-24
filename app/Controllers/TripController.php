@@ -83,7 +83,7 @@ class TripController extends Controller
      * Returns a html response with trip creating page content
      * @return HtmlResponse New trip page
      */
-    public function create() {
+    public function createPage() {
         return $this->responseFactory->html('trip/create.html.twig');
     }
 
@@ -91,7 +91,7 @@ class TripController extends Controller
      * Creates new trip and redirects user to its page
      * @return RedirectResponse Newly created trip page
      */
-    public function store() {
+    public function create() {
         // TODO: Create trip
         $id = 1; // later will be last insert ID from database
         return $this->route('trip.show', ['id' => $id]);

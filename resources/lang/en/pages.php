@@ -38,6 +38,11 @@ return [
         ]
     ],
     'trip' => [
+        'dashboard' => [
+            'title' => 'Trips',
+            'hatch-trip' => 'Hatch a new trip',
+            'search' => 'Search'
+        ],
         'show' => [
             'title' => 'Trip overview',
             'add-action' => 'Add a new action'
@@ -55,6 +60,14 @@ return [
         ],
         'manage-staff' => [
             'title' => 'Trip manage staff'
+        ],
+        'create' => [
+            'title' => 'Hatching a new trip',
+            'heading' => 'Hatch a new trip',
+            'submit' => 'Hatch',
+            'trip-title' => 'Trip title',
+            'trip-image-upload' => 'Upload your own image',
+            'trip-image-select' => 'or select one of ours'
         ]
     ]
 ];
