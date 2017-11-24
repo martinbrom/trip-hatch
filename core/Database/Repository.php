@@ -43,8 +43,13 @@ class Repository
         return $result === false ? [] : $result;
     }
 
-    public function run(string $query, array $data = []) {
-        $this->database->query($query, $data);
+    /**
+     * @param string $query
+     * @param array $data
+     * @return bool
+     */
+    public function run(string $query, array $data = []): bool {
+        return $this->database->query($query, $data)->result();
     }
 
     /**

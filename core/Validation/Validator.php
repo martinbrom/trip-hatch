@@ -2,6 +2,7 @@
 
 namespace Core\Validation;
 
+use App\Repositories\ValidationRepository;
 use Core\Http\Request;
 use Core\Language\Language;
 use Core\Validation\Exception\ValidationRuleNotExistsException;
@@ -24,12 +25,17 @@ class Validator
     /** @var Language Dictionary of translations */
     private $lang;
 
+    /** @var ValidationRepository */
+    private $validationRepository;
+
     /**
      * Creates new instance and injects language instance
      * @param Language $lang Language instance
+     * @param ValidationRepository $validationRepository
      */
-    function __construct(Language $lang) {
+    function __construct(Language $lang, ValidationRepository $validationRepository) {
         $this->lang = $lang;
+        $this->validationRepository = $validationRepository;
     }
 
     /**
@@ -150,9 +156,8 @@ class Validator
      * @param string $column Name of column in table
      * @return bool True if item exists in database, false otherwise
      */
-    public function exists($item, $table, $column = null): bool {
-        // TODO: Check if input exists in database
-        return true;
+    public function exists($item, $table, $column): bool {
+        return $this->validationRepository->exists($item, $table, $column);
     }
 
     /**
@@ -162,9 +167,8 @@ class Validator
      * @param string $column Name of column in table
      * @return bool True if item doesn't exist in database, false otherwise
      */
-    public function unique($item, $table, $column = null): bool {
-        // TODO: Check if input is unique in database
-        return true;
+    public function unique($item, $table, $column): bool {
+        return $this->validationRepository->unique($item, $table, $column);
     }
 
     /**

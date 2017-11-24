@@ -74,7 +74,7 @@ $rb->add('POST', 'login', 'User', 'login')
     ->name('login.submit');
 $rb->add('POST', 'register', 'User', 'register')
     ->validate([
-        'register_email' => ['required', 'email', 'maxLen:255'],
+        'register_email' => ['required', 'email', 'maxLen:255', 'unique:users,email'],
         'register_password' => ['required'],
         'register_password_confirm' => ['required', 'matches:register_password']
     ])

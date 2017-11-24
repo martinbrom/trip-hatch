@@ -21,6 +21,9 @@ class Database
     /** @var \PDOStatement Query results */
     private $statement;
 
+    /** @var bool True if query ran without error, false otherwise */
+    private $result;
+
     /**
      * Creates new Database instance and injects Config instance
      * @param Config $config Instance containing configuration data
@@ -55,8 +58,15 @@ class Database
      */
     public function query(string $query, array $data = []): self {
         $this->statement = $this->pdo->prepare($query);
-        $this->statement->execute($data);
+        $this->result = $this->statement->execute($data);
         return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function result(): bool {
+        return $this->result;
     }
 
     /**

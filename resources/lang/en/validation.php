@@ -8,7 +8,8 @@ return [
     'register_email' => [
         'required' => 'Registration email is required',
         'email' => 'Registration email must be a valid email address',
-        'maxLen' => 'Registration email must be at most :p1 characters long'
+        'maxLen' => 'Registration email must be at most :p1 characters long',
+        'unique' => 'This registration email is already used'
     ],
     'register_password' => [
         'required' => 'Registration password is required'

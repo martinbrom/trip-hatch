@@ -75,20 +75,22 @@ class TripRepository
 
     /**
      * @param int $trip_id
+     * @return bool
      */
     public function publishTrip(int $trip_id) {
         $public_url = substr($trip_id . token(31), 0, 32);
         $query = "UPDATE trips SET public_url = :public_url WHERE id = :trip_id";
         $data = ['trip_id' => $trip_id, 'public_url' => $public_url];
-        $this->baseRepository->run($query, $data);
+        return $this->baseRepository->run($query, $data);
     }
 
     /**
      * @param int $trip_id
+     * @return bool
      */
     public function classifyTrip(int $trip_id) {
         $query = "UPDATE trips SET public_url = NULL WHERE id = :trip_id";
         $data = ['trip_id' => $trip_id];
-        $this->baseRepository->run($query, $data);
+        return $this->baseRepository->run($query, $data);
     }
 }

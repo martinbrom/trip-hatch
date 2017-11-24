@@ -179,8 +179,10 @@ class TripController extends Controller
      * @return Response
      */
     public function publish($trip_id) {
-        $this->tripRepository->publishTrip($trip_id);
-        return $this->responseFactory->json(['message' => $this->lang->get('alerts.publish.success')], 200);
+        if ($this->tripRepository->publishTrip($trip_id))
+            return $this->responseFactory->json(['message' => $this->lang->get('alerts.publish.success')], 200);
+
+        return $this->responseFactory->json(['message' => $this->lang->get('alerts.publish.error')], 500);
     }
 
     /**
@@ -188,7 +190,9 @@ class TripController extends Controller
      * @return Response
      */
     public function classify($trip_id) {
-        $this->tripRepository->classifyTrip($trip_id);
-        return $this->responseFactory->json(['message' => $this->lang->get('alerts.classify.success')], 200);
+        if ($this->tripRepository->classifyTrip($trip_id))
+            return $this->responseFactory->json(['message' => $this->lang->get('alerts.classify.success')], 200);
+
+        return $this->responseFactory->json(['message' => $this->lang->get('alerts.classify.error')], 500);
     }
 }

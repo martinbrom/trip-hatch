@@ -9,12 +9,18 @@ return [
         'success' => 'You have been successfully logged out'
     ],
     'publish' => [
-        'success' => 'The trip has been successfully published'
+        'success' => 'The trip has been successfully published',
+        'error' => 'Something went wrong while trying to publish the trip'
     ],
     'classify' => [
-        'success' => 'The trip has been successfully classified'
+        'success' => 'The trip has been successfully classified',
+        'error' => 'Something went wrong while trying to classify the trip'
     ],
     'change-display-name' => [
         'success' => 'Your display name has been successfully changed'
+    ],
+    'register' => [
+        'success' => 'You have been successfully registered',
+        'error' => 'Something went wrong while trying to register a new account'
     ]
 ];

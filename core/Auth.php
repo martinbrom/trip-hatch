@@ -34,13 +34,21 @@ class Auth
      * @return bool
      */
     public function login($email, $password) {
-        $hash = bcrypt($password);
         $user = $this->userRepository->getUser($email);
-
-        if (!password_verify($password, $hash)) return false;
+        
+        if (empty($user) || !password_verify($password, $user['password'])) return false;
 
         $this->session->set('user', $user);
         return true;
+    }
+
+    /**
+     * @param $email
+     * @param $password
+     * @return bool
+     */
+    public function register($email, $password) {
+        return $this->userRepository->createUser($email, bcrypt($password));
     }
 
     /**

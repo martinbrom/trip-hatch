@@ -93,12 +93,25 @@ class UserController extends Controller
     }
 
     /**
-     * Creates new user and redirects him to dashboard
+     * Creates new user, logs him and redirects to dashboard
      * @return RedirectResponse Login page
      */
     public function register() {
-        // TODO: Registration
-        return $this->route('dashboard');
+        $email = $_POST['register_email'];
+        $password = $_POST['register_password'];
+        if ($this->auth->login($email, $password)) {
+            $this->alertHelper->success($this->lang->get('alerts.login.success'));
+            return $this->route('dashboard');
+        }
+
+        if ($this->auth->register($email, $password)) {
+            $this->auth->login($email, $password);
+            $this->alertHelper->success($this->lang->get('alerts.register.success'));
+            return $this->route('dashboard');
+        }
+
+        $this->alertHelper->error($this->lang->get('alerts.register.error'));
+        return $this->route('login');
     }
 
     /**
