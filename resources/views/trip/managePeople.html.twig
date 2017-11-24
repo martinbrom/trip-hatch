@@ -6,7 +6,43 @@
 
     <section class="container-section">
         <div class="container">
-            form and stuff
+            <h1 class="text-center trip-title">{{ t('pages.trip.manage-people.heading') }} - {{ trip.title }}</h1>
+            <div class="trip-table-container">
+                {% if travellers %}
+                    <table class="text-center users-table table table-striped table-bordered">
+                        <tr>
+                            <th class="col-xs-1">ID</th>
+                            <th>Email</th>
+                            <th>{{ t('pages.trip.manage-people.display_name') }}</th>
+                            <th>{{ t('pages.trip.manage-people.role') }}</th>
+
+                            <!-- Only if owner -->
+                            <th class="col-xs-1">{{ t('pages.trip.manage-people.promote') }}</th>
+
+
+                            <th class="col-xs-1">{{ t('pages.trip.manage-people.delete') }}</th>
+                        </tr>
+                        {% for traveller in travellers %}
+                            <tr>
+                                <td>{{ traveller.id }}</td>
+
+                                <!-- TODO: Join with user to get email, name and avatar -->
+                                <td>email</td>
+                                <td>name</td>
+
+                                <!-- TODO: Role number to text use if? -->
+                                <td>role</td>
+
+                                <!-- Only if owner -->
+                                <td><a href="#"><i class="fa fa-user-plus"></i></a></td>
+
+
+                                <td><a href="#"><i class="fa fa-remove"></i></a></td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                {% endif %}
+            </div>
         </div>
     </section>
 

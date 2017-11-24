@@ -63,4 +63,26 @@ class UserTripRepository
         $data = ['user_id' => $user_id, 'trip_id' => $trip_id, 'role' => $role];
         return $this->baseRepository->fetch($query, $data)['count'] >= 1;
     }
+
+    /**
+     * @param $trip_id
+     * @return array
+     */
+    public function getStaff($trip_id) {
+        $query = "SELECT * FROM user_trip_xref
+                WHERE trip_id = :trip_id AND role >= 1";
+        $data = ['trip_id' => $trip_id];
+        return $this->baseRepository->fetchAll($query, $data);
+    }
+
+    /**
+     * @param $trip_id
+     * @return array
+     */
+    public function getTravellers($trip_id): array {
+        $query = "SELECT * FROM user_trip_xref
+                WHERE trip_id = :trip_id AND role = 0";
+        $data = ['trip_id' => $trip_id];
+        return $this->baseRepository->fetchAll($query, $data);
+    }
 }

@@ -4,6 +4,8 @@ namespace App\Controllers;
 
 use App\Repositories\DayRepository;
 use App\Repositories\TripRepository;
+use App\Repositories\UserRepository;
+use App\Repositories\UserTripRepository;
 use Core\AlertHelper;
 use Core\Auth;
 use Core\Http\Controller;
@@ -38,9 +40,13 @@ class TripController extends Controller
     /** @var Auth */
     private $auth;
 
+    /** @var UserTripRepository */
+    private $userTripRepository;
+
     /**
      * Creates new instance and injects trip repository, session and response factory
      * @param TripRepository $tripRepository
+     * @param UserTripRepository $userTripRepository
      * @param Session $session
      * @param AlertHelper $alertHelper
      * @param DayRepository $dayRepository
@@ -49,12 +55,14 @@ class TripController extends Controller
      */
     function __construct(
             TripRepository $tripRepository,
+            UserTripRepository $userTripRepository,
             Session $session,
             AlertHelper $alertHelper,
             DayRepository $dayRepository,
             Language $lang,
             Auth $auth) {
         $this->tripRepository = $tripRepository;
+        $this->userTripRepository = $userTripRepository;
         $this->session = $session;
         $this->alertHelper = $alertHelper;
         $this->dayRepository = $dayRepository;
@@ -100,7 +108,7 @@ class TripController extends Controller
         $trip = $this->tripRepository->getTrip($trip_id);
 
         if ($trip == NULL) {
-            $this->alertHelper->error('Trip doesn\'t exist!');
+            $this->alertHelper->error($this->lang->get('alerts.trip.missing'));
             return $this->route('dashboard');
         }
 
@@ -118,7 +126,7 @@ class TripController extends Controller
         $trip = $this->tripRepository->getTrip($trip_id);
 
         if ($trip == null) {
-            $this->alertHelper->error('Trip doesn\'t exist!');
+            $this->alertHelper->error($this->lang->get('alerts.trip.missing'));
             return $this->route('dashboard');
         }
 
@@ -133,11 +141,15 @@ class TripController extends Controller
         $trip = $this->tripRepository->getTrip($trip_id);
 
         if ($trip == NULL) {
-            $this->alertHelper->error('Trip doesn\'t exist!');
+            $this->alertHelper->error($this->lang->get('alerts.trip.missing'));
             return $this->route('dashboard');
         }
 
-        return $this->responseFactory->html('trip/managePeople.html.twig', ['trip' => $trip]);
+        $travellers = $this->userTripRepository->getTravellers($trip['id']);
+        if (empty($travellers))
+            $this->alertHelper->warning($this->lang->get('alerts.trip.no-travellers'));
+
+        return $this->responseFactory->html('trip/managePeople.html.twig', ['trip' => $trip, 'travellers' => $travellers]);
     }
 
     /**
@@ -148,7 +160,7 @@ class TripController extends Controller
         $trip = $this->tripRepository->getTrip($trip_id);
 
         if ($trip == NULL) {
-            $this->alertHelper->error('Trip doesn\'t exist!');
+            $this->alertHelper->error($this->lang->get('alerts.trip.missing'));
             return $this->route('dashboard');
         }
 
@@ -163,7 +175,7 @@ class TripController extends Controller
         $trip = $this->tripRepository->getTripPublic($public_url);
 
         if ($trip == NULL) {
-            $this->alertHelper->error('Trip doesn\'t exist!');
+            $this->alertHelper->error($this->lang->get('alerts.trip.missing'));
             return $this->route('dashboard');
         }
 

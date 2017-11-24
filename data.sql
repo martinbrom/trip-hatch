@@ -48,7 +48,9 @@ INSERT INTO `trips` (`id`, `title`, `start_date`, `end_date`, `ended`, `image_id
 INSERT INTO `user_trip_xref` (`id`, `user_id`, `trip_id`, `role`, `created_at`, `updated_at`, `deleted_at`) VALUES
   (NULL, '1', '1', '2', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL),
   (NULL, '2', '1', '0', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL),
+  (NULL, '3', '1', '0', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL),
   (NULL, '4', '1', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL),
+  (NULL, '5', '1', '0', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL),
   (NULL, '1', '2', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL),
   (NULL, '3', '2', '2', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL),
   (NULL, '5', '2', '0', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL),

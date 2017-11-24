@@ -13,12 +13,16 @@
                     <div class="trip-day">
                         <div class="trip-day-head" data-toggle="collapse" data-target="#day{{ day.id }}">
                             <img src="/images/thumbnails/{{ day.path }}" class="img-responsive trip-day-thumbnail" alt="{{ day.description }}">
+
+                            <!-- TODO: Only if organiser or owner -->
                             <a data-trip-id="{{ trip.id }}" data-day-id="{{ day.id }}" class="day-delete-btn non-collapse">
                                 <i data-trip-id="{{ trip.id }}" data-day-id="{{ day.id }}" class="fa fa-remove non-collapse"></i>
                             </a>
                             <a data-trip-id="{{ trip.id }}" data-day-id="{{ day.id }}" class="day-edit-btn non-collapse">
                                 <i data-trip-id="{{ trip.id }}" data-day-id="{{ day.id }}" class="fa fa-pencil non-collapse"></i>
                             </a>
+
+
                             <h2>{{ day.title }}</h2>
                         </div>
                         <div id="day{{ day.id }}" class="trip-day-body-container collapse">

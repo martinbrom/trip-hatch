@@ -1,0 +1,28 @@
+@import "variables";
+
+div.trip-table-container {
+  table.users-table {
+    border-radius: $application_border_radius;
+    box-shadow: 0 0 $application_shadow_distance $application_shadow_color;
+
+    tbody {
+      border-radius: $application_border_radius;
+    }
+
+    tr {
+      &:first-of-type {
+        border-top-right-radius: $application_border_radius;
+        border-top-left-radius: $application_border_radius;
+      }
+
+      &:last-of-type {
+        border-bottom-right-radius: $application_border_radius;
+        border-bottom-left-radius: $application_border_radius;
+      }
+
+      th {
+        text-align: center;
+      }
+    }
+  }
+}

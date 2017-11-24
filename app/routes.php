@@ -49,7 +49,7 @@ $rb->add('POST', 'trips', 'Trip', 'store')
     ->middleware(['logged'])
     ->validate(['title' => ['required', 'max:100']]);
 $rb->add('GET', 'trip/{id:\d+}', 'Trip', 'show')
-    ->middleware(['logged'])
+    ->middleware(['traveller'])
     ->name('trip.show');
 $rb->add('GET', 'trip/{id:\d+}/edit', 'Trip', 'editPage')
     ->middleware(['logged'])

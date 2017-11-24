@@ -22,5 +22,9 @@ return [
     'register' => [
         'success' => 'You have been successfully registered',
         'error' => 'Something went wrong while trying to register a new account'
+    ],
+    'trip' => [
+        'missing' => 'Trip doesn\'t exist',
+        'no-users' => 'There are currently no travellers on this trip'
     ]
 ];

@@ -44,9 +44,9 @@ class ValidationRepository
      * @return int
      */
     public function itemCount($value, $table, $column): int {
-        $query = "SELECT COUNT('id') FROM $table
+        $query = "SELECT COUNT('id') as count FROM $table
                 WHERE $column = :value";
         $data = ['value' => $value];
-        return $this->baseRepository->fetch($query, $data)["COUNT('id')"];
+        return $this->baseRepository->fetch($query, $data)["count"];
     }
 }

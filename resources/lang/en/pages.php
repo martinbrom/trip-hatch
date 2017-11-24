@@ -46,7 +46,12 @@ return [
             'title' => 'Trip edit'
         ],
         'manage-people' => [
-            'title' => 'Trip manage people'
+            'title' => 'Trip manage people',
+            'heading' => 'Manage people',
+            'display_name' => 'Display name',
+            'promote' => 'Promote',
+            'delete' => 'Delete',
+            'role' => 'Role'
         ],
         'manage-staff' => [
             'title' => 'Trip manage staff'
