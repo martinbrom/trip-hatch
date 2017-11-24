@@ -44,6 +44,12 @@ return [
         ],
         'edit' => [
             'title' => 'Trip edit'
+        ],
+        'manage-people' => [
+            'title' => 'Trip manage people'
+        ],
+        'manage-staff' => [
+            'title' => 'Trip manage staff'
         ]
     ]
 ];

@@ -108,9 +108,7 @@ class TripController extends Controller
         return $this->responseFactory->html('trip/show.html.twig', ['days' => $days, 'trip' => $trip]);
     }
 
-    public function edit($trip_id) {
-
-    }
+    public function edit($trip_id) {}
 
     /**
      * @param $trip_id
@@ -125,6 +123,36 @@ class TripController extends Controller
         }
 
         return $this->responseFactory->html('trip/edit.html.twig', ['trip' => $trip]);
+    }
+
+    /**
+     * @param $trip_id
+     * @return Response
+     */
+    public function managePeoplePage($trip_id) {
+        $trip = $this->tripRepository->getTrip($trip_id);
+
+        if ($trip == NULL) {
+            $this->alertHelper->error('Trip doesn\'t exist!');
+            return $this->route('dashboard');
+        }
+
+        return $this->responseFactory->html('trip/managePeople.html.twig', ['trip' => $trip]);
+    }
+
+    /**
+     * @param $trip_id
+     * @return Response
+     */
+    public function manageStaffPage($trip_id) {
+        $trip = $this->tripRepository->getTrip($trip_id);
+
+        if ($trip == NULL) {
+            $this->alertHelper->error('Trip doesn\'t exist!');
+            return $this->route('dashboard');
+        }
+
+        return $this->responseFactory->html('trip/manageStaff.html.twig', ['trip' => $trip]);
     }
 
     /**

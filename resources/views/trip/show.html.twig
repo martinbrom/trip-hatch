@@ -1,31 +1,8 @@
-{% extends "layouts/app.html.twig" %}
+{% extends "layouts/trip.html.twig" %}
 
 {% block title %}{{ t('pages.trip.show.title') }}{% endblock %}
 
 {% block content %}
-
-<!-- if permissions > normal user (organiser or owner) -->
-<nav class="trip-navigation">
-    <div class="container">
-        <ul class="links-left">
-            <!-- TODO: ajax add as last day -->
-            <li><a href="#"><i class="fa fa-plus"></i> {{ t('layout.trip.add-day') }}</a></li>
-
-            <!-- TODO: another page prob -->
-            <li><a href="#"><i class="fa fa-users"></i> {{ t('layout.trip.manage-people') }}</a></li>
-
-            <!-- if permissions == owner -->
-            <li><a href="#"><i class="fa fa-wrench"></i> {{ t('layout.trip.manage-staff') }}</a></li>
-        </ul>
-        <ul class="links-right">
-            <!-- TODO: edit trip stuff, another page prob -->
-            <li><a href="{{ routeTrip('trip.edit', trip.id) }}"><i class="fa fa-pencil"></i> {{ t('layout.trip.edit') }}</a></li>
-
-            <!-- TODO: confirm prompt, then redirect to dashboard -->
-            <li><a href="#"><i class="fa fa-trash"></i> {{ t('layout.trip.archive') }}</a></li>
-        </ul>
-    </div>
-</nav>
 
 <section class="container-section">
     <div class="container">
