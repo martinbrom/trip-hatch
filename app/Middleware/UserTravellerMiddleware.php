@@ -47,7 +47,7 @@ class UserTravellerMiddleware extends Middleware
      * @return Response|null
      */
     public function before() {
-        $trip_id = $this->request->getParameter('id');
+        $trip_id = $this->request->getParameter('trip_id');
         if (!$this->auth->isTraveller($trip_id)) {
             if ($this->request->isAjax())
                 return $this->responseFactory->json(['message' => $this->lang->get('middleware.traveller.failure')], 401);
@@ -64,8 +64,8 @@ class UserTravellerMiddleware extends Middleware
      */
     public function after() {
         if ($this->response instanceof HtmlResponse) {
-            $this->response->addData('isOrganiser', $this->auth->isOrganiser($this->request->getParameter('id')));
-            $this->response->addData('isOwner', $this->auth->isOwner($this->request->getParameter('id')));
+            $this->response->addData('isOrganiser', $this->auth->isOrganiser($this->request->getParameter('trip_id')));
+            $this->response->addData('isOwner', $this->auth->isOwner($this->request->getParameter('trip_id')));
         }
     }
 }

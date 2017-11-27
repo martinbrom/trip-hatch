@@ -50,19 +50,19 @@ $rb->add('POST', 'trips', 'Trip', 'create')
     ->middleware(['logged'])
     ->validate(['title' => ['required', 'max:100']])
     ->name('trip.create.submit');
-$rb->add('GET', 'trip/{id:\d+}', 'Trip', 'show')
+$rb->add('GET', 'trip/{trip_id:\d+}', 'Trip', 'show')
     ->middleware(['traveller'])
     ->name('trip.show');
-$rb->add('GET', 'trip/{id:\d+}/edit', 'Trip', 'editPage')
+$rb->add('GET', 'trip/{trip_id:\d+}/edit', 'Trip', 'editPage')
     ->middleware(['organiser'])
     ->name('trip.edit');
-$rb->add('POST', 'trip/{id:\d+}/edit', 'Trip', 'edit')
+$rb->add('POST', 'trip/{trip_id:\d+}/edit', 'Trip', 'edit')
     ->middleware(['organiser']);
 $rb->add('GET', 'trip/public/{public_url:\w+}', 'Trip', 'showPublic');
-$rb->add('GET', 'trip/{id:\d+}/manage-people', 'Trip', 'managePeoplePage')
+$rb->add('GET', 'trip/{trip_id:\d+}/manage-people', 'Trip', 'managePeoplePage')
     ->middleware(['organiser'])
     ->name('trip.manage-people');
-$rb->add('GET', 'trip/{id:\d+}/manage-staff', 'Trip', 'manageStaffPage')
+$rb->add('GET', 'trip/{trip_id:\d+}/manage-staff', 'Trip', 'manageStaffPage')
     ->middleware(['owner'])
     ->name('trip.manage-staff');
 
@@ -103,7 +103,7 @@ $rb->add('POST', 'change-password', 'UserSettings', 'changePassword')
 // ---------------------------------------
 
 // ----------- ACTION -----------
-$rb->add('GET', 'trip/day/{id:\d+}/actions', 'Action', 'actions')
+$rb->add('GET', 'trip/day/{day_id:\d+}/actions', 'Action', 'actions')
     ->middleware(['logged'])
     ->ajax();
 
@@ -114,18 +114,26 @@ $rb->add('GET', 'action-types', 'ActionType', 'index')
 // ------------ ADMIN -----------
 
 // ------------- DAY ------------
-$rb->add('GET', 'trip/{id:\d+}/day/{day_id:\d+}/delete', 'Day', 'delete')
+$rb->add('GET', 'trip/{trip_id:\d+}/day/{day_id:\d+}/delete', 'Day', 'delete')
     ->middleware(['organiser'])
     ->ajax();
 
 // ------------ HOME ------------
 
 // ------------ TRIP ------------
-$rb->add('GET', 'trip/{id:\d+}/publish', 'Trip', 'publish')
+$rb->add('GET', 'trip/{trip_id:\d+}/publish', 'Trip', 'publish')
     ->middleware(['owner'])
     ->ajax();
-$rb->add('GET', 'trip/{id:\d+}/classify', 'Trip', 'classify')
+$rb->add('GET', 'trip/{trip_id:\d+}/classify', 'Trip', 'classify')
     ->middleware(['owner'])
+    ->ajax();
+$rb->add('GET', 'trip/{trip_id:\d+}/user/{user_trip_id:\d+}/remove', 'Trip', 'removeUser')
+    ->middleware(['organiser'])
+    ->name('trip.user.remove')
+    ->ajax();
+$rb->add('GET', 'trip/{trip_id:\d+}/user/{user_trip_id:\d+}/promote', 'Trip', 'promoteUser')
+    ->middleware(['owner'])
+    ->name('trip.user.promote')
     ->ajax();
 
 // ------------ USER ------------

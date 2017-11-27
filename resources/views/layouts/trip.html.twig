@@ -15,13 +15,13 @@
             {% include "layouts/_tripNavigation.html.twig" %}
         {% endif %}
 
-        {% if alerts is not null %}
-            <div class="container alert-container">
+        <div class="container alert-container">
+            {% if alerts is not null %}
                 {% for alert in alerts %}
                     {% include 'layouts/_alert.html.twig' %}
                 {% endfor %}
-            </div>
-        {% endif %}
+            {% endif %}
+        </div>
 
         {% block content %}{% endblock %}
         {% include 'layouts/_footer.html.twig' %}

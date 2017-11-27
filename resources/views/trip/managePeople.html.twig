@@ -16,9 +16,9 @@
                             <th>{{ t('pages.trip.manage-people.display_name') }}</th>
                             <th>{{ t('pages.trip.manage-people.role') }}</th>
 
-                            <!-- Only if owner -->
-                            <th class="col-xs-1">{{ t('pages.trip.manage-people.promote') }}</th>
-
+                            {% if isOwner %}
+                                <th class="col-xs-1">{{ t('pages.trip.manage-people.promote') }}</th>
+                            {% endif %}
 
                             <th class="col-xs-1">{{ t('pages.trip.manage-people.delete') }}</th>
                         </tr>
@@ -33,11 +33,11 @@
                                 <!-- TODO: Role number to text use if? -->
                                 <td>role</td>
 
-                                <!-- Only if owner -->
-                                <td><a href="#"><i class="fa fa-user-plus"></i></a></td>
+                                {% if isOwner %}
+                                    <td><a href="#"><i class="fa fa-user-plus"></i></a></td>
+                                {% endif %}
 
-
-                                <td><a href="#"><i class="fa fa-remove"></i></a></td>
+                                <td><a class="removeTripUserLink" href="{{ routeTripUser('remove', trip.id, traveller.id) }}"><i class="fa fa-remove"></i></a></td>
                             </tr>
                         {% endfor %}
                     </table>

@@ -3,13 +3,13 @@
 
         <!-- TODO: Add links for publishing and other stuff, change layout to collapse on phones -->
         <ul class="links-left">
-            <li><a href="{{ routeTrip('trip.show', trip.id) }}"><i class="fa fa-home"></i> Back to index</a></li>
+            <li><a href="{{ routeTrip('show', trip.id) }}"><i class="fa fa-home"></i> Back to index</a></li>
 
             <!-- TODO: another page prob -->
-            <li><a href="{{ routeTrip('trip.manage-people', trip.id) }}"><i class="fa fa-users"></i> {{ t('layout.trip.manage-people') }}</a></li>
+            <li><a href="{{ routeTrip('manage-people', trip.id) }}"><i class="fa fa-users"></i> {{ t('layout.trip.manage-people') }}</a></li>
 
             {% if isOwner %}
-                <li><a href="{{ routeTrip('trip.manage-staff', trip.id) }}"><i class="fa fa-wrench"></i> {{ t('layout.trip.manage-staff') }}</a></li>
+                <li><a href="{{ routeTrip('manage-staff', trip.id) }}"><i class="fa fa-wrench"></i> {{ t('layout.trip.manage-staff') }}</a></li>
             {% endif %}
 
             <!-- TODO: ajax add as last day -->
@@ -17,7 +17,7 @@
         </ul>
         <ul class="links-right">
             <!-- TODO: edit trip stuff, another page prob -->
-            <li><a href="{{ routeTrip('trip.edit', trip.id) }}"><i class="fa fa-pencil"></i> {{ t('layout.trip.edit') }}</a></li>
+            <li><a href="{{ routeTrip('edit', trip.id) }}"><i class="fa fa-pencil"></i> {{ t('layout.trip.edit') }}</a></li>
 
             <!-- TODO: confirm prompt, then redirect to dashboard -->
             <li><a href="#"><i class="fa fa-trash"></i> {{ t('layout.trip.archive') }}</a></li>

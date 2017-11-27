@@ -43,6 +43,10 @@ class ResponseFactory
         return $this->redirect($path);
     }
 
+    public function redirectToTripRoute($routeName, $trip_id) {
+        return $this->redirectToRoute('trip.' . $routeName, ['trip_id' => $trip_id]);
+    }
+
     public function error(int $code, $data = []) {
         $separateErrorPages = [404, 500, 401];
         $page = in_array($code, $separateErrorPages) ? $code : 'index';

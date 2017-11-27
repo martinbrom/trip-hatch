@@ -49,4 +49,13 @@ abstract class Controller
     protected function route($name, $params = []) {
         return $this->responseFactory->redirectToRoute($name, $params);
     }
+
+    /**
+     * @param $name
+     * @param $trip_id
+     * @return RedirectResponse
+     */
+    protected function tripRoute($name, $trip_id) {
+        return $this->responseFactory->redirectToTripRoute($name, $trip_id);
+    }
 }

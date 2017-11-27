@@ -27,7 +27,7 @@ class RouteHelper
 
     public function replace($url, $params = []) {
         foreach ($params as $key => $value) {
-            $url = str_replace($key, $value, $url);
+            $url = str_replace('/' . $key, '/' . $value, $url); // slash prevents sub-pattern replacing
         }
 
         return $url;

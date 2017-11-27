@@ -4,12 +4,12 @@ namespace App\Controllers;
 
 use App\Repositories\DayRepository;
 use App\Repositories\TripRepository;
-use App\Repositories\UserRepository;
 use App\Repositories\UserTripRepository;
 use Core\AlertHelper;
 use Core\Auth;
 use Core\Http\Controller;
 use Core\Http\Response\HtmlResponse;
+use Core\Http\Response\JsonResponse;
 use Core\Http\Response\RedirectResponse;
 use Core\Http\Response\Response;
 use Core\Language\Language;
@@ -94,7 +94,7 @@ class TripController extends Controller
     public function create() {
         // TODO: Create trip
         $id = 1; // later will be last insert ID from database
-        return $this->route('trip.show', ['id' => $id]);
+        return $this->tripRoute('show', $id);
     }
 
     /**
@@ -180,7 +180,7 @@ class TripController extends Controller
         }
 
         if ($this->auth->isLogged())
-            return $this->route('trip.show', ['id' => $trip['id']]);
+            return $this->tripRoute('show', $trip['id']);
 
         $days = $this->dayRepository->getDays($trip['id']);
         return $this->responseFactory->html('trip/show.html.twig', ['days' => $days, 'trip' => $trip]);
@@ -188,7 +188,7 @@ class TripController extends Controller
 
     /**
      * @param $trip_id
-     * @return Response
+     * @return JsonResponse
      */
     public function publish($trip_id) {
         if ($this->tripRepository->publishTrip($trip_id))
@@ -199,12 +199,36 @@ class TripController extends Controller
 
     /**
      * @param $trip_id
-     * @return Response
+     * @return JsonResponse
      */
     public function classify($trip_id) {
         if ($this->tripRepository->classifyTrip($trip_id))
             return $this->responseFactory->json(['message' => $this->lang->get('alerts.classify.success')], 200);
 
         return $this->responseFactory->json(['message' => $this->lang->get('alerts.classify.error')], 500);
+    }
+
+    /**
+     * @param $trip_id
+     * @param $user_trip_id
+     * @return JsonResponse
+     */
+    public function removeUser($trip_id, $user_trip_id) {
+
+        // TODO: Remove trip_id from route
+        // TODO: Deleting when user_trip has comments...
+        if (!$this->userTripRepository->isExactlyTraveller($user_trip_id))
+            return $this->responseFactory->json(['message' => $this->lang->get('alerts.remove-user.wrong-role'), 'type' => 'danger'], 401);
+
+        if ($this->userTripRepository->removeTraveller($user_trip_id)) {
+            return $this->responseFactory->json(['message' => $this->lang->get('alerts.remove-user.success'), 'type' => 'success'], 200);
+        }
+
+        // TODO: jsonAlert response instead of only json
+        return $this->responseFactory->json(['message' => $this->lang->get('alerts.remove-user.error'), 'type' => 'danger'], 500);
+    }
+
+    public function promoteUser($trip_id, $user_trip_id) {
+
     }
 }

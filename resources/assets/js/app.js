@@ -24,6 +24,12 @@ $(document).ready(function () {
         $('body,html').animate({ scrollTop: window.innerHeight * page_id}, scroll_speed);
     }
 
+    // TODO: Finish up with correct html
+    // displays alert immediately
+    function addAlert(data) {
+        $('.alert-container').append("<div class='alert alert-" + data['type'] + " alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>" + data['message'] + "!</div>");
+    }
+
 
     // ******************
     // * EVENT HANDLING *
@@ -105,6 +111,21 @@ $(document).ready(function () {
     if ($('.trip-navigation').length) {
         $(window).scroll(function () {
             $('.trip-navigation').toggleClass('navbar-fixed-top', $(this).scrollTop() > navigation_height);
-        })
+        });
     }
+
+    $('.removeTripUserLink').click(function (e) {
+        e.preventDefault();
+        $.ajax({
+            url: $(this).attr('href'),
+            success: function (result) {
+                // TODO: Remove user-trip table row from table
+                console.log(result);
+                addAlert(JSON.parse(result.responseText));
+            },
+            error: function (result) {
+                addAlert(JSON.parse(result.responseText));
+            }
+        });
+    });
 });

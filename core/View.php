@@ -58,7 +58,11 @@ class View
         }));
 
         $this->twig->addFunction(new \Twig_Function('routeTrip', function ($route, $trip_id) {
-            return $this->routeHelper->get($route, ['id' => $trip_id]);
+            return $this->routeHelper->get('trip.' . $route, ['trip_id' => $trip_id]);
+        }));
+
+        $this->twig->addFunction(new \Twig_Function('routeTripUser', function ($route, $trip_id, $user_trip_id) {
+            return $this->routeHelper->get('trip.user.' . $route, ['trip_id' => $trip_id, 'user_trip_id' => $user_trip_id]);
         }));
     }
 }

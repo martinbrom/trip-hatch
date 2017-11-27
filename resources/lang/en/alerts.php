@@ -26,5 +26,10 @@ return [
     'trip' => [
         'missing' => 'Trip doesn\'t exist',
         'no-users' => 'There are currently no travellers on this trip'
+    ],
+    'remove-user' => [
+        'error' => 'Something went wrong while trying to remove a user from a trip',
+        'success' => 'You have successfully removed a user from a trip',
+        'wrong-role' => 'You can only remove travellers from a trip'
     ]
 ];

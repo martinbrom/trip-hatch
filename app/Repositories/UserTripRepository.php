@@ -59,4 +59,27 @@ class UserTripRepository
         $data = ['user_id' => $user_id, 'trip_id' => $trip_id];
         return $this->baseRepository->fetch($query, $data);
     }
+
+    /**
+     * @param $user_trip_id
+     * @return bool
+     */
+    public function removeTraveller($user_trip_id) {
+        $query = "DELETE FROM user_trip_xref
+                WHERE id = :id";
+        $data = ['id' => $user_trip_id];
+        return $this->baseRepository->run($query, $data);
+    }
+
+    /**
+     * @param $user_trip_id
+     * @return bool
+     */
+    public function isExactlyTraveller($user_trip_id): bool {
+        $role = UserTripRoles::TRAVELLER;
+        $query = "SELECT COUNT(*) as count FROM user_trip_xref
+                WHERE id = :id AND role = :role";
+        $data = ['id' => $user_trip_id, 'role' => $role];
+        return $this->baseRepository->fetch($query, $data)['count'] >= 1;
+    }
 }
