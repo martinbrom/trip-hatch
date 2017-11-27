@@ -2,6 +2,7 @@
 
 namespace Core;
 
+use App\Enums\UserTripRoles;
 use App\Repositories\UserRepository;
 use App\Repositories\UserTripRepository;
 
@@ -20,6 +21,9 @@ class Auth
 
     /** @var UserTripRepository */
     private $userTripRepository;
+
+    /** @var array */
+    private $roles;
 
     public function __construct(Session $session, UserRepository $userRepository, UserTripRepository $userTripRepository) {
         $this->session = $session;
@@ -43,6 +47,13 @@ class Auth
     }
 
     /**
+     *
+     */
+    public function logout() {
+        $this->session->delete('user');
+    }
+
+    /**
      * @param $email
      * @param $password
      * @return bool
@@ -56,6 +67,20 @@ class Auth
      */
     public function isLogged() {
         return $this->session->exists('user');
+    }
+
+    /**
+     * @param $trip_id
+     */
+    private function loadRoleArray($trip_id) {
+        $this->roles = [false, false, false];
+        $user_id = $this->session->get('user.id');
+        $result = $this->userTripRepository->getRole($user_id, $trip_id);
+
+        $role = empty($result) ? -1 : $result['role'];
+
+        for ($i = 0; $i <= $role; $i++)
+            $this->roles[$i] = true;
     }
 
     /**
@@ -76,8 +101,10 @@ class Auth
         if (!$this->isLogged())
             return false;
 
-        $user_id = $this->session->get('user.id');
-        return $this->userTripRepository->isOwner($user_id, $trip_id);
+        if (empty($this->roles))
+            $this->loadRoleArray($trip_id);
+
+        return $this->roles[UserTripRoles::OWNER];
     }
 
     /**
@@ -88,8 +115,10 @@ class Auth
         if (!$this->isLogged())
             return false;
 
-        $user_id = $this->session->get('user.id');
-        return $this->userTripRepository->isOrganiser($user_id, $trip_id);
+        if (empty($this->roles))
+            $this->loadRoleArray($trip_id);
+
+        return $this->roles[UserTripRoles::ORGANISER];
     }
 
     /**
@@ -100,14 +129,18 @@ class Auth
         if (!$this->isLogged())
             return false;
 
-        $user_id = $this->session->get('user.id');
-        return $this->userTripRepository->isTraveller($user_id, $trip_id);
+        if (empty($this->roles))
+            $this->loadRoleArray($trip_id);
+
+        return $this->roles[UserTripRoles::TRAVELLER];
     }
 
     /**
-     *
+     * @param $trip_id
+     * @return array
      */
-    public function logout() {
-        $this->session->delete('user');
+    public function getRole($trip_id) {
+        $user_id = $this->session->get('user.id');
+        return $this->userTripRepository->getRole($user_id, $trip_id);
     }
 }

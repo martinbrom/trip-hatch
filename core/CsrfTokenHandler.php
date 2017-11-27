@@ -4,8 +4,6 @@ namespace Core;
 
 class CsrfTokenHandler
 {
-    /** @var string */
-    private $token;
 
     /** @var Session */
     private $session;
@@ -29,8 +27,7 @@ class CsrfTokenHandler
      *
      */
     public function generate() {
-        $token = token(64);
-        $this->session->set('csrf_token', $token);
+        $this->session->set('csrf_token', token(64));
     }
 
     /**

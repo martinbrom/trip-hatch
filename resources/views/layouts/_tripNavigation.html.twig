@@ -8,8 +8,9 @@
             <!-- TODO: another page prob -->
             <li><a href="{{ routeTrip('trip.manage-people', trip.id) }}"><i class="fa fa-users"></i> {{ t('layout.trip.manage-people') }}</a></li>
 
-            <!-- if permissions == owner -->
-            <li><a href="{{ routeTrip('trip.manage-staff', trip.id) }}"><i class="fa fa-wrench"></i> {{ t('layout.trip.manage-staff') }}</a></li>
+            {% if isOwner %}
+                <li><a href="{{ routeTrip('trip.manage-staff', trip.id) }}"><i class="fa fa-wrench"></i> {{ t('layout.trip.manage-staff') }}</a></li>
+            {% endif %}
 
             <!-- TODO: ajax add as last day -->
             <li><a href="#"><i class="fa fa-plus"></i> {{ t('layout.trip.add-day') }}</a></li>

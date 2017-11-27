@@ -5,6 +5,7 @@ namespace App\Middleware;
 use Core\AlertHelper;
 use Core\Auth;
 use Core\Factories\ResponseFactory;
+use Core\Http\Response\HtmlResponse;
 use Core\Http\Response\Response;
 use Core\Language\Language;
 use Core\Middleware\Middleware;
@@ -58,5 +59,13 @@ class UserOrganiserMiddleware extends Middleware
         return null;
     }
 
-    public function after() {}
+    /**
+     *
+     */
+    public function after() {
+        if ($this->response instanceof HtmlResponse) {
+            $this->response->addData('isOrganiser', true);
+            $this->response->addData('isOwner', $this->auth->isOwner($this->request->getParameter('id')));
+        }
+    }
 }

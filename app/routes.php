@@ -54,10 +54,10 @@ $rb->add('GET', 'trip/{id:\d+}', 'Trip', 'show')
     ->middleware(['traveller'])
     ->name('trip.show');
 $rb->add('GET', 'trip/{id:\d+}/edit', 'Trip', 'editPage')
-    ->middleware(['logged'])
+    ->middleware(['organiser'])
     ->name('trip.edit');
 $rb->add('POST', 'trip/{id:\d+}/edit', 'Trip', 'edit')
-    ->middleware(['logged']);
+    ->middleware(['organiser']);
 $rb->add('GET', 'trip/public/{public_url:\w+}', 'Trip', 'showPublic');
 $rb->add('GET', 'trip/{id:\d+}/manage-people', 'Trip', 'managePeoplePage')
     ->middleware(['organiser'])

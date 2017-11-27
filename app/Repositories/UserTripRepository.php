@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Enums\UserTripRoles;
 use Core\Database\Repository;
 
 /**
@@ -23,55 +24,14 @@ class UserTripRepository
     }
 
     /**
-     * @param $user_id
-     * @param $trip_id
-     * @return bool
-     */
-    public function isOwner($user_id, $trip_id): bool {
-        return $this->hasRole($user_id, $trip_id, 2);
-    }
-
-    /**
-     * @param $user_id
-     * @param $trip_id
-     * @return bool
-     */
-    public function isOrganiser($user_id, $trip_id): bool {
-        return $this->hasRole($user_id, $trip_id, 1);
-    }
-
-    /**
-     * @param $user_id
-     * @param $trip_id
-     * @return bool
-     */
-    public function isTraveller($user_id, $trip_id): bool {
-        return $this->hasRole($user_id, $trip_id, 0);
-    }
-
-    /**
-     * @param $user_id
-     * @param $trip_id
-     * @param $role
-     * @return bool
-     */
-    public function hasRole($user_id, $trip_id, $role): bool {
-        $query = "SELECT COUNT(*) as count FROM user_trip_xref
-                WHERE user_id = :user_id
-                AND trip_id = :trip_id
-                AND role >= :role";
-        $data = ['user_id' => $user_id, 'trip_id' => $trip_id, 'role' => $role];
-        return $this->baseRepository->fetch($query, $data)['count'] >= 1;
-    }
-
-    /**
      * @param $trip_id
      * @return array
      */
     public function getStaff($trip_id) {
+        $role = UserTripRoles::ORGANISER;
         $query = "SELECT * FROM user_trip_xref
-                WHERE trip_id = :trip_id AND role >= 1";
-        $data = ['trip_id' => $trip_id];
+                WHERE trip_id = :trip_id AND role >= :role";
+        $data = ['trip_id' => $trip_id, 'role' => $role];
         return $this->baseRepository->fetchAll($query, $data);
     }
 
@@ -80,9 +40,23 @@ class UserTripRepository
      * @return array
      */
     public function getTravellers($trip_id): array {
+        $role = UserTripRoles::TRAVELLER;
         $query = "SELECT * FROM user_trip_xref
-                WHERE trip_id = :trip_id AND role = 0";
-        $data = ['trip_id' => $trip_id];
+                WHERE trip_id = :trip_id AND role = :role";
+        $data = ['trip_id' => $trip_id, 'role' => $role];
         return $this->baseRepository->fetchAll($query, $data);
+    }
+
+    /**
+     * @param $user_id
+     * @param $trip_id
+     * @return array
+     */
+    public function getRole($user_id, $trip_id) {
+        $query = "SELECT role FROM user_trip_xref
+                WHERE user_id = :user_id
+                AND trip_id = :trip_id";
+        $data = ['user_id' => $user_id, 'trip_id' => $trip_id];
+        return $this->baseRepository->fetch($query, $data);
     }
 }
