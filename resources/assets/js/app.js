@@ -81,22 +81,26 @@ $(document).ready(function () {
 
     });
 
-    $("a.day-edit-btn").click(function () {
-        alert('Editing day');
+    $("a.day-edit-modal-btn").click(function () {
+        // initialize modal stuff
+        $('.day-edit-btn').attr(ajax_url_parameter_name, $(this).attr(ajax_url_parameter_name));
+        $('#day-edit-modal').modal('show');
     });
 
-    $("a.day-delete-btn").click(function () {
+    $(".day-edit-btn").click(function () {
+        var url  = $(this).attr(ajax_url_parameter_name);
+        // send form, update content and close modal
+        $('#day-edit-modal').modal('hide');
+    });
+
+    $("a.day-delete-btn").click(function (e) {
+        e.preventDefault();
         $.ajax({
             url: $(this).attr(ajax_url_parameter_name),
             success: function (result) {
                 console.log(result);
             }
         });
-    });
-
-    $("a.trip-add-day").click(function () {
-        // TODO: Add a new day
-        $("div.trip-days-container").append("new day");
     });
 
     $("button.action-add-btn").click(function () {

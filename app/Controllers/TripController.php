@@ -278,7 +278,10 @@ class TripController extends Controller
         }
 
         $day = $this->dayRepository->getLastInsertDay();
-        $html = $this->responseFactory->html('layouts/_day.html.twig', ['day' => $day, 'trip' => $trip])->createContent();
+        $html = $this->responseFactory->html('layouts/_day.html.twig', [
+            'day' => $day, 'trip' => $trip,
+            'isOrganiser' => $this->auth->isOrganiser($trip_id)
+        ])->createContent();
 
         $data = ['message' => $this->lang->get('alerts.trip-add-day.success'), 'type' => 'success', 'html' => $html];
         return $this->responseFactory->json($data, 200);

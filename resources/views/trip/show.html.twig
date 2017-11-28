@@ -4,32 +4,14 @@
 
 {% block content %}
 
+{% include "modals/day-edit.html.twig" %}
+
 <section class="container-section">
     <div class="container">
         <h1 class="text-center trip-title">{{ trip.title }}</h1>
         <div class="trip-days-container">
             {% for day in days %}
-                <div class="trip-day-container col-xs-12">
-                    <div class="trip-day">
-                        <div class="trip-day-head" data-toggle="collapse" data-target="#day{{ day.id }}">
-                            <img src="/images/thumbnails/{{ day.path }}" class="img-responsive trip-day-thumbnail" alt="{{ day.description }}">
-
-                            {% if isOrganiser %}
-                                <a href="#" data-ajax-url="{{ routeTripDay('delete', trip.id, day.id) }}" class="day-delete-btn non-collapse">
-                                    <i class="fa fa-remove non-collapse"></i>
-                                </a>
-                                <a href="#" data-ajax-url="{{ routeTripDay('edit', trip.id, day.id) }}" class="day-edit-btn non-collapse">
-                                    <i class="fa fa-pencil non-collapse"></i>
-                                </a>
-                            {% endif %}
-
-                            <h2>{{ day.title }}</h2>
-                        </div>
-                        <div id="day{{ day.id }}" class="trip-day-body-container collapse">
-                            <div class="trip-day-body"></div>
-                        </div>
-                    </div>
-                </div>
+                {% include "layouts/_day.html.twig" %}
             {% endfor %}
         </div>
     </div>

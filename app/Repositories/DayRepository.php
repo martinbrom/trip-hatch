@@ -36,6 +36,18 @@ class DayRepository
     }
 
     /**
+     * @param int $day_id
+     * @return array
+     */
+    public function getDay(int $day_id): array {
+        $query = "SELECT days.*, images.path, images.description FROM days
+                INNER JOIN images ON days.image_id = images.id
+                WHERE days.id = :day_id";
+        $data = ['day_id' => $day_id];
+        return $this->baseRepository->fetch($query, $data);
+    }
+
+    /**
      * @param int $trip_id
      * @param int $day_id
      * @return bool

@@ -125,9 +125,13 @@ $rb->add('GET', 'trip/{trip_id:\d+}/day/{day_id:\d+}/delete', 'Day', 'delete')
     ->middleware(['organiser'])
     ->name('trip.day.delete')
     ->ajax();
-$rb->add('GET', 'trip/{trip_id:\d+}/day/{day_id:\d+}/edit', 'Day', 'edit')
+$rb->add('GET', 'trip/{trip_id:\d+}/day/{day_id:\d+}/edit', 'Day', 'editModal')
     ->middleware(['organiser'])
     ->name('trip.day.edit')
+    ->ajax();
+$rb->add('POST', 'trip/{trip_id:\d+}/day/{day_id:\d+}/edit', 'Day', 'edit')
+    ->middleware(['organiser'])
+    ->name('trip.day.edit.submit')
     ->ajax();
 
 // ------------ HOME ------------
