@@ -259,4 +259,24 @@ class TripController extends Controller
     public function invite($trip_id) {
         // TODO: Send a link with unique invitation token
     }
+
+
+    /**
+     * @param $trip_id
+     * @return JsonResponse
+     */
+    public function addDay($trip_id) {
+        $trip = $this->tripRepository->getTrip($trip_id);
+
+        if ($trip == NULL) {
+            return $this->responseFactory->jsonAlert($this->lang->get('alerts.trip.missing'), 'error', 404);
+        }
+
+        $dayCount = $this->dayRepository->getDayCount($trip_id);
+        if (!$this->dayRepository->create($trip_id, $dayCount)) {
+            return $this->responseFactory->jsonAlert($this->lang->get('alerts.trip-add-day.error'), 'error', 500);
+        }
+
+        return $this->responseFactory->jsonAlert($this->lang->get('alerts.trip-add-day.success'), 'success', 200);
+    }
 }

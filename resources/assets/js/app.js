@@ -14,6 +14,9 @@ $(document).ready(function () {
     // height of navigation bar in pixels
     var navigation_height         = 60;
 
+    // when clicking an "ajax" link, what parameter contains the url
+    var ajax_url_parameter_name = 'data-ajax-url';
+
 
     // *************
     // * FUNCTIONS *
@@ -26,8 +29,9 @@ $(document).ready(function () {
 
     // TODO: Finish up with correct html
     // displays alert immediately
-    function addAlert(data) {
-        $('.alert-container').append("<div class='alert alert-" + data['type'] + " alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>" + data['message'] + "!</div>");
+    function addAlert(type, message) {
+        if (type == 'error') type = 'danger';
+        $('.alert-container').append("<div class='alert alert-" + type + " alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>" + message + "!</div>");
     }
 
 
@@ -114,18 +118,35 @@ $(document).ready(function () {
         });
     }
 
-    $('.removeTripUserLink').click(function (e) {
+    $('.remove-trip-user-link').click(function (e) {
         e.preventDefault();
         $.ajax({
-            url: $(this).attr('href'),
+            url: $(this).attr(ajax_url_parameter_name),
+            dataType: 'json',
             success: function (result) {
                 // TODO: Remove user-trip table row from table
-                console.log(result);
-                addAlert(JSON.parse(result.responseText));
+                addAlert(result.type, result.message);
             },
             error: function (result) {
-                addAlert(JSON.parse(result.responseText));
+                var r = JSON.parse(result.responseText);
+                addAlert(r['type'], r['message']);
             }
         });
     });
+
+    $('.add-day-link').click(function (e) {
+        e.preventDefault();
+        $.ajax({
+            url: $(this).attr(ajax_url_parameter_name),
+            dataType: 'json',
+            success: function (result) {
+                // TODO: Add a new day
+                addAlert(result.type, result.message);
+            },
+            error: function (result) {
+                var r = JSON.parse(result.responseText);
+                addAlert(r['type'], r['message']);
+            }
+        });
+    })
 });

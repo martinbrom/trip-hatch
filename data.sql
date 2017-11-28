@@ -63,14 +63,14 @@ INSERT INTO `user_trip_xref` (`id`, `user_id`, `trip_id`, `role`, `created_at`, 
 -- DAYS
 -- -----------------------------------------------------
 INSERT INTO `days` (`id`, `title`, `order`, `image_id`, `trip_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
-  (NULL, 'Day 1', '1', '2', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL),
-  (NULL, 'Day 2', '2', '2', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL),
-  (NULL, 'Day 3', '3', '2', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL),
-  (NULL, 'Day 1', '1', '2', '3', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL),
-  (NULL, 'Day 2', '2', '2', '3', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL),
-  (NULL, 'Day 3', '3', '2', '3', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL),
-  (NULL, 'Day 4', '4', '2', '3', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL),
-  (NULL, 'Day 5', '5', '2', '3', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL);
+  (NULL, 'Day 1', '0', '2', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL),
+  (NULL, 'Day 2', '1', '2', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL),
+  (NULL, 'Day 3', '2', '2', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL),
+  (NULL, 'Day 1', '0', '2', '3', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL),
+  (NULL, 'Day 2', '1', '2', '3', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL),
+  (NULL, 'Day 3', '2', '2', '3', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL),
+  (NULL, 'Day 4', '3', '2', '3', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL),
+  (NULL, 'Day 5', '4', '2', '3', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL);
 
 -- -----------------------------------------------------
 -- ACTIONS

@@ -46,4 +46,30 @@ class DayRepository
         $data = ['trip_id' => $trip_id, 'day_id' => $day_id];
         return $this->baseRepository->fetch($query, $data)['count'] >= 1;
     }
+
+    /**
+     * @param int $trip_id
+     * @return mixed
+     */
+    public function getDayCount(int $trip_id) {
+        $query = "SELECT COUNT(*) as count FROM days
+                WHERE trip_id = :trip_id";
+        $data = ['trip_id' => $trip_id];
+        return $this->baseRepository->fetch($query, $data)['count'];
+    }
+
+    /**
+     * @param int $trip_id
+     * @param int $order
+     * @return bool
+     */
+    public function create(int $trip_id, int $order) {
+        $query = "INSERT INTO `days`(
+                `id`, `title`, `order`, `image_id`, `trip_id`,
+                `created_at`, `updated_at`, `deleted_at`)
+                VALUES (NULL, 'New day', :order, 2, :trip_id,
+                CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL)";
+        $data = ['trip_id' => $trip_id, 'order' => $order];
+        return $this->baseRepository->run($query, $data);
+    }
 }

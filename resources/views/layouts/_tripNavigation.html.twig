@@ -17,8 +17,7 @@
                     <li><a href="{{ routeTrip('manage-staff', trip.id) }}"><i class="fa fa-wrench"></i> {{ t('layout.trip.manage-staff') }}</a></li>
                 {% endif %}
 
-                <!-- TODO: ajax add as last day -->
-                <li><a href="#"><i class="fa fa-plus"></i> {{ t('layout.trip.add-day') }}</a></li>
+                <li><a class="add-day-link" href="#" data-ajax-url="{{ routeTrip('add-day', trip.id) }}"><i class="fa fa-plus"></i> {{ t('layout.trip.add-day') }}</a></li>
             </ul>
             <ul class="nav navbar-nav links-right">
                 <!-- TODO: edit trip stuff, another page prob -->

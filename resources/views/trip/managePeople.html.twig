@@ -37,7 +37,7 @@
                                     <td><a href="#"><i class="fa fa-user-plus"></i></a></td>
                                 {% endif %}
 
-                                <td><a class="removeTripUserLink" href="{{ routeTripUser('remove', trip.id, traveller.id) }}"><i class="fa fa-remove"></i></a></td>
+                                <td><a class="remove-trip-user-link" href="#" data-ajax-url="{{ routeTripUser('remove', trip.id, traveller.id) }}"><i class="fa fa-remove"></i></a></td>
                             </tr>
                         {% endfor %}
                     </table>
