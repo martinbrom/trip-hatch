@@ -192,9 +192,9 @@ class TripController extends Controller
      */
     public function publish($trip_id) {
         if ($this->tripRepository->publishTrip($trip_id))
-            return $this->responseFactory->json(['message' => $this->lang->get('alerts.publish.success')], 200);
+            return $this->responseFactory->jsonAlert($this->lang->get('alerts.publish.success'), 'success', 200);
 
-        return $this->responseFactory->json(['message' => $this->lang->get('alerts.publish.error')], 500);
+        return $this->responseFactory->jsonAlert($this->lang->get('alerts.publish.error'), 'error', 500);
     }
 
     /**
@@ -203,29 +203,25 @@ class TripController extends Controller
      */
     public function classify($trip_id) {
         if ($this->tripRepository->classifyTrip($trip_id))
-            return $this->responseFactory->json(['message' => $this->lang->get('alerts.classify.success')], 200);
+            return $this->responseFactory->jsonAlert($this->lang->get('alerts.classify.success'), 'success', 200);
 
-        return $this->responseFactory->json(['message' => $this->lang->get('alerts.classify.error')], 500);
+        return $this->responseFactory->jsonAlert($this->lang->get('alerts.classify.error'), 'error', 500);
     }
 
     /**
-     * @param $trip_id
      * @param $user_trip_id
      * @return JsonResponse
      */
     public function removeUser($trip_id, $user_trip_id) {
-
-        // TODO: Remove trip_id from route
         // TODO: Deleting when user_trip has comments...
         if (!$this->userTripRepository->isExactlyTraveller($user_trip_id))
-            return $this->responseFactory->json(['message' => $this->lang->get('alerts.remove-user.wrong-role'), 'type' => 'danger'], 401);
+            return $this->responseFactory->jsonAlert($this->lang->get('alerts.remove-user.wrong-role'), 'danger', 401);
 
         if ($this->userTripRepository->removeTraveller($user_trip_id)) {
-            return $this->responseFactory->json(['message' => $this->lang->get('alerts.remove-user.success'), 'type' => 'success'], 200);
+            return $this->responseFactory->jsonAlert($this->lang->get('alerts.remove-user.success'), 'success', 200);
         }
 
-        // TODO: jsonAlert response instead of only json
-        return $this->responseFactory->json(['message' => $this->lang->get('alerts.remove-user.error'), 'type' => 'danger'], 500);
+        return $this->responseFactory->jsonAlert($this->lang->get('alerts.remove-user.error'),'danger', 500);
     }
 
     public function promoteUser($trip_id, $user_trip_id) {

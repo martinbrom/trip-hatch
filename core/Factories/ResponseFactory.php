@@ -32,6 +32,10 @@ class ResponseFactory
         return new JsonResponse($data, $code);
     }
 
+    public function jsonAlert($message, $type = 'info', $code = 200) {
+        return $this->json(['type' => $type, 'message' => $message], $code);
+    }
+
     public function redirect($path) {
         return new RedirectResponse($path);
     }

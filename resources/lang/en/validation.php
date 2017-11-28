@@ -17,5 +17,9 @@ return [
     'register_password_confirm' => [
         'required' => 'Confirmation of registration password is required',
         'matches' => 'Confirmation of registration password must match registration password'
+    ],
+    'trip_title' => [
+        'required' => 'Trip title is required',
+        'maxLen' => 'Trip title must be at most :p1 characters long'
     ]
 ];

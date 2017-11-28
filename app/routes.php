@@ -48,7 +48,7 @@ $rb->add('GET', 'trip/create', 'Trip', 'createPage')
     ->name('trip.create');
 $rb->add('POST', 'trips', 'Trip', 'create')
     ->middleware(['logged'])
-    ->validate(['title' => ['required', 'max:100']])
+    ->validate(['trip_title' => ['required', 'maxLen:100']])
     ->name('trip.create.submit');
 $rb->add('GET', 'trip/{trip_id:\d+}', 'Trip', 'show')
     ->middleware(['traveller'])
