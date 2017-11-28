@@ -93,4 +93,25 @@ class TripRepository
         $data = ['trip_id' => $trip_id];
         return $this->baseRepository->run($query, $data);
     }
+
+    /**
+     * @param $title
+     * @return bool
+     */
+    public function createTrip($title) {
+        $query = "INSERT INTO `trips` (
+                `id`, `title`, `start_date`, `end_date`, `ended`,
+                `image_id`, `created_at`, `updated_at`, `deleted_at`)
+                VALUES (NULL, :title, NULL, NULL, 0,
+                '2', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL)";
+        $data = ['title' => $title];
+        return $this->baseRepository->run($query, $data);
+    }
+
+    /**
+     * @return string
+     */
+    public function lastInsertID() {
+        return $this->baseRepository->lastInsertId();
+    }
 }

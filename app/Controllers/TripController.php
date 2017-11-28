@@ -89,12 +89,22 @@ class TripController extends Controller
 
     /**
      * Creates new trip and redirects user to its page
-     * @return RedirectResponse Newly created trip page
+     * @return Response Newly created trip page
      */
     public function create() {
-        // TODO: Create trip
-        $id = 1; // later will be last insert ID from database
-        return $this->tripRoute('show', $id);
+        if (!$this->tripRepository->createTrip($_POST['trip_title'])) {
+            $this->alertHelper->error($this->lang->get('alerts.trip-create.error'));
+            return $this->route('dashboard');
+        }
+
+        $trip_id = $this->tripRepository->lastInsertID();
+        if (!$this->userTripRepository->setTripOwner($this->session->get('user.id'), $trip_id)) {
+            $this->alertHelper->error($this->lang->get('alerts.set-owner.error'));
+            return $this->route('dashboard');
+        }
+
+        $this->alertHelper->success($this->lang->get('alerts.trip-create.success'));
+        return $this->tripRoute('show', $trip_id);
     }
 
     /**
@@ -113,6 +123,9 @@ class TripController extends Controller
         }
 
         $days = $this->dayRepository->getDays($trip_id);
+        if (empty($days))
+            $this->alertHelper->info($this->lang->get('alerts.trip.no-days'));
+
         return $this->responseFactory->html('trip/show.html.twig', ['days' => $days, 'trip' => $trip]);
     }
 

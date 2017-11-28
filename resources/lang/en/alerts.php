@@ -25,11 +25,16 @@ return [
     ],
     'trip' => [
         'missing' => 'Trip doesn\'t exist',
-        'no-users' => 'There are currently no travellers on this trip'
+        'no-users' => 'There are currently no travellers on this trip',
+        'no-days' => 'There are currently no days planned on this trip'
     ],
     'remove-user' => [
         'error' => 'Something went wrong while trying to remove a user from a trip',
         'success' => 'You have successfully removed a user from a trip',
         'wrong-role' => 'You can only remove travellers from a trip'
+    ],
+    'trip-create' => [
+        'success' => 'A new trip has been successfully hatched',
+        'error' => 'Something went wrong while trying to hatch a new trip'
     ]
 ];

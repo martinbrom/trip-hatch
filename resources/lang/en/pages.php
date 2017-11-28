@@ -65,9 +65,7 @@ return [
             'title' => 'Hatching a new trip',
             'heading' => 'Hatch a new trip',
             'submit' => 'Hatch',
-            'trip-title' => 'Trip title',
-            'trip-image-upload' => 'Upload your own image',
-            'trip-image-select' => 'or select one of ours'
+            'trip-title' => 'Trip title'
         ]
     ]
 ];
