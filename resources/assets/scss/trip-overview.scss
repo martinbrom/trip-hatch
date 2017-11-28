@@ -6,38 +6,106 @@ h1.trip-title {
 
 nav.trip-navigation {
   background: $trip_overview_navigation_background;
-  line-height: $trip_overview_navigation_height;
 
   div.container {
-    ul {
-      list-style-type: none;
-      padding-left: 0;
-      margin-bottom: 0;
-      width: auto;
-      float: left;
+    height: $trip_overview_navigation_height;
+    color: $navigation_text_color;
 
-      &.links-right {
-        float: right;
+    div.navbar-header {
+      height: $trip_overview_navigation_height;
+      z-index: 1024;
+      position: relative;
 
-        li {
-          &:last-of-type {
-            margin-right: 0;
-          }
+      a {
+        color: $navigation_text_color;
+        line-height: $trip_overview_navigation_height;
+        margin-left: $application_margin;
+
+        @media screen and (min-width: $size-sm) {
+          margin-left: 0;
         }
       }
 
-      li {
-        display: inline-block;
+      button.navbar-toggle {
+        margin-top: 0;
+        margin-bottom: 0;
+        
+        span {
+          background: $navigation_text_color;
+        }
+      }
+    }
+
+    div#trip-navigation {
+      background: $trip_overview_navigation_background;
+      z-index: 1021;
+      width: 100%;
+      margin-left: 0;
+      margin-right: 0;
+      position: relative;
+      border-bottom-left-radius: $application_border_radius;
+      border-bottom-right-radius: $application_border_radius;
+
+      @media screen and (min-width: $size-sm) {
         height: $trip_overview_navigation_height;
-        margin-right: $application_margin;
+      }
 
-        a {
-          color: $navigation_text_color;
-          display: block;
+      ul {
+        @media screen and (min-width: $size-sm) {
+          height: $trip_overview_navigation_height;
+        }
 
-          &:hover, &:focus {
-            text-decoration: underline;
+        &.links-left {
+          margin-bottom: 0;
+        }
+
+        &.links-right {
+          margin-top: 0;
+
+          li:first-of-type {
+            border-top: 1px solid $navigation_text_color;
+
+            @media screen and (min-width: $size-sm) {
+              border-top: none;
+            }
+          }
+
+          @media screen and (min-width: $size-sm) {
+            float: right;
+
+            li {
+              a {
+                margin-right: 0;
+              }
+            }
+          }
+        }
+
+        li {
+          margin-left: $application_margin;
+          margin-right: $application_margin;
+          border-bottom: 1px solid $navigation_text_color;
+
+          @media screen and (min-width: $size-sm) {
+            border-bottom: none;
+            margin-right: 0;
+          }
+
+          &:last-of-type {
+            border-bottom: none;
+          }
+
+          a {
             color: $navigation_text_color;
+            @media screen and (min-width: $size-sm) {
+              line-height: $trip_overview_navigation_height;
+              padding: 0;
+            }
+
+            &:hover, &:focus {
+              background: $trip_overview_navigation_background;
+              text-decoration: underline;
+            }
           }
         }
       }

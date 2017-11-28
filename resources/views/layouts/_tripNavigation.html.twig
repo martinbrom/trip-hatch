@@ -1,26 +1,33 @@
 <nav class="trip-navigation">
     <div class="container">
+        <div class="navbar-header">
+            <a href="{{ routeTrip('show', trip.id) }}"><i class="fa fa-home"></i> Back to index</a>
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#trip-navigation">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse" id="trip-navigation">
+            <ul class="nav navbar-nav links-left">
 
-        <!-- TODO: Add links for publishing and other stuff, change layout to collapse on phones -->
-        <ul class="links-left">
-            <li><a href="{{ routeTrip('show', trip.id) }}"><i class="fa fa-home"></i> Back to index</a></li>
+                <!-- TODO: another page prob -->
+                <li><a href="{{ routeTrip('manage-people', trip.id) }}"><i class="fa fa-users"></i> {{ t('layout.trip.manage-people') }}</a></li>
 
-            <!-- TODO: another page prob -->
-            <li><a href="{{ routeTrip('manage-people', trip.id) }}"><i class="fa fa-users"></i> {{ t('layout.trip.manage-people') }}</a></li>
+                {% if isOwner %}
+                    <li><a href="{{ routeTrip('manage-staff', trip.id) }}"><i class="fa fa-wrench"></i> {{ t('layout.trip.manage-staff') }}</a></li>
+                {% endif %}
 
-            {% if isOwner %}
-                <li><a href="{{ routeTrip('manage-staff', trip.id) }}"><i class="fa fa-wrench"></i> {{ t('layout.trip.manage-staff') }}</a></li>
-            {% endif %}
+                <!-- TODO: ajax add as last day -->
+                <li><a href="#"><i class="fa fa-plus"></i> {{ t('layout.trip.add-day') }}</a></li>
+            </ul>
+            <ul class="nav navbar-nav links-right">
+                <!-- TODO: edit trip stuff, another page prob -->
+                <li><a href="{{ routeTrip('edit', trip.id) }}"><i class="fa fa-pencil"></i> {{ t('layout.trip.edit') }}</a></li>
 
-            <!-- TODO: ajax add as last day -->
-            <li><a href="#"><i class="fa fa-plus"></i> {{ t('layout.trip.add-day') }}</a></li>
-        </ul>
-        <ul class="links-right">
-            <!-- TODO: edit trip stuff, another page prob -->
-            <li><a href="{{ routeTrip('edit', trip.id) }}"><i class="fa fa-pencil"></i> {{ t('layout.trip.edit') }}</a></li>
-
-            <!-- TODO: confirm prompt, then redirect to dashboard -->
-            <li><a href="#"><i class="fa fa-trash"></i> {{ t('layout.trip.archive') }}</a></li>
-        </ul>
+                <!-- TODO: confirm prompt, then redirect to dashboard -->
+                <li><a href="#"><i class="fa fa-trash"></i> {{ t('layout.trip.archive') }}</a></li>
+            </ul>
+        </div>
     </div>
 </nav>
