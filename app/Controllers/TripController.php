@@ -240,4 +240,23 @@ class TripController extends Controller
     public function promoteUser($trip_id, $user_trip_id) {
 
     }
+
+    /**
+     * @param $trip_id
+     * @return Response
+     */
+    public function invitePage($trip_id) {
+        $trip = $this->tripRepository->getTrip($trip_id);
+
+        if ($trip == NULL) {
+            $this->alertHelper->error($this->lang->get('alerts.trip.missing'));
+            return $this->route('dashboard');
+        }
+
+        return $this->responseFactory->html('trip/invite.html.twig', ['trip' => $trip]);
+    }
+
+    public function invite($trip_id) {
+        // TODO: Send a link with unique invitation token
+    }
 }

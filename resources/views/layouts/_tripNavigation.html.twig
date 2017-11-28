@@ -10,8 +10,7 @@
         </div>
         <div class="collapse navbar-collapse" id="trip-navigation">
             <ul class="nav navbar-nav links-left">
-
-                <!-- TODO: another page prob -->
+                <li><a href="{{ routeTrip('invite', trip.id) }}"><i class="fa fa-envelope"></i> {{ t('layout.trip.invite') }}</a></li>
                 <li><a href="{{ routeTrip('manage-people', trip.id) }}"><i class="fa fa-users"></i> {{ t('layout.trip.manage-people') }}</a></li>
 
                 {% if isOwner %}

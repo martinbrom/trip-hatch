@@ -56,7 +56,9 @@ return [
             'display_name' => 'Display name',
             'promote' => 'Promote',
             'delete' => 'Delete',
-            'role' => 'Role'
+            'role' => 'Role',
+            'id' => 'ID',
+            'email' => 'Email'
         ],
         'manage-staff' => [
             'title' => 'Trip manage staff'
@@ -66,6 +68,12 @@ return [
             'heading' => 'Hatch a new trip',
             'submit' => 'Hatch',
             'trip-title' => 'Trip title'
+        ],
+        'invite' => [
+            'heading' => 'Invite a traveller',
+            'title' => 'Invite to trip',
+            'submit' => 'Invite',
+            'email' => 'Email'
         ]
     ]
 ];

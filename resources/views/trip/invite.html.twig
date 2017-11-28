@@ -1,0 +1,29 @@
+{% extends "layouts/trip.html.twig" %}
+
+{% block title %}{{ t('pages.trip.invite.title') }}{% endblock %}
+
+{% block content %}
+
+    <section class="container-section">
+        <div class="container">
+            <h1 class="text-center trip-title">{{ t('pages.trip.invite.heading') }}</h1>
+            {% if trip.public_url %}
+                <p class="text-center">http:\\www.trip-hatch.com{{ routeTripPublic(trip.public_url) }}</p>
+            {% endif %}
+            <div class="invite-container col-md-offset-3 col-md-6">
+                <form action="{{ routeTrip('invite.submit', trip.id) }}" method="post" class="form-horizontal">
+                    <input name="csrf_token" type="hidden" value="{{ csrf_token }}">
+                    <div class="form-group">
+                        <label class="control-label" for="invite_email">{{ t('pages.trip.invite.email') }}</label>
+                        <input class="form-control" type="email" name="invite_email" id="invite_email">
+                    </div>
+                    <div class="form-group">
+                        <input class="hidden-xs hidden-sm btn btn-primary" type="submit" value="{{ t('pages.trip.invite.submit') }}">
+                        <input class="visible-xs visible-sm form-control btn btn-primary" type="submit" value="{{ t('pages.trip.invite.submit') }}">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

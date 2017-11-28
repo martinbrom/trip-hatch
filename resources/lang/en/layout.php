@@ -22,6 +22,6 @@ return [
         'edit' => 'Edit',
         'archive' => 'Archive',
         'hatch-trip' => 'Hatch a new trip',
-        ''
+        'invite' => 'Invite'
     ]
 ];
