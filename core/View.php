@@ -50,12 +50,13 @@ class View
     /**
      * @param $template
      * @param array $args
+     * @return string
      */
     public function render($template, $args = []) {
         $this->loader = new \Twig_Loader_Filesystem(self::FOLDER);
         $this->initializeEnvironment();
         $this->registerFunctions();
-        echo $this->twig->render($template, $args);
+        return $this->twig->render($template, $args);
     }
 
     /**
@@ -88,6 +89,10 @@ class View
 
         $this->twig->addFunction(new \Twig_Function('routeTripPublic', function ($url) {
             return $this->routeHelper->get('trip.public', ['public_url' => $url]);
+        }));
+
+        $this->twig->addFunction(new \Twig_Function('routeTripDay', function ($route, $trip_id, $day_id) {
+            return $this->routeHelper->get('trip.day.' . $route, ['trip_id' => $trip_id, 'day_id' => $day_id]);
         }));
     }
 }

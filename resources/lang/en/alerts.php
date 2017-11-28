@@ -25,7 +25,7 @@ return [
     ],
     'trip' => [
         'missing' => 'Trip doesn\'t exist',
-        'no-users' => 'There are currently no travellers on this trip',
+        'no-travellers' => 'There are currently no travellers on this trip',
         'no-days' => 'There are currently no days planned on this trip'
     ],
     'remove-user' => [

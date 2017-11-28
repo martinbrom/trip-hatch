@@ -72,4 +72,22 @@ class DayRepository
         $data = ['trip_id' => $trip_id, 'order' => $order];
         return $this->baseRepository->run($query, $data);
     }
+
+    /**
+     * @return string
+     */
+    public function lastInsertId() {
+        return $this->baseRepository->lastInsertId();
+    }
+
+    /**
+     * @return array
+     */
+    public function getLastInsertDay() {
+        $query = "SELECT days.*, images.path, images.description FROM days
+                INNER JOIN images ON days.image_id = images.id
+                WHERE days.id = :id";
+        $data = ['id' => $this->lastInsertId()];
+        return $this->baseRepository->fetch($query, $data);
+    }
 }

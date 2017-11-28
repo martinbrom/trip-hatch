@@ -123,6 +123,11 @@ $rb->add('GET', 'action-types', 'ActionType', 'index')
 // ------------- DAY ------------
 $rb->add('GET', 'trip/{trip_id:\d+}/day/{day_id:\d+}/delete', 'Day', 'delete')
     ->middleware(['organiser'])
+    ->name('trip.day.delete')
+    ->ajax();
+$rb->add('GET', 'trip/{trip_id:\d+}/day/{day_id:\d+}/edit', 'Day', 'edit')
+    ->middleware(['organiser'])
+    ->name('trip.day.edit')
     ->ajax();
 
 // ------------ HOME ------------

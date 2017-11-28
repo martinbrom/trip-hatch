@@ -82,15 +82,12 @@ $(document).ready(function () {
     });
 
     $("a.day-edit-btn").click(function () {
-        var day_id = $(this).attr('data-day-id');
-        alert('Editing day ' + day_id);
+        alert('Editing day');
     });
 
     $("a.day-delete-btn").click(function () {
-        var day_id = $(this).attr('data-day-id');
-        var trip_id = $(this).attr('data-trip-id');
         $.ajax({
-            url: "/trip/" + trip_id + "/day/" + day_id + "/delete",
+            url: $(this).attr(ajax_url_parameter_name),
             success: function (result) {
                 console.log(result);
             }
@@ -140,10 +137,14 @@ $(document).ready(function () {
             url: $(this).attr(ajax_url_parameter_name),
             dataType: 'json',
             success: function (result) {
-                // TODO: Add a new day
+                console.log(result);
+                $('.trip-days-container').append(result.html);
+                console.log(result.html);
                 addAlert(result.type, result.message);
             },
             error: function (result) {
+                console.log(result);
+                console.log(result.responseText);
                 var r = JSON.parse(result.responseText);
                 addAlert(r['type'], r['message']);
             }

@@ -32,7 +32,14 @@ class HtmlResponse extends Response
     /**
      *
      */
+    public function createContent() {
+        return $this->view->render($this->getContent(), $this->getData());
+    }
+
+    /**
+     *
+     */
     protected function sendContent() {
-        $this->view->render($this->getContent(), $this->getData());
+        echo $this->createContent();
     }
 }

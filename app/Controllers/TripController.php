@@ -277,6 +277,10 @@ class TripController extends Controller
             return $this->responseFactory->jsonAlert($this->lang->get('alerts.trip-add-day.error'), 'error', 500);
         }
 
-        return $this->responseFactory->jsonAlert($this->lang->get('alerts.trip-add-day.success'), 'success', 200);
+        $day = $this->dayRepository->getLastInsertDay();
+        $html = $this->responseFactory->html('layouts/_day.html.twig', ['day' => $day, 'trip' => $trip])->createContent();
+
+        $data = ['message' => $this->lang->get('alerts.trip-add-day.success'), 'type' => 'success', 'html' => $html];
+        return $this->responseFactory->json($data, 200);
     }
 }
