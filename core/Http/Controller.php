@@ -2,7 +2,6 @@
 
 namespace Core\Http;
 
-use App\Exception\MethodNotFoundException;
 use Core\Factories\ResponseFactory;
 use Core\Http\Response\HtmlResponse;
 use Core\Http\Response\RedirectResponse;

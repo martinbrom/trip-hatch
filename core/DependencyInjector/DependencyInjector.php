@@ -1,6 +1,7 @@
 <?php
 
 namespace Core\DependencyInjector;
+
 use Core\DependencyInjector\Exception\CircularDependencyFoundException;
 use Core\DependencyInjector\Exception\DependencyTypeNotFoundException;
 use Core\DependencyInjector\Exception\ServiceNotExistsException;
@@ -74,7 +75,7 @@ class DependencyInjector
      */
     private function instantiate($className) {
         if (isset($this->generating[$className]))
-            throw new CircularDependencyFoundException();
+            throw new CircularDependencyFoundException($className);
 
         $this->generating[$className] = true;
 

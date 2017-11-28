@@ -25,6 +25,12 @@ class Auth
     /** @var array */
     private $roles;
 
+    /**
+     * Auth constructor.
+     * @param Session $session
+     * @param UserRepository $userRepository
+     * @param UserTripRepository $userTripRepository
+     */
     public function __construct(Session $session, UserRepository $userRepository, UserTripRepository $userTripRepository) {
         $this->session = $session;
         $this->userRepository = $userRepository;

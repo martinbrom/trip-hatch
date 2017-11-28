@@ -2,6 +2,11 @@
 
 namespace Core;
 
+/**
+ * Class AlertHelper
+ * @package Core
+ * @author Martin Brom
+ */
 class AlertHelper
 {
     /** @var Session */
@@ -15,6 +20,11 @@ class AlertHelper
         $this->session = $session;
     }
 
+    /**
+     * @param $type
+     * @param $message
+     * @param null $title
+     */
     private function add($type, $message, $title = null) {
         $this->session->addTo('alerts', [
             'type' => $type,
@@ -23,18 +33,34 @@ class AlertHelper
         ]);
     }
 
+    /**
+     * @param $message
+     * @param null $title
+     */
     public function error($message, $title = null) {
         $this->add('danger', $message, $title);
     }
 
+    /**
+     * @param $message
+     * @param null $title
+     */
     public function warning($message, $title = null) {
         $this->add('warning', $message, $title);
     }
 
+    /**
+     * @param $message
+     * @param null $title
+     */
     public function info($message, $title = null) {
         $this->add('info', $message, $title);
     }
 
+    /**
+     * @param $message
+     * @param null $title
+     */
     public function success($message, $title = null) {
         $this->add('success', $message, $title);
     }

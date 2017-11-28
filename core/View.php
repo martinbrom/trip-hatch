@@ -6,6 +6,11 @@ use Core\Config\Config;
 use Core\Language\Language;
 use Core\Routing\RouteHelper;
 
+/**
+ * Class View
+ * @package Core
+ * @author Martin Brom
+ */
 class View
 {
     /** Location of view files */
@@ -29,6 +34,12 @@ class View
     /** @var bool */
     private $shouldCache;
 
+    /**
+     * View constructor.
+     * @param Language $language
+     * @param RouteHelper $routeHelper
+     * @param Config $config
+     */
     public function __construct(Language $language, RouteHelper $routeHelper, Config $config) {
         $this->language = $language;
         $this->routeHelper = $routeHelper;
@@ -36,6 +47,10 @@ class View
         $this->shouldCache = $config->get('app.cache_views');
     }
 
+    /**
+     * @param $template
+     * @param array $args
+     */
     public function render($template, $args = []) {
         $this->loader = new \Twig_Loader_Filesystem(self::FOLDER);
         $this->initializeEnvironment();
@@ -43,11 +58,17 @@ class View
         echo $this->twig->render($template, $args);
     }
 
+    /**
+     *
+     */
     public function initializeEnvironment() {
         $args = $this->shouldCache ? ['cache' => '../temp/cache'] : [];
         $this->twig = new \Twig_Environment($this->loader, $args);
     }
 
+    /**
+     *
+     */
     public function registerFunctions() {
         $this->twig->addFunction(new \Twig_Function('t', function ($key, $parameters = []) {
             return $this->language->get($key, $parameters);

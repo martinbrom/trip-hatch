@@ -69,7 +69,7 @@ class Validator
                 $parameters = [];
                 if (count($ruleParts) == 2) $parameters = explode(',', $ruleParts[1]);
 
-                if (!method_exists($this, $rule)) throw new ValidationRuleNotExistsException();
+                if (!method_exists($this, $rule)) throw new ValidationRuleNotExistsException($rule);
 
                 $result = call_user_func_array([$this, $rule], array_merge($input, $parameters));
 

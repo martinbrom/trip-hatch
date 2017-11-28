@@ -8,8 +8,14 @@ use Core\Http\Request;
 use Core\Http\Response\Response;
 use Core\Middleware\Exception\MiddlewareResponseNotCreatedException;
 
+/**
+ * Class MiddlewareHandler
+ * @package Core\Middleware
+ * @author Martin Brom
+ */
 class MiddlewareHandler
 {
+    /** */
     const NAMESPACE = 'App\Middleware\\';
 
     /** @var Middleware[] */
@@ -17,18 +23,34 @@ class MiddlewareHandler
 
     /** @var Request */
     private $request;
+
+    /** @var */
     private $response;
+
+    /** @var DependencyInjector */
     private $di;
+
+    /** @var ResponseFactory */
     private $responseFactory;
 
     // TODO: If user logged, check if his login is valid before each request
+    /** @var array */
     private $alwaysUsedMiddleware = ['csrf', 'alerts', 'viewData'];
 
+    /**
+     * MiddlewareHandler constructor.
+     * @param ResponseFactory $responseFactory
+     * @param DependencyInjector $di
+     */
     function __construct(ResponseFactory $responseFactory, DependencyInjector $di) {
         $this->di = $di;
         $this->responseFactory = $responseFactory;
     }
 
+    /**
+     * @return mixed
+     * @throws MiddlewareResponseNotCreatedException
+     */
     public function getResponse() {
         if (!isset($this->response))
             throw new MiddlewareResponseNotCreatedException();
@@ -36,6 +58,9 @@ class MiddlewareHandler
         return $this->response;
     }
 
+    /**
+     * @param Request $request
+     */
     public function setRequest(Request $request) {
         $this->request = $request;
         $this->createMiddlewareInstances();
@@ -68,6 +93,9 @@ class MiddlewareHandler
         }
     }
 
+    /**
+     *
+     */
     public function createMiddlewareInstances() {
         $middleware = array_merge($this->alwaysUsedMiddleware, $this->request->getMiddleware());
         $aliases = require __DIR__ . '/../middleware.php';

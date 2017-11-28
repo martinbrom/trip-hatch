@@ -2,9 +2,13 @@
 
 namespace Core;
 
+/**
+ * Class CsrfTokenHandler
+ * @package Core
+ * @author Martin Brom
+ */
 class CsrfTokenHandler
 {
-
     /** @var Session */
     private $session;
 

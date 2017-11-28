@@ -6,7 +6,7 @@ use Core\Http\Request;
 use Core\Http\Response\Response;
 
 /**
- * Interface defining Middleware class
+ * Definition of middleware classes
  * Before function is run before request being processed,
  * and if all Middleware before functions complete without
  * error, request is processed and Middleware after

@@ -2,14 +2,28 @@
 
 namespace Core;
 
+/**
+ * Class FlatArray
+ * @package Core
+ * @author Martin Brom
+ */
 class FlatArray
 {
+    /** @var array */
     private $data;
 
+    /**
+     * FlatArray constructor.
+     * @param array $data
+     */
     public function __construct(array $data) {
         $this->data = $data;
     }
 
+    /**
+     * @param string|null $key
+     * @return array|mixed|null
+     */
     public function get(string $key = null) {
         if (is_null($key)) return $this->data;
 
@@ -24,6 +38,10 @@ class FlatArray
         return $value;
     }
 
+    /**
+     * @param string $key
+     * @param $value
+     */
     public function set(string $key, $value) {
         $keys = explode('.', $key);
         $array = &$this->data;
@@ -37,10 +55,17 @@ class FlatArray
         $array[end($keys)] = $value;
     }
 
+    /**
+     * @param string $key
+     * @return bool
+     */
     public function has(string $key): bool {
         return $this->get($key) == null;
     }
 
+    /**
+     * @return array
+     */
     public function getAll() {
         return $this->data;
     }
