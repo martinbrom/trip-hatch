@@ -44,11 +44,30 @@ class DayController extends Controller
      * @return Response
      */
     public function delete($trip_id, $day_id) {
-        if (!$this->dayRepository->tripHasDay($trip_id, $day_id))
-            return $this->responseFactory->jsonAlert('Failure', 'error', 404);
+        $trip = $this->tripRepository->getTrip($trip_id);
+
+        if ($trip == NULL) {
+            return $this->responseFactory->jsonAlert($this->lang->get('alerts.trip.missing'), 'error', 404);
+        }
+
+        $day = $this->dayRepository->getDay($day_id);
+
+        if ($day == NULL) {
+            return $this->responseFactory->jsonAlert($this->lang->get('alerts.day.missing'), 'error', 404);
+        }
+
+        // TODO: Deleting day with actions
+        if (!$this->dayRepository->delete($day_id)) {
+            return $this->responseFactory->jsonAlert($this->lang->get('alerts.day-delete.error'), 'error', 500);
+        }
 
         // TODO: Delete day and change trip end date and order of all days
-        return $this->responseFactory->jsonAlert('Success', 'success', 200);
+        $data = [
+            'message' => $this->lang->get('alerts.day-delete.success', [$day['title']]),
+            'type' => 'success',
+            'day_id' => $day_id
+        ];
+        return $this->responseFactory->json($data, 200);
     }
 
     /**

@@ -57,8 +57,16 @@ $(document).ready(function () {
         scrollToPageID($(this).attr("data-scroll-target"), animation_time_slow);
     });
 
-    $(".trip-day-head").click(function (e) {
-        if ($(event.target).hasClass('non-collapse')) {
+    // $(document).on('click', '.non-collapse', function (e) {
+    //     e.stopPropagation();
+    // });
+
+    $(document).on('click', '.trip-day-head', function (e) {
+        console.log(this);
+        // e.stopPropagation();
+        // console.log($(e.target));
+
+        if ($(e.target).hasClass('non-collapse')) {
             e.stopPropagation();
             return;
         }
@@ -74,11 +82,12 @@ $(document).ready(function () {
                     action_container.parent().collapse("toggle");
                 }
             });
+        } else {
+            action_container.parent().collapse("toggle");
         }
-
     });
 
-    $("a.day-edit-modal-btn").click(function () {
+    $(document).on('click', 'a.day-edit-modal-btn', function () {
         var url = $(this).attr(ajax_url_parameter_name);
         $('.day-edit-btn').attr(ajax_url_parameter_name, url);
         $('form.day-edit-form').attr(ajax_url_parameter_name, url);
@@ -89,7 +98,7 @@ $(document).ready(function () {
                 console.log(result);
                 console.log(result.day);
                 console.log(result.trip);
-                $('#day_title').attr('value', result.day.title);
+                $('#day_title').val(result.day.title);
                 $('#day-edit-modal').modal('show');
             },
             error: function (result) {
@@ -129,12 +138,20 @@ $(document).ready(function () {
         });
     });
 
-    $("a.day-delete-btn").click(function (e) {
+    $(document).on('click', 'a.day-delete-btn', function (e) {
         e.preventDefault();
         $.ajax({
             url: $(this).attr(ajax_url_parameter_name),
             success: function (result) {
                 console.log(result);
+                $("#day-container-" + result.day_id).remove();
+                addAlert(result.type, result.message);
+            },
+            error: function (result) {
+                console.log(result);
+                console.log(result.responseText);
+                var r = JSON.parse(result.responseText);
+                addAlert(r['type'], r['message']);
             }
         });
     });

@@ -54,7 +54,7 @@ class DayRepository
      * @return bool
      */
     public function tripHasDay(int $trip_id, int $day_id) {
-        $query = "SELECT COUNT(*) FROM days
+        $query = "SELECT COUNT(*) as count FROM days
                 WHERE trip_id = :trip_id AND id = :day_id";
         $data = ['trip_id' => $trip_id, 'day_id' => $day_id];
         return $this->baseRepository->fetch($query, $data)['count'] >= 1;
@@ -115,6 +115,16 @@ class DayRepository
                 title = :title, image_id = :image_id
                 WHERE id = :id";
         $data = ['title' => $title, 'id' => $day_id, 'image_id' => $image_id];
+        return $this->baseRepository->run($query, $data);
+    }
+
+    /**
+     * @param $day_id
+     * @return bool
+     */
+    public function delete($day_id) {
+        $query = "DELETE FROM days WHERE id = :id";
+        $data = ['id' => $day_id];
         return $this->baseRepository->run($query, $data);
     }
 }

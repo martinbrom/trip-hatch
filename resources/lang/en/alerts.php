@@ -47,5 +47,9 @@ return [
     'day-edit' => [
         'error' => 'Something went wrong while trying to edit a day',
         'success' => 'A day has been successfully edited'
+    ],
+    'day-delete' => [
+        'error' => 'Something went wrong while trying to delete a day',
+        'success' => 'Day \':p1\' has been successfully deleted'
     ]
 ];
