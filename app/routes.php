@@ -110,8 +110,9 @@ $rb->add('POST', 'change-password', 'UserSettings', 'changePassword')
 // ---------------------------------------
 
 // ----------- ACTION -----------
-$rb->add('GET', 'trip/day/{day_id:\d+}/actions', 'Action', 'actions')
+$rb->add('GET', 'trip/{trip_id:\d+}/day/{day_id:\d+}/actions', 'Action', 'actions')
     ->middleware(['logged'])
+    ->name('trip.day.actions')
     ->ajax();
 
 // -------- ACTION TYPES --------

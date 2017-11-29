@@ -26,10 +26,11 @@ class ActionController extends Controller
 
     /**
      * Returns a html response with all actions for given day
+     * @param int $trip_id ID of a trip
      * @param int $day_id ID of a day
      * @return HtmlResponse All actions for given day
      */
-    public function actions($day_id) {
+    public function actions($trip_id, $day_id) {
         $actions = $this->actionRepository->getActions($day_id);
         return $this->responseFactory->html('trip/actions.html.twig', ['actions' => $actions]);
     }

@@ -67,8 +67,7 @@ $(document).ready(function () {
         if (action_container.html() == "") {
             e.stopPropagation();
             $.ajax({
-                // TODO: Add url to the trip-day-head
-                url: "/trip/day/" + ($(this).attr("data-target").substring(4)) + "/actions",
+                url: $(this).parent().parent().find(".trip-day-head").attr(ajax_url_parameter_name),
                 success: function (result) {
                     // console.log(result);
                     action_container.html(result);

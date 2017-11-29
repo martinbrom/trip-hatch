@@ -1,6 +1,6 @@
 <div id="day-container-{{ day.id }}" data-order="{{ day.order }}" class="trip-day-container col-xs-12">
     <div class="trip-day">
-        <div class="trip-day-head" data-toggle="collapse" data-target="#day{{ day.id }}">
+        <div class="trip-day-head" data-ajax-url="{{ routeTripDay('actions', trip.id, day.id) }}" data-toggle="collapse" data-target="#day{{ day.id }}">
             <img src="/images/thumbnails/{{ day.path }}" class="img-responsive trip-day-thumbnail" alt="{{ day.description }}">
 
             {% if isOrganiser %}
