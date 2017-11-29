@@ -30,7 +30,8 @@ class DayRepository
     public function getDays(int $trip_id): array {
         $query = "SELECT days.*, images.path, images.description FROM days
                 INNER JOIN images ON days.image_id = images.id
-                WHERE trip_id = :trip_id";
+                WHERE trip_id = :trip_id
+                ORDER BY days.order";
         $data = ['trip_id' => $trip_id];
         return $this->baseRepository->fetchAll($query, $data);
     }
@@ -101,5 +102,19 @@ class DayRepository
                 WHERE days.id = :id";
         $data = ['id' => $this->lastInsertId()];
         return $this->baseRepository->fetch($query, $data);
+    }
+
+    /**
+     * @param $day_id
+     * @param $title
+     * @param $image_id
+     * @return bool
+     */
+    public function edit($day_id, $title, $image_id) {
+        $query = "UPDATE days SET
+                title = :title, image_id = :image_id
+                WHERE id = :id";
+        $data = ['title' => $title, 'id' => $day_id, 'image_id' => $image_id];
+        return $this->baseRepository->run($query, $data);
     }
 }

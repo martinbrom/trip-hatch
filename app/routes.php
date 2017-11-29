@@ -132,6 +132,9 @@ $rb->add('GET', 'trip/{trip_id:\d+}/day/{day_id:\d+}/edit', 'Day', 'editModal')
 $rb->add('POST', 'trip/{trip_id:\d+}/day/{day_id:\d+}/edit', 'Day', 'edit')
     ->middleware(['organiser'])
     ->name('trip.day.edit.submit')
+    ->validate([
+        'day_title' => ['required', 'maxLen:100']
+    ])
     ->ajax();
 
 // ------------ HOME ------------

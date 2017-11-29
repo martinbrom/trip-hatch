@@ -40,5 +40,12 @@ return [
     'trip-add-day' => [
         'error' => 'Something went wrong while trying to add a new day',
         'success' => 'A new day has been successfully added'
+    ],
+    'day' => [
+        'missing' => 'Day doesn\'t exist'
+    ],
+    'day-edit' => [
+        'error' => 'Something went wrong while trying to edit a day',
+        'success' => 'A day has been successfully edited'
     ]
 ];

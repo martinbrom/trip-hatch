@@ -3,13 +3,26 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Modal Header</h4>
+                <h4 class="modal-title">{{ t('pages.day.edit.heading') }}</h4>
             </div>
             <div class="modal-body">
-                <p>Some text in the modal.</p>
+                <form class="day-edit-form" method="post">
+                    <input name="csrf_token" type="hidden" value="{{ csrf_token }}">
+                    <div class="form-group">
+                        <label class="control-label" for="day_title">{{ t('pages.day.edit.day-title') }}</label>
+                        <input type="text" value="" name="day_title" id="day_title" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="day_image">{{ t('pages.day.edit.day-image') }} - {{ t('pages.day.edit.day-image-help') }}</label>
+                        <input type="file" name="day_image" id="day_image" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="{{ t('pages.day.edit.submit') }}" class="day-edit-btn btn btn-primary">
+                    </div>
+                </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default day-edit-btn">Close</button>
+                <button type="button" class="btn btn-default">{{ t('pages.day.edit.close') }}</button>
             </div>
         </div>
     </div>

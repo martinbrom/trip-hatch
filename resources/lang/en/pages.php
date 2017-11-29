@@ -75,5 +75,15 @@ return [
             'submit' => 'Invite',
             'email' => 'Email'
         ]
+    ],
+    'day' => [
+        'edit' => [
+            'heading' => 'Edit a day',
+            'day-title' => 'Day title',
+            'day-image' => 'Day image',
+            'day-image-help' => 'leave blank for default image',
+            'submit' => 'Edit',
+            'close' => 'Close'
+        ]
     ]
 ];

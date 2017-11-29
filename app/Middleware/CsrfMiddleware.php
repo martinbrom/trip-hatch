@@ -57,10 +57,10 @@ class CsrfMiddleware extends Middleware
         if ($token && $this->tokenHandler->matches($token))
             return null;
 
-        $message = ['message' => $this->lang->get('middleware.csrf.failure')];
+        $message = $this->lang->get('middleware.csrf.failure');
         return ($this->request->isAjax()) ?
-            $this->responseFactory->json($message, 401) :
-            $this->responseFactory->error(401, $message);
+            $this->responseFactory->jsonAlert($message, 'error', 401) :
+            $this->responseFactory->error(401, ['message' => $message]);
     }
 
     /**

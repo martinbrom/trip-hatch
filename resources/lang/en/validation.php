@@ -21,5 +21,9 @@ return [
     'trip_title' => [
         'required' => 'Trip title is required',
         'maxLen' => 'Trip title must be at most :p1 characters long'
+    ],
+    'day_title' => [
+        'required' => 'Day title is required',
+        'maxLen' => 'Day title must be at most :p1 characters long'
     ]
 ];

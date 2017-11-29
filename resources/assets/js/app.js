@@ -58,18 +58,16 @@ $(document).ready(function () {
     });
 
     $(".trip-day-head").click(function (e) {
-        // console.log(event.target);
-
         if ($(event.target).hasClass('non-collapse')) {
             e.stopPropagation();
             return;
         }
 
-        // TODO: First load content, then collapse
         var action_container = $(this).parent().parent().find(".trip-day-body");
         if (action_container.html() == "") {
             e.stopPropagation();
             $.ajax({
+                // TODO: Add url to the trip-day-head
                 url: "/trip/day/" + ($(this).attr("data-target").substring(4)) + "/actions",
                 success: function (result) {
                     // console.log(result);
@@ -82,15 +80,54 @@ $(document).ready(function () {
     });
 
     $("a.day-edit-modal-btn").click(function () {
-        // initialize modal stuff
-        $('.day-edit-btn').attr(ajax_url_parameter_name, $(this).attr(ajax_url_parameter_name));
-        $('#day-edit-modal').modal('show');
+        var url = $(this).attr(ajax_url_parameter_name);
+        $('.day-edit-btn').attr(ajax_url_parameter_name, url);
+        $('form.day-edit-form').attr(ajax_url_parameter_name, url);
+
+        $.ajax({
+            url: url,
+            success: function (result) {
+                console.log(result);
+                console.log(result.day);
+                console.log(result.trip);
+                $('#day_title').attr('value', result.day.title);
+                $('#day-edit-modal').modal('show');
+            },
+            error: function (result) {
+                console.log(result);
+                console.log(result.responseText);
+                var r = JSON.parse(result.responseText);
+                addAlert(r['type'], r['message']);
+            }
+        });
     });
 
-    $(".day-edit-btn").click(function () {
+    $(".day-edit-btn").click(function (e) {
+        e.preventDefault();
         var url  = $(this).attr(ajax_url_parameter_name);
-        // send form, update content and close modal
-        $('#day-edit-modal').modal('hide');
+        $.ajax({
+            url: url,
+            method: 'post',
+            data: $('form.day-edit-form').serialize(),
+            success: function (result) {
+                console.log(result);
+                $("#day-container-" + result.day_id).remove();
+                $('.trip-days-container').append(result.html);
+
+                // TODO: More elegant solution?
+                $("div.trip-day-container").sort(function (prev, next) {
+                    return parseInt(prev.dataset.order) - parseInt(next.dataset.order);
+                }).appendTo(".trip-days-container");
+                $('#day-edit-modal').modal('hide');
+            },
+            error: function (result) {
+                console.log(result);
+                console.log(result.responseText);
+                var r = JSON.parse(result.responseText);
+                $('#day-edit-modal').modal('hide');
+                addAlert(r['type'], r['message']);
+            }
+        });
     });
 
     $("a.day-delete-btn").click(function (e) {
@@ -155,3 +192,5 @@ $(document).ready(function () {
         });
     })
 });
+
+// TODO: Client-side form validation

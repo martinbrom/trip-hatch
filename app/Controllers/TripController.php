@@ -234,7 +234,7 @@ class TripController extends Controller
             return $this->responseFactory->jsonAlert($this->lang->get('alerts.remove-user.success'), 'success', 200);
         }
 
-        return $this->responseFactory->jsonAlert($this->lang->get('alerts.remove-user.error'),'danger', 500);
+        return $this->responseFactory->jsonAlert($this->lang->get('alerts.remove-user.error'), 'danger', 500);
     }
 
     public function promoteUser($trip_id, $user_trip_id) {
