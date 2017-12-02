@@ -87,7 +87,7 @@ $(document).ready(function () {
         }
     });
 
-    $(document).on('click', 'a.day-edit-modal-btn', function () {
+    $(document).on('click', 'a.day-edit-modal-btn', function (e) {
         var url = $(this).attr(ajax_url_parameter_name);
         $('.day-edit-btn').attr(ajax_url_parameter_name, url);
         $('form.day-edit-form').attr(ajax_url_parameter_name, url);

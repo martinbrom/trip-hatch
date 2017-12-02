@@ -50,7 +50,7 @@ class UserTravellerMiddleware extends Middleware
         $trip_id = $this->request->getParameter('trip_id');
         if (!$this->auth->isTraveller($trip_id)) {
             if ($this->request->isAjax())
-                return $this->responseFactory->json(['message' => $this->lang->get('middleware.traveller.failure')], 401);
+                return $this->responseFactory->jsonAlert($this->lang->get('middleware.traveller.failure'), 'error', 401);
 
             $this->alertHelper->error($this->lang->get('middleware.traveller.failure'));
             return $this->responseFactory->redirectToRoute('dashboard');

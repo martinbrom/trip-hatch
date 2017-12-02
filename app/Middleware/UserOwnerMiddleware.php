@@ -50,7 +50,7 @@ class UserOwnerMiddleware extends Middleware
         $trip_id = $this->request->getParameter('trip_id');
         if (!$this->auth->isOwner($trip_id)) {
             if ($this->request->isAjax())
-                return $this->responseFactory->json(['message' => $this->lang->get('middleware.owner.failure')], 401);
+                return $this->responseFactory->jsonAlert($this->lang->get('middleware.owner.failure'), 'error', 401);
 
             $this->alertHelper->error($this->lang->get('middleware.owner.failure'));
             return $this->responseFactory->redirectToTripRoute('show', $trip_id);

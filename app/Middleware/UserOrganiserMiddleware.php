@@ -50,7 +50,7 @@ class UserOrganiserMiddleware extends Middleware
         $trip_id = $this->request->getParameter('trip_id');
         if (!$this->auth->isOrganiser($trip_id)) {
             if ($this->request->isAjax())
-                return $this->responseFactory->json(['message' => $this->lang->get('middleware.organiser.failure')], 401);
+                return $this->responseFactory->jsonAlert($this->lang->get('middleware.organiser.failure'), 'error', 401);
 
             $this->alertHelper->error($this->lang->get('middleware.organiser.failure'));
             return $this->responseFactory->redirectToTripRoute('show', $trip_id);
