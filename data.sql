@@ -10,7 +10,7 @@ INSERT INTO `action_types` (`id`, `name`, `icon_class`, `color_class`) VALUES
   (NULL, 'Car', 'fa-car', 'transport'),
   (NULL, 'Important', 'fa-star', 'important'),
   (NULL, 'Point', 'fa-map-marker', 'interest'),
-  (NULL, 'Drink', 'fa-drink', 'food'),
+  (NULL, 'Drink', 'fa-glass', 'food'),
   (NULL, 'Food', 'fa-cutlery', 'food'),
   (NULL, 'Coffee', 'fa-coffee', 'food'),
   (NULL, 'Accommodation', 'fa-bed', 'accommodation'),
