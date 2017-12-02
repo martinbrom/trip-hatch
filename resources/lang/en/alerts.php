@@ -51,5 +51,12 @@ return [
     'day-delete' => [
         'error' => 'Something went wrong while trying to delete a day',
         'success' => 'Day \':p1\' has been successfully deleted'
+    ],
+    'actions' => [
+        'success' => 'Actions have been successfully loaded'
+    ],
+    'trip-add-action' => [
+        'success' => 'New action has been successfully added',
+        'error' => 'Something went wrong while trying to add a new action'
     ]
 ];

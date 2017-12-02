@@ -114,6 +114,10 @@ $rb->add('GET', 'trip/{trip_id:\d+}/day/{day_id:\d+}/actions', 'Action', 'action
     ->middleware(['logged'])
     ->name('trip.day.actions')
     ->ajax();
+$rb->add('GET', 'trip/{trip_id:\d+}/day/{day_id:\d+}/action/add', 'Action', 'addActionModal')
+    ->middleware(['logged'])
+    ->name('trip.day.action.add')
+    ->ajax();
 
 // -------- ACTION TYPES --------
 $rb->add('GET', 'action-types', 'ActionType', 'index')
@@ -138,6 +142,12 @@ $rb->add('POST', 'trip/{trip_id:\d+}/day/{day_id:\d+}/edit', 'Day', 'edit')
     ])
     ->ajax();
 
+// TODO: Add validation rules
+$rb->add('POST', 'trip/{trip_id:\d+}/day/{day_id:\d+}/action/add', 'Day', 'addAction')
+    ->middleware(['logged'])
+    ->name('trip.day.action.add.submit')
+    ->ajax();
+
 // ------------ HOME ------------
 
 // ------------ TRIP ------------
@@ -155,6 +165,8 @@ $rb->add('GET', 'trip/{trip_id:\d+}/user/{user_trip_id:\d+}/promote', 'Trip', 'p
     ->middleware(['owner'])
     ->name('trip.user.promote')
     ->ajax();
+
+// TODO: Isn't this missing a validation?
 $rb->add('GET', 'trip/{trip_id:\d+}/day/add', 'Trip', 'addDay')
     ->middleware(['organiser'])
     ->name('trip.add-day')

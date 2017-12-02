@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Repositories\ActionRepository;
 use App\Repositories\DayRepository;
 use App\Repositories\TripRepository;
 use Core\Auth;
@@ -24,18 +25,28 @@ class DayController extends Controller
     /** @var Language */
     private $lang;
 
+    /** @var ActionRepository */
+    private $actionRepository;
+
     /**
      * DayController constructor.
      * @param Auth $auth
      * @param DayRepository $dayRepository
      * @param TripRepository $tripRepository
      * @param Language $lang
+     * @param ActionRepository $actionRepository
      */
-    public function __construct(Auth $auth, DayRepository $dayRepository, TripRepository $tripRepository, Language $lang) {
+    public function __construct(
+            Auth $auth,
+            DayRepository $dayRepository,
+            TripRepository $tripRepository,
+            Language $lang,
+            ActionRepository $actionRepository) {
         $this->auth = $auth;
         $this->dayRepository = $dayRepository;
         $this->tripRepository = $tripRepository;
         $this->lang = $lang;
+        $this->actionRepository = $actionRepository;
     }
 
     /**
@@ -128,5 +139,39 @@ class DayController extends Controller
             'html' => $html
         ];
         return $this->responseFactory->json($data, 200);
+    }
+
+    /**
+     * @param $trip_id
+     * @param $day_id
+     * @return JsonResponse
+     */
+    public function addAction($trip_id, $day_id) {
+        $trip = $this->tripRepository->getTrip($trip_id);
+
+        if ($trip == NULL) {
+            return $this->responseFactory->jsonAlert($this->lang->get('alerts.trip.missing'), 'error', 404);
+        }
+
+        $day = $this->dayRepository->getDay($day_id);
+
+        if ($day == NULL) {
+            return $this->responseFactory->jsonAlert($this->lang->get('alerts.day.missing'), 'error', 404);
+        }
+
+        $actionCount = $this->actionRepository->getActionCount($day_id);
+        if (!$this->actionRepository->create($_POST['action_title'], $_POST['action_content'], $actionCount, $day_id, $_POST['action_type'])) {
+            return $this->responseFactory->jsonAlert($this->lang->get('alerts.trip-add-action.error'), 'error', 500);
+        }
+
+        $action = $this->actionRepository->getLastInsertAction();
+        $html = $this->responseFactory->html('layouts/_action.html.twig', ['action' => $action])->createContent();
+
+        return $this->responseFactory->json([
+            'message' => $this->lang->get('alerts.trip-add-action.success'),
+            'type' => 'success',
+            'html' => $html,
+            'day_id' => $day_id
+        ], 200);
     }
 }

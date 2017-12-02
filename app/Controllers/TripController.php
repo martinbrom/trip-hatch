@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Repositories\ActionTypeRepository;
 use App\Repositories\DayRepository;
 use App\Repositories\TripRepository;
 use App\Repositories\UserTripRepository;
@@ -43,6 +44,9 @@ class TripController extends Controller
     /** @var UserTripRepository */
     private $userTripRepository;
 
+    /** @var ActionTypeRepository */
+    private $actionTypeRepository;
+
     /**
      * Creates new instance and injects trip repository, session and response factory
      * @param TripRepository $tripRepository
@@ -52,6 +56,7 @@ class TripController extends Controller
      * @param DayRepository $dayRepository
      * @param Language $lang
      * @param Auth $auth
+     * @param ActionTypeRepository $actionTypeRepository
      */
     function __construct(
             TripRepository $tripRepository,
@@ -60,7 +65,8 @@ class TripController extends Controller
             AlertHelper $alertHelper,
             DayRepository $dayRepository,
             Language $lang,
-            Auth $auth) {
+            Auth $auth,
+            ActionTypeRepository $actionTypeRepository) {
         $this->tripRepository = $tripRepository;
         $this->userTripRepository = $userTripRepository;
         $this->session = $session;
@@ -68,6 +74,7 @@ class TripController extends Controller
         $this->dayRepository = $dayRepository;
         $this->lang = $lang;
         $this->auth = $auth;
+        $this->actionTypeRepository = $actionTypeRepository;
     }
 
     /**
@@ -126,7 +133,9 @@ class TripController extends Controller
         if (empty($days))
             $this->alertHelper->info($this->lang->get('alerts.trip.no-days'));
 
-        return $this->responseFactory->html('trip/show.html.twig', ['days' => $days, 'trip' => $trip]);
+        $action_types = $this->actionTypeRepository->getAll();
+
+        return $this->responseFactory->html('trip/show.html.twig', ['days' => $days, 'trip' => $trip, 'action_types' => $action_types]);
     }
 
     public function edit($trip_id) {}

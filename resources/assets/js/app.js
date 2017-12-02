@@ -77,8 +77,8 @@ $(document).ready(function () {
             $.ajax({
                 url: $(this).parent().parent().find(".trip-day-head").attr(ajax_url_parameter_name),
                 success: function (result) {
-                    // console.log(result);
-                    action_container.html(result);
+                    console.log(result);
+                    action_container.html(result.html);
                     action_container.parent().collapse("toggle");
                 }
             });
@@ -87,7 +87,7 @@ $(document).ready(function () {
         }
     });
 
-    $(document).on('click', 'a.day-edit-modal-btn', function (e) {
+    $(document).on('click', 'a.day-edit-modal-btn', function () {
         var url = $(this).attr(ajax_url_parameter_name);
         $('.day-edit-btn').attr(ajax_url_parameter_name, url);
         $('form.day-edit-form').attr(ajax_url_parameter_name, url);
@@ -156,12 +156,45 @@ $(document).ready(function () {
         });
     });
 
-    $("button.action-add-btn").click(function () {
+    $(document).on('click', '.action-add-modal-btn', function () {
+        var url = $(this).attr(ajax_url_parameter_name);
+        $('.action-add-btn').attr(ajax_url_parameter_name, url);
+        $('form.action-add-form').attr(ajax_url_parameter_name, url);
+
         $.ajax({
-            url: "/action-types",
+            url: url,
             success: function (result) {
                 console.log(result);
-                $("select.action-type-select").html(result);
+                $('#action_title').val('');
+                $('#action_content').val('');
+                $('#action_type').val('');  // TODO: Select action_type: OTHER
+                $('#action-add-modal').modal('show');
+            },
+            error: function (result) {
+                console.log(result);
+                console.log(result.responseText);
+            }
+        });
+    });
+
+    $('.action-add-btn').click(function (e) {
+        e.preventDefault();
+        var url  = $(this).attr(ajax_url_parameter_name);
+        $.ajax({
+            url: url,
+            method: 'post',
+            data: $('form.action-add-form').serialize(),
+            success: function (result) {
+                console.log(result);
+                $('#day' + result.day_id + ' .action-add-modal-btn').parent().before(result.html);
+                $('#action-add-modal').modal('hide');
+            },
+            error: function (result) {
+                console.log(result);
+                console.log(result.responseText);
+                var r = JSON.parse(result.responseText);
+                $('#action-add-modal').modal('hide');
+                addAlert(r['type'], r['message']);
             }
         });
     });
