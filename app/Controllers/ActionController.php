@@ -107,4 +107,73 @@ class ActionController extends Controller
 
         return $this->responseFactory->json(['day' => $day, 'trip' => $trip], 200);
     }
+
+    /**
+     * @param $trip_id
+     * @param $day_id
+     * @param $action_id
+     * @return JsonResponse
+     */
+    public function edit($trip_id, $day_id, $action_id) {
+        $trip = $this->tripRepository->getTrip($trip_id);
+
+        if ($trip == NULL) {
+            return $this->responseFactory->jsonAlert($this->lang->get('alerts.trip.missing'), 'error', 404);
+        }
+
+        $day = $this->dayRepository->getDay($day_id);
+
+        if ($day == NULL) {
+            return $this->responseFactory->jsonAlert($this->lang->get('alerts.day.missing'), 'error', 404);
+        }
+
+        $action = $this->actionRepository->getAction($action_id);
+
+        if ($action == NULL) {
+            return $this->responseFactory->jsonAlert($this->lang->get('alerts.action.missing'), 'error', 404);
+        }
+
+        if (!$this->actionRepository->edit(
+                $action_id,
+                $_POST['action_edit_title'],
+                $_POST['action_edit_content'],
+                $_POST['action_edit_type'])) {
+            return $this->responseFactory->jsonAlert($this->lang->get('alerts.trip-edit-action.error'), 'error', 500);
+        }
+
+        $html = $this->responseFactory->html('layouts/_action.html.twig', [
+            'action' => $this->actionRepository->getAction($action_id),
+            'day' => $day,
+            'trip' => $trip,
+            'isOrganiser' => $this->auth->isOrganiser($trip_id)
+        ])->createContent();
+
+        return $this->responseFactory->json([
+            'message' => $this->lang->get('alerts.trip-edit-action.success'),
+            'type' => 'success',
+            'html' => $html,
+            'action_id' => $action_id,
+            'day_id' => $day_id
+        ], 200);
+    }
+
+    /**
+     * @param $trip_id
+     * @param $day_id
+     * @param $action_id
+     * @return JsonResponse
+     */
+    public function editModal($trip_id, $day_id, $action_id) {
+        // TODO: Validate trip day and action
+        $action = $this->actionRepository->getAction($action_id);
+        return $this->responseFactory->json([
+            'message' => 'Success',
+            'type' => 'success',
+            'action' => $action
+        ], 200);
+    }
+
+    public function delete() {
+
+    }
 }

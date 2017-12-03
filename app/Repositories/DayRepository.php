@@ -97,11 +97,7 @@ class DayRepository
      * @return array
      */
     public function getLastInsertDay() {
-        $query = "SELECT days.*, images.path, images.description FROM days
-                INNER JOIN images ON days.image_id = images.id
-                WHERE days.id = :id";
-        $data = ['id' => $this->lastInsertId()];
-        return $this->baseRepository->fetch($query, $data);
+        return $this->getDay($this->lastInsertId());
     }
 
     /**
@@ -111,8 +107,9 @@ class DayRepository
      * @return bool
      */
     public function edit($day_id, $title, $image_id) {
-        $query = "UPDATE days SET
-                title = :title, image_id = :image_id
+        $query = "UPDATE days
+                SET title = :title, image_id = :image_id,
+                updated_at = CURRENT_TIMESTAMP
                 WHERE id = :id";
         $data = ['title' => $title, 'id' => $day_id, 'image_id' => $image_id];
         return $this->baseRepository->run($query, $data);

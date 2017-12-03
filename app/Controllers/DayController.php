@@ -165,7 +165,10 @@ class DayController extends Controller
         }
 
         $action = $this->actionRepository->getLastInsertAction();
-        $html = $this->responseFactory->html('layouts/_action.html.twig', ['action' => $action])->createContent();
+        $html = $this->responseFactory->html('layouts/_action.html.twig', [
+            'action' => $action,
+            'isOrganiser' => $this->auth->isOrganiser($trip_id)
+        ])->createContent();
 
         return $this->responseFactory->json([
             'message' => $this->lang->get('alerts.trip-add-action.success'),

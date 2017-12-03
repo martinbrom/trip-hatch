@@ -39,11 +39,7 @@ class ActionRepository
      * @return array
      */
     public function getLastInsertAction() {
-        $query = "SELECT actions.*, action_types.icon_class, action_types.color_class FROM actions
-                INNER JOIN action_types ON actions.action_type_id = action_types.id
-                WHERE actions.id = :id";
-        $data = ['id' => $this->lastInsertId()];
-        return $this->baseRepository->fetch($query, $data);
+        return $this->getAction($this->lastInsertId());
     }
 
     /**
@@ -80,6 +76,39 @@ class ActionRepository
             'action_type_id' => $action_type_id
         ];
         return $this->baseRepository->run($query, $data);
+    }
+
+    /**
+     * @param $id
+     * @param $title
+     * @param $content
+     * @param int $action_type_id
+     * @return bool
+     */
+    public function edit($id, $title, $content, int $action_type_id) {
+        $query = "UPDATE `actions`
+                SET title = :title, content = :content, action_type_id = :action_type_id,
+                updated_at = CURRENT_TIMESTAMP
+                WHERE id = :id";
+        $data = [
+            'id' => $id,
+            'title' => $title,
+            'content' => $content,
+            'action_type_id' => $action_type_id
+        ];
+        return $this->baseRepository->run($query, $data);
+    }
+
+    /**
+     * @param $action_id
+     * @return array
+     */
+    public function getAction($action_id) {
+        $query = "SELECT actions.*, action_types.icon_class, action_types.color_class FROM actions
+                INNER JOIN action_types ON actions.action_type_id = action_types.id
+                WHERE actions.id = :id";
+        $data = ['id' => $action_id];
+        return $this->baseRepository->fetch($query, $data);
     }
 
     /**

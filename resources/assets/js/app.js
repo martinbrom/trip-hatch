@@ -87,7 +87,8 @@ $(document).ready(function () {
         }
     });
 
-    $(document).on('click', 'a.day-edit-modal-btn', function () {
+    $(document).on('click', 'a.day-edit-modal-btn', function (e) {
+        e.preventDefault();
         var url = $(this).attr(ajax_url_parameter_name);
         $('.day-edit-btn').attr(ajax_url_parameter_name, url);
         $('form.day-edit-form').attr(ajax_url_parameter_name, url);
@@ -156,6 +157,60 @@ $(document).ready(function () {
         });
     });
 
+    $(document).on('click', '.action-edit-modal-btn', function (e) {
+        e.preventDefault();
+        var url = $(this).attr(ajax_url_parameter_name);
+        $('.action-edit-btn').attr(ajax_url_parameter_name, url);
+        $('form.action-edit-form').attr(ajax_url_parameter_name, url);
+
+        $.ajax({
+            url: url,
+            success: function (result) {
+                console.log(result);
+                $('#action_edit_title').val(result.action.title);
+                $('#action_edit_content').val(result.action.content);
+                $('#action_edit_type option[value=' + result.action.action_type_id + ']').attr('selected', 'selected');
+                $('#action-edit-modal').modal('show');
+            },
+            error: function (result) {
+                console.log(result);
+                console.log(result.responseText);
+                var r = JSON.parse(result.responseText);
+                addAlert(r['type'], r['message']);
+            }
+        });
+    });
+
+    $('.action-edit-btn').click(function (e) {
+        e.preventDefault();
+        var url  = $(this).attr(ajax_url_parameter_name);
+
+        $.ajax({
+            url: url,
+            method: 'post',
+            data: $('form.action-edit-form').serialize(),
+            success: function (result) {
+                var actions_container = $("#day" + result.day_id + " .actions-container");
+                $("#action-container-" + result.action_id).remove();
+                actions_container.append(result.html);
+                console.log(result.html);
+                
+                // TODO: More elegant solution?
+                actions_container.children().sort(function (prev, next) {
+                    return parseInt(prev.dataset.order) - parseInt(next.dataset.order);
+                }).appendTo(actions_container);
+                $('#action-edit-modal').modal('hide');
+            },
+            error: function (result) {
+                console.log(result);
+                console.log(result.responseText);
+                var r = JSON.parse(result.responseText);
+                $('#action-edit-modal').modal('hide');
+                addAlert(r['type'], r['message']);
+            }
+        });
+    });
+
     $(document).on('click', '.action-add-modal-btn', function () {
         var url = $(this).attr(ajax_url_parameter_name);
         $('.action-add-btn').attr(ajax_url_parameter_name, url);
@@ -173,6 +228,8 @@ $(document).ready(function () {
             error: function (result) {
                 console.log(result);
                 console.log(result.responseText);
+                var r = JSON.parse(result.responseText);
+                addAlert(r['type'], r['message']);
             }
         });
     });

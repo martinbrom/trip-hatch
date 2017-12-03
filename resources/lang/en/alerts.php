@@ -58,5 +58,12 @@ return [
     'trip-add-action' => [
         'success' => 'New action has been successfully added',
         'error' => 'Something went wrong while trying to add a new action'
+    ],
+    'action' => [
+        'missing' => 'Action doesn\'t exist'
+    ],
+    'trip-edit-action' => [
+        'error' => 'Something went wrong while trying to edit an action',
+        'success' => 'An action has been successfully edited'
     ]
 ];

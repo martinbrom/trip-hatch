@@ -1,4 +1,4 @@
-<div class="action-container">
+<div id="action-container-{{ action.id }}" data-order="{{ action.order }}" class="action-container">
     <div class="action">
         {% if isOrganiser %}
             <a href="#" data-ajax-url="{{ routeTripDayAction('delete', trip.id, day.id, action.id) }}" class="action-delete-btn">
