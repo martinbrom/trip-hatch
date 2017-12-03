@@ -1,5 +1,14 @@
 <div class="action-container">
     <div class="action">
+        {% if isOrganiser %}
+            <a href="#" data-ajax-url="{{ routeTripDayAction('delete', trip.id, day.id, action.id) }}" class="action-delete-btn">
+                <i class="fa fa-remove"></i>
+            </a>
+            <a href="#" data-ajax-url="{{ routeTripDayAction('edit', trip.id, day.id, action.id) }}" class="action-edit-modal-btn">
+                <i class="fa fa-pencil"></i>
+            </a>
+        {% endif %}
+
         <h3 class="action-title">
             <span class="badge color-{{ action.color_class }}"><i class="fa {{ action.icon_class }}"></i></span>
             {{ action.title }}

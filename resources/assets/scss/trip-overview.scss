@@ -175,6 +175,12 @@ div.trip-days-container {
           div.action-container {
             margin-bottom: $application_margin;
 
+            &:after {
+              clear: both;
+              content: "";
+              display: table;
+            }
+
             &:last-of-type {
               margin-bottom: 0;
             }
@@ -184,6 +190,9 @@ div.trip-days-container {
               margin-top: 0;
               margin-bottom: $trip_overview_margin_medium;
               font-size: 20px;
+              line-height: 25px;
+              display: inline-block;
+              float: left;
 
               span.badge {
                 line-height: 13px;
@@ -191,10 +200,37 @@ div.trip-days-container {
               }
             }
 
+            a {
+              display: block;
+              height: 25px;
+              line-height: 25px;
+              padding-left: $application_padding_small;
+              padding-right: $application_padding_small;
+              margin-left: $application_margin_small;
+              color: $trip_overview_text_color;
+              font-size: 16px;
+              float: right;
+
+              &:last-of-type {
+                margin-left: 0;
+              }
+
+              &:hover, &:focus {
+                color: $trip_overview_text_color_hover;
+              }
+            }
+
             p.action-description {
               color: $trip_overview_sub_text_color;
               margin-bottom: 0;
               text-align: justify;
+              float: left;
+              clear: both;
+            }
+
+            button.action-add-modal-btn {
+              clear: both;
+              float: left;
             }
           }
         }

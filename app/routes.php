@@ -118,6 +118,18 @@ $rb->add('GET', 'trip/{trip_id:\d+}/day/{day_id:\d+}/action/add', 'Action', 'add
     ->middleware(['logged'])
     ->name('trip.day.action.add')
     ->ajax();
+$rb->add('GET', 'trip/{trip_id:\d+}/day/{day_id:\d+}/action/{action_id:\d+}/edit', 'Action', 'editModal')
+    ->middleware(['organiser'])
+    ->name('trip.day.action.edit')
+    ->ajax();
+$rb->add('POST', 'trip/{trip_id:\d+}/day/{day_id:\d+}/action/{action_id:\d+}/edit', 'Action', 'edit')
+    ->middleware(['organiser'])
+    ->name('trip.day.action.edit.submit')
+    ->ajax();
+$rb->add('GET', 'trip/{trip_id:\d+}/day/{day_id:\d+}/action/{action_id:\d+}/delete', 'Action', 'delete')
+    ->middleware(['organiser'])
+    ->name('trip.day.action.delete')
+    ->ajax();
 
 // -------- ACTION TYPES --------
 $rb->add('GET', 'action-types', 'ActionType', 'index')

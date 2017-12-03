@@ -5,8 +5,8 @@ namespace App\Controllers;
 use App\Repositories\ActionRepository;
 use App\Repositories\DayRepository;
 use App\Repositories\TripRepository;
+use Core\Auth;
 use Core\Http\Controller;
-use Core\Http\Response\HtmlResponse;
 use Core\Http\Response\JsonResponse;
 use Core\Language\Language;
 
@@ -29,18 +29,28 @@ class ActionController extends Controller
     /** @var Language */
     private $lang;
 
+    /** @var Auth */
+    private $auth;
+
     /**
      * ActionController constructor.
      * @param ActionRepository $actionRepository
      * @param DayRepository $dayRepository
      * @param TripRepository $tripRepository
      * @param Language $lang
+     * @param Auth $auth
      */
-    function __construct(ActionRepository $actionRepository, DayRepository $dayRepository, TripRepository $tripRepository, Language $lang) {
+    function __construct(
+            ActionRepository $actionRepository,
+            DayRepository $dayRepository,
+            TripRepository $tripRepository,
+            Language $lang,
+            Auth $auth) {
         $this->actionRepository = $actionRepository;
         $this->dayRepository = $dayRepository;
         $this->tripRepository = $tripRepository;
         $this->lang = $lang;
+        $this->auth = $auth;
     }
 
     /**
@@ -63,7 +73,12 @@ class ActionController extends Controller
         }
 
         $actions = $this->actionRepository->getActions($day_id);
-        $html = $this->responseFactory->html('trip/actions.html.twig', ['trip' => $trip, 'day' => $day, 'actions' => $actions])->createContent();
+        $html = $this->responseFactory->html('trip/actions.html.twig', [
+            'trip' => $trip,
+            'day' => $day,
+            'actions' => $actions,
+            'isOrganiser' => $this->auth->isOrganiser($trip_id)
+        ])->createContent();
 
         return $this->responseFactory->json([
             'message' => $this->lang->get('alerts.actions.success'),
