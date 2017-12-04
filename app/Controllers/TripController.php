@@ -8,6 +8,7 @@ use App\Repositories\TripRepository;
 use App\Repositories\UserTripRepository;
 use Core\AlertHelper;
 use Core\Auth;
+use Core\Factories\TripValidatorFactory;
 use Core\Http\Controller;
 use Core\Http\Response\HtmlResponse;
 use Core\Http\Response\JsonResponse;
@@ -47,8 +48,11 @@ class TripController extends Controller
     /** @var ActionTypeRepository */
     private $actionTypeRepository;
 
+    /** @var TripValidatorFactory */
+    private $tripValidatorFactory;
+
     /**
-     * Creates new instance and injects trip repository, session and response factory
+     * TripController constructor.
      * @param TripRepository $tripRepository
      * @param UserTripRepository $userTripRepository
      * @param Session $session
@@ -57,6 +61,7 @@ class TripController extends Controller
      * @param Language $lang
      * @param Auth $auth
      * @param ActionTypeRepository $actionTypeRepository
+     * @param TripValidatorFactory $tripValidatorFactory
      */
     function __construct(
             TripRepository $tripRepository,
@@ -66,7 +71,8 @@ class TripController extends Controller
             DayRepository $dayRepository,
             Language $lang,
             Auth $auth,
-            ActionTypeRepository $actionTypeRepository) {
+            ActionTypeRepository $actionTypeRepository,
+            TripValidatorFactory $tripValidatorFactory) {
         $this->tripRepository = $tripRepository;
         $this->userTripRepository = $userTripRepository;
         $this->session = $session;
@@ -75,6 +81,7 @@ class TripController extends Controller
         $this->lang = $lang;
         $this->auth = $auth;
         $this->actionTypeRepository = $actionTypeRepository;
+        $this->tripValidatorFactory = $tripValidatorFactory;
     }
 
     /**
@@ -275,11 +282,9 @@ class TripController extends Controller
      * @return JsonResponse
      */
     public function addDay($trip_id) {
-        $trip = $this->tripRepository->getTrip($trip_id);
-
-        if ($trip == NULL) {
-            return $this->responseFactory->jsonAlert($this->lang->get('alerts.trip.missing'), 'error', 404);
-        }
+        $tripValidator = $this->tripValidatorFactory->make();
+        $result = $tripValidator->validateTrip($trip_id);
+        if ($result != NULL) return $result;
 
         $dayCount = $this->dayRepository->getDayCount($trip_id);
         if (!$this->dayRepository->create($trip_id, $dayCount)) {
@@ -288,7 +293,7 @@ class TripController extends Controller
 
         $day = $this->dayRepository->getLastInsertDay();
         $html = $this->responseFactory->html('layouts/_day.html.twig', [
-            'day' => $day, 'trip' => $trip,
+            'day' => $day, 'trip' => $tripValidator->getTrip(),
             'isOrganiser' => $this->auth->isOrganiser($trip_id)
         ])->createContent();
 

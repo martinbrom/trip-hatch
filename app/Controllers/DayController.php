@@ -6,6 +6,7 @@ use App\Repositories\ActionRepository;
 use App\Repositories\DayRepository;
 use App\Repositories\TripRepository;
 use Core\Auth;
+use Core\Factories\TripValidatorFactory;
 use Core\Http\Controller;
 use Core\Http\Response\JsonResponse;
 use Core\Http\Response\Response;
@@ -28,6 +29,9 @@ class DayController extends Controller
     /** @var ActionRepository */
     private $actionRepository;
 
+    /** @var TripValidatorFactory */
+    private $tripValidatorFactory;
+
     /**
      * DayController constructor.
      * @param Auth $auth
@@ -35,18 +39,21 @@ class DayController extends Controller
      * @param TripRepository $tripRepository
      * @param Language $lang
      * @param ActionRepository $actionRepository
+     * @param TripValidatorFactory $tripValidatorFactory
      */
     public function __construct(
             Auth $auth,
             DayRepository $dayRepository,
             TripRepository $tripRepository,
             Language $lang,
-            ActionRepository $actionRepository) {
+            ActionRepository $actionRepository,
+            TripValidatorFactory $tripValidatorFactory) {
         $this->auth = $auth;
         $this->dayRepository = $dayRepository;
         $this->tripRepository = $tripRepository;
         $this->lang = $lang;
         $this->actionRepository = $actionRepository;
+        $this->tripValidatorFactory = $tripValidatorFactory;
     }
 
     /**
@@ -55,17 +62,9 @@ class DayController extends Controller
      * @return Response
      */
     public function delete($trip_id, $day_id) {
-        $trip = $this->tripRepository->getTrip($trip_id);
-
-        if ($trip == NULL) {
-            return $this->responseFactory->jsonAlert($this->lang->get('alerts.trip.missing'), 'error', 404);
-        }
-
-        $day = $this->dayRepository->getDay($day_id);
-
-        if ($day == NULL) {
-            return $this->responseFactory->jsonAlert($this->lang->get('alerts.day.missing'), 'error', 404);
-        }
+        $tripValidator = $this->tripValidatorFactory->make();
+        $result = $tripValidator->validateDay($trip_id, $day_id);
+        if ($result != NULL) return $result;
 
         // TODO: Deleting day with actions
         if (!$this->dayRepository->delete($day_id)) {
@@ -74,7 +73,7 @@ class DayController extends Controller
 
         // TODO: Delete day and change trip end date and order of all days
         $data = [
-            'message' => $this->lang->get('alerts.day-delete.success', [$day['title']]),
+            'message' => $this->lang->get('alerts.day-delete.success', [$tripValidator->getDay()['title']]),
             'type' => 'success',
             'day_id' => $day_id
         ];
@@ -87,19 +86,11 @@ class DayController extends Controller
      * @return JsonResponse
      */
     public function editModal($trip_id, $day_id) {
-        $trip = $this->tripRepository->getTrip($trip_id);
+        $tripValidator = $this->tripValidatorFactory->make();
+        $result = $tripValidator->validateDay($trip_id, $day_id);
+        if ($result != NULL) return $result;
 
-        if ($trip == NULL) {
-            return $this->responseFactory->jsonAlert($this->lang->get('alerts.trip.missing'), 'error', 404);
-        }
-
-        $day = $this->dayRepository->getDay($day_id);
-
-        if ($day == NULL) {
-            return $this->responseFactory->jsonAlert($this->lang->get('alerts.day.missing'), 'error', 404);
-        }
-
-        return $this->responseFactory->json(['day' => $day, 'trip' => $trip], 200);
+        return $this->responseFactory->json(['day' => $tripValidator->getDay(), 'trip' => $tripValidator->getTrip()], 200);
     }
 
     /**
@@ -108,17 +99,9 @@ class DayController extends Controller
      * @return JsonResponse
      */
     public function edit($trip_id, $day_id) {
-        $trip = $this->tripRepository->getTrip($trip_id);
-
-        if ($trip == NULL) {
-            return $this->responseFactory->jsonAlert($this->lang->get('alerts.trip.missing'), 'error', 404);
-        }
-
-        $day = $this->dayRepository->getDay($day_id);
-
-        if ($day == NULL) {
-            return $this->responseFactory->jsonAlert($this->lang->get('alerts.day.missing'), 'error', 404);
-        }
+        $tripValidator = $this->tripValidatorFactory->make();
+        $result = $tripValidator->validateDay($trip_id, $day_id);
+        if ($result != NULL) return $result;
 
         // TODO: File upload
         // TODO: If file input empty set default image id
@@ -129,7 +112,7 @@ class DayController extends Controller
 
         $day = $this->dayRepository->getDay($day_id);
         $html = $this->responseFactory->html('layouts/_day.html.twig', [
-            'day' => $day, 'trip' => $trip,
+            'day' => $day, 'trip' => $tripValidator->getTrip(),
             'isOrganiser' => $this->auth->isOrganiser($trip_id)
         ])->createContent();
         $data = [
@@ -147,17 +130,9 @@ class DayController extends Controller
      * @return JsonResponse
      */
     public function addAction($trip_id, $day_id) {
-        $trip = $this->tripRepository->getTrip($trip_id);
-
-        if ($trip == NULL) {
-            return $this->responseFactory->jsonAlert($this->lang->get('alerts.trip.missing'), 'error', 404);
-        }
-
-        $day = $this->dayRepository->getDay($day_id);
-
-        if ($day == NULL) {
-            return $this->responseFactory->jsonAlert($this->lang->get('alerts.day.missing'), 'error', 404);
-        }
+        $tripValidator = $this->tripValidatorFactory->make();
+        $result = $tripValidator->validateDay($trip_id, $day_id);
+        if ($result != NULL) return $result;
 
         $actionCount = $this->actionRepository->getActionCount($day_id);
         if (!$this->actionRepository->create($_POST['action_title'], $_POST['action_content'], $actionCount, $day_id, $_POST['action_type'])) {
@@ -167,8 +142,8 @@ class DayController extends Controller
         $action = $this->actionRepository->getLastInsertAction();
         $html = $this->responseFactory->html('layouts/_action.html.twig', [
             'action' => $action,
-            'day' => $day,
-            'trip' => $trip,
+            'day' => $tripValidator->getDay(),
+            'trip' => $tripValidator->getTrip(),
             'isOrganiser' => $this->auth->isOrganiser($trip_id)
         ])->createContent();
 

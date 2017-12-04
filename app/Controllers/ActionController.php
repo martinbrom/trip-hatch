@@ -67,22 +67,14 @@ class ActionController extends Controller
      * @return JsonResponse All actions for given day or alert
      */
     public function actions($trip_id, $day_id) {
-        $trip = $this->tripRepository->getTrip($trip_id);
-
-        if ($trip == NULL) {
-            return $this->responseFactory->jsonAlert($this->lang->get('alerts.trip.missing'), 'error', 404);
-        }
-
-        $day = $this->dayRepository->getTripDay($trip_id, $day_id);
-
-        if ($day == NULL) {
-            return $this->responseFactory->jsonAlert($this->lang->get('alerts.day.missing'), 'error', 404);
-        }
+        $tripValidator = $this->tripValidatorFactory->make();
+        $result = $tripValidator->validateDay($trip_id, $day_id);
+        if ($result != NULL) return $result;
 
         $actions = $this->actionRepository->getActions($day_id);
         $html = $this->responseFactory->html('trip/actions.html.twig', [
-            'trip' => $trip,
-            'day' => $day,
+            'trip' => $tripValidator->getTrip(),
+            'day' => $tripValidator->getDay(),
             'actions' => $actions,
             'isOrganiser' => $this->auth->isOrganiser($trip_id)
         ])->createContent();
@@ -100,19 +92,11 @@ class ActionController extends Controller
      * @return JsonResponse
      */
     public function addActionModal($trip_id, $day_id) {
-        $trip = $this->tripRepository->getTrip($trip_id);
+        $tripValidator = $this->tripValidatorFactory->make();
+        $result = $tripValidator->validateDay($trip_id, $day_id);
+        if ($result != NULL) return $result;
 
-        if ($trip == NULL) {
-            return $this->responseFactory->jsonAlert($this->lang->get('alerts.trip.missing'), 'error', 404);
-        }
-
-        $day = $this->dayRepository->getDay($day_id);
-
-        if ($day == NULL) {
-            return $this->responseFactory->jsonAlert($this->lang->get('alerts.day.missing'), 'error', 404);
-        }
-
-        return $this->responseFactory->json(['day' => $day, 'trip' => $trip], 200);
+        return $this->responseFactory->json(['day' => $tripValidator->getDay(), 'trip' => $tripValidator->getTrip()], 200);
     }
 
     /**
@@ -157,12 +141,14 @@ class ActionController extends Controller
      * @return JsonResponse
      */
     public function editModal($trip_id, $day_id, $action_id) {
-        // TODO: Validate trip day and action
-        $action = $this->actionRepository->getAction($action_id);
+        $tripValidator = $this->tripValidatorFactory->make();
+        $result = $tripValidator->validateAction($trip_id, $day_id, $action_id);
+        if ($result != NULL) return $result;
+
         return $this->responseFactory->json([
             'message' => 'Success',
             'type' => 'success',
-            'action' => $action
+            'action' => $tripValidator->getAction()
         ], 200);
     }
 
@@ -173,7 +159,9 @@ class ActionController extends Controller
      * @return JsonResponse
      */
     public function delete($trip_id, $day_id, $action_id) {
-        // TODO: Validate trip day and action
+        $tripValidator = $this->tripValidatorFactory->make();
+        $result = $tripValidator->validateAction($trip_id, $day_id, $action_id);
+        if ($result != NULL) return $result;
 
         if (!$this->actionRepository->delete($action_id)) {
             return $this->responseFactory->jsonAlert('Failure', 'error', 500);
