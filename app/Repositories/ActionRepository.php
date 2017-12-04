@@ -79,13 +79,13 @@ class ActionRepository
     }
 
     /**
-     * @param $id
+     * @param int $id
      * @param $title
      * @param $content
      * @param int $action_type_id
      * @return bool
      */
-    public function edit($id, $title, $content, int $action_type_id) {
+    public function edit(int $id, $title, $content, int $action_type_id) {
         $query = "UPDATE `actions`
                 SET title = :title, content = :content, action_type_id = :action_type_id,
                 updated_at = CURRENT_TIMESTAMP
@@ -100,10 +100,10 @@ class ActionRepository
     }
 
     /**
-     * @param $action_id
+     * @param int $action_id
      * @return bool
      */
-    public function delete($action_id) {
+    public function delete(int $action_id) {
         $query = "DELETE FROM actions
                 WHERE id = :id";
         $data = ['id' => $action_id];
@@ -111,14 +111,27 @@ class ActionRepository
     }
 
     /**
-     * @param $action_id
+     * @param int $action_id
      * @return array
      */
-    public function getAction($action_id) {
+    public function getAction(int $action_id): array {
         $query = "SELECT actions.*, action_types.icon_class, action_types.color_class FROM actions
                 INNER JOIN action_types ON actions.action_type_id = action_types.id
                 WHERE actions.id = :id";
         $data = ['id' => $action_id];
+        return $this->baseRepository->fetch($query, $data);
+    }
+
+    /**
+     * @param int $day_id
+     * @param int $action_id
+     * @return array
+     */
+    public function getDayAction(int $day_id, int $action_id): array {
+        $query = "SELECT actions.*, action_types.icon_class, action_types.color_class FROM actions
+                INNER JOIN action_types ON actions.action_type_id = action_types.id
+                WHERE actions.id = :id AND actions.day_id = :day_id";
+        $data = ['day_id' => $day_id, 'id' => $action_id];
         return $this->baseRepository->fetch($query, $data);
     }
 

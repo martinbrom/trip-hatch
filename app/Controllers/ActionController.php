@@ -6,6 +6,7 @@ use App\Repositories\ActionRepository;
 use App\Repositories\DayRepository;
 use App\Repositories\TripRepository;
 use Core\Auth;
+use Core\Factories\TripValidatorFactory;
 use Core\Http\Controller;
 use Core\Http\Response\JsonResponse;
 use Core\Language\Language;
@@ -32,6 +33,9 @@ class ActionController extends Controller
     /** @var Auth */
     private $auth;
 
+    /** @var TripValidatorFactory */
+    private $tripValidatorFactory;
+
     /**
      * ActionController constructor.
      * @param ActionRepository $actionRepository
@@ -39,18 +43,21 @@ class ActionController extends Controller
      * @param TripRepository $tripRepository
      * @param Language $lang
      * @param Auth $auth
+     * @param TripValidatorFactory $tripValidatorFactory
      */
     function __construct(
             ActionRepository $actionRepository,
             DayRepository $dayRepository,
             TripRepository $tripRepository,
             Language $lang,
-            Auth $auth) {
+            Auth $auth,
+            TripValidatorFactory $tripValidatorFactory) {
         $this->actionRepository = $actionRepository;
         $this->dayRepository = $dayRepository;
         $this->tripRepository = $tripRepository;
         $this->lang = $lang;
         $this->auth = $auth;
+        $this->tripValidatorFactory = $tripValidatorFactory;
     }
 
     /**
@@ -66,7 +73,7 @@ class ActionController extends Controller
             return $this->responseFactory->jsonAlert($this->lang->get('alerts.trip.missing'), 'error', 404);
         }
 
-        $day = $this->dayRepository->getDay($day_id);
+        $day = $this->dayRepository->getTripDay($trip_id, $day_id);
 
         if ($day == NULL) {
             return $this->responseFactory->jsonAlert($this->lang->get('alerts.day.missing'), 'error', 404);
@@ -115,23 +122,9 @@ class ActionController extends Controller
      * @return JsonResponse
      */
     public function edit($trip_id, $day_id, $action_id) {
-        $trip = $this->tripRepository->getTrip($trip_id);
-
-        if ($trip == NULL) {
-            return $this->responseFactory->jsonAlert($this->lang->get('alerts.trip.missing'), 'error', 404);
-        }
-
-        $day = $this->dayRepository->getDay($day_id);
-
-        if ($day == NULL) {
-            return $this->responseFactory->jsonAlert($this->lang->get('alerts.day.missing'), 'error', 404);
-        }
-
-        $action = $this->actionRepository->getAction($action_id);
-
-        if ($action == NULL) {
-            return $this->responseFactory->jsonAlert($this->lang->get('alerts.action.missing'), 'error', 404);
-        }
+        $tripValidator = $this->tripValidatorFactory->make();
+        $result = $tripValidator->validateAction($trip_id, $day_id, $action_id);
+        if ($result != NULL) return $result;
 
         if (!$this->actionRepository->edit(
                 $action_id,
@@ -143,8 +136,8 @@ class ActionController extends Controller
 
         $html = $this->responseFactory->html('layouts/_action.html.twig', [
             'action' => $this->actionRepository->getAction($action_id),
-            'day' => $day,
-            'trip' => $trip,
+            'day' => $tripValidator->getDay(),
+            'trip' => $tripValidator->getTrip(),
             'isOrganiser' => $this->auth->isOrganiser($trip_id)
         ])->createContent();
 

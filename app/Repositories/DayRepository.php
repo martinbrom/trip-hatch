@@ -51,6 +51,19 @@ class DayRepository
     /**
      * @param int $trip_id
      * @param int $day_id
+     * @return array
+     */
+    public function getTripDay(int $trip_id, int $day_id): array {
+        $query = "SELECT days.*, images.path, images.description FROM days
+                INNER JOIN images ON days.image_id = images.id
+                WHERE days.id = :day_id AND days.trip_id = :trip_id";
+        $data = ['trip_id' => $trip_id, 'day_id' => $day_id];
+        return $this->baseRepository->fetch($query, $data);
+    }
+
+    /**
+     * @param int $trip_id
+     * @param int $day_id
      * @return bool
      */
     public function tripHasDay(int $trip_id, int $day_id) {
