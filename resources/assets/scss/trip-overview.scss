@@ -4,6 +4,10 @@ h1.trip-title {
   margin-bottom: 2 * $trip_overview_margin_medium;
 }
 
+button.action-delete-btn {
+  float: left;
+}
+
 nav.trip-navigation {
   background: $trip_overview_navigation_background;
 

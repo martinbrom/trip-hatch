@@ -101,6 +101,17 @@ class ActionRepository
 
     /**
      * @param $action_id
+     * @return bool
+     */
+    public function delete($action_id) {
+        $query = "DELETE FROM actions
+                WHERE id = :id";
+        $data = ['id' => $action_id];
+        return $this->baseRepository->run($query, $data);
+    }
+
+    /**
+     * @param $action_id
      * @return array
      */
     public function getAction($action_id) {

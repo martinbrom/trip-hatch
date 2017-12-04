@@ -162,6 +162,7 @@ $(document).ready(function () {
         var url = $(this).attr(ajax_url_parameter_name);
         $('.action-edit-btn').attr(ajax_url_parameter_name, url);
         $('form.action-edit-form').attr(ajax_url_parameter_name, url);
+        $('.action-delete-btn').attr(ajax_url_parameter_name, $(this).attr(ajax_url_parameter_name + "2"));
 
         $.ajax({
             url: url,
@@ -181,9 +182,33 @@ $(document).ready(function () {
         });
     });
 
+    $('.action-delete-btn').click(function (e) {
+        e.preventDefault();
+        var url = $(this).attr(ajax_url_parameter_name);
+        
+        console.log("here");
+        
+
+        $.ajax({
+            url: url,
+            success: function (result) {
+                console.log(result);
+                $("#action-container-" + result.action_id).remove();
+                $('#action-edit-modal').modal('hide');
+            },
+            error: function (result) {
+                console.log(result);
+                console.log(result.responseText);
+                var r = JSON.parse(result.responseText);
+                $('#action-edit-modal').modal('hide');
+                addAlert(r['type'], r['message']);
+            }
+        });
+    });
+
     $('.action-edit-btn').click(function (e) {
         e.preventDefault();
-        var url  = $(this).attr(ajax_url_parameter_name);
+        var url = $(this).attr(ajax_url_parameter_name);
 
         $.ajax({
             url: url,

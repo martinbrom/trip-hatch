@@ -173,7 +173,23 @@ class ActionController extends Controller
         ], 200);
     }
 
-    public function delete() {
+    /**
+     * @param $trip_id
+     * @param $day_id
+     * @param $action_id
+     * @return JsonResponse
+     */
+    public function delete($trip_id, $day_id, $action_id) {
+        // TODO: Validate trip day and action
 
+        if (!$this->actionRepository->delete($action_id)) {
+            return $this->responseFactory->jsonAlert('Failure', 'error', 500);
+        }
+
+        return $this->responseFactory->json([
+            'message' => 'Success',
+            'type' => 'success',
+            'action_id' => $action_id
+        ], 200);
     }
 }
