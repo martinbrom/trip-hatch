@@ -167,6 +167,8 @@ class DayController extends Controller
         $action = $this->actionRepository->getLastInsertAction();
         $html = $this->responseFactory->html('layouts/_action.html.twig', [
             'action' => $action,
+            'day' => $day,
+            'trip' => $trip,
             'isOrganiser' => $this->auth->isOrganiser($trip_id)
         ])->createContent();
 
