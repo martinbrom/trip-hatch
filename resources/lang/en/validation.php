@@ -25,5 +25,31 @@ return [
     'day_title' => [
         'required' => 'Day title is required',
         'maxLen' => 'Day title must be at most :p1 characters long'
+    ],
+    'action_content' => [
+        'required' => 'Action content is required',
+        'maxLen' => 'Action content must be at most :p1 characters long'
+    ],
+    'action_title' => [
+        'required' => 'Action title is required',
+        'maxLen' => 'Action title must be at most :p1 characters long'
+    ],
+    'action_type' => [
+        'required' => 'Action type is required',
+        'int' => 'Action type must be a number',
+        'exists' => 'Action type must be a valid action type'
+    ],
+    'action_edit_content' => [
+        'required' => 'Action content is required',
+        'maxLen' => 'Action content must be at most :p1 characters long'
+    ],
+    'action_edit_title' => [
+        'required' => 'Action title is required',
+        'maxLen' => 'Action title must be at most :p1 characters long'
+    ],
+    'action_edit_type' => [
+        'required' => 'Action type is required',
+        'int' => 'Action type must be a number',
+        'exists' => 'Action type must be a valid action type'
     ]
 ];

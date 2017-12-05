@@ -120,14 +120,35 @@ $(document).ready(function () {
             data: $('form.day-edit-form').serialize(),
             success: function (result) {
                 console.log(result);
-                $("#day-container-" + result.day_id).remove();
-                $('.trip-days-container').append(result.html);
 
-                // TODO: More elegant solution?
-                $("div.trip-day-container").sort(function (prev, next) {
-                    return parseInt(prev.dataset.order) - parseInt(next.dataset.order);
-                }).appendTo(".trip-days-container");
-                $('#day-edit-modal').modal('hide');
+                if (result.validation_errors != null) {
+                    console.log('validation failed');
+                    
+                    var validation_errors = result.validation_errors;
+                    for (var field in validation_errors) {
+                        if (validation_errors.hasOwnProperty(field)) {
+                            var errors = validation_errors[field];
+                            var input = $("input#" + field);
+                            input.parent().addClass('has-error');
+                            for (var error in errors) {
+                                if (errors.hasOwnProperty(error)) {
+                                    input.before('<p class=validation-error-message>' + errors[error] + '</p>');
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    $('.day-edit-form .form-group p.validation-error-message').remove();
+                    $('.day-edit-form .form-group.has-error').removeClass('has-error');
+                    $("#day-container-" + result.day_id).remove();
+                    $('.trip-days-container').append(result.html);
+
+                    // TODO: More elegant solution?
+                    $("div.trip-day-container").sort(function (prev, next) {
+                        return parseInt(prev.dataset.order) - parseInt(next.dataset.order);
+                    }).appendTo(".trip-days-container");
+                    $('#day-edit-modal').modal('hide');
+                }
             },
             error: function (result) {
                 console.log(result);
@@ -215,6 +236,7 @@ $(document).ready(function () {
             method: 'post',
             data: $('form.action-edit-form').serialize(),
             success: function (result) {
+                console.log(result);
                 var actions_container = $("#day" + result.day_id + " .actions-container");
                 $("#action-container-" + result.action_id).remove();
                 actions_container.append(result.html);

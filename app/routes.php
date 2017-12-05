@@ -125,6 +125,11 @@ $rb->add('GET', 'trip/{trip_id:\d+}/day/{day_id:\d+}/action/{action_id:\d+}/edit
 $rb->add('POST', 'trip/{trip_id:\d+}/day/{day_id:\d+}/action/{action_id:\d+}/edit', 'Action', 'edit')
     ->middleware(['organiser'])
     ->name('trip.day.action.edit.submit')
+    ->validate([
+        'action_edit_content' => ['required', 'maxLen:1000'],
+        'action_edit_title' => ['required', 'maxLen:100'],
+        'action_edit_type' => ['required', 'int', 'exists:action_types,id']
+    ])
     ->ajax();
 $rb->add('GET', 'trip/{trip_id:\d+}/day/{day_id:\d+}/action/{action_id:\d+}/delete', 'Action', 'delete')
     ->middleware(['organiser'])
@@ -151,13 +156,17 @@ $rb->add('POST', 'trip/{trip_id:\d+}/day/{day_id:\d+}/edit', 'Day', 'edit')
     ->name('trip.day.edit.submit')
     ->validate([
         'day_title' => ['required', 'maxLen:100']
+        // TODO: Validate day_image
     ])
     ->ajax();
-
-// TODO: Add validation rules
 $rb->add('POST', 'trip/{trip_id:\d+}/day/{day_id:\d+}/action/add', 'Day', 'addAction')
     ->middleware(['logged'])
     ->name('trip.day.action.add.submit')
+    ->validate([
+        'action_content' => ['required', 'maxLen:1000'],
+        'action_title' => ['required', 'maxLen:100'],
+        'action_type' => ['required', 'int', 'exists:action_types,id']
+    ])
     ->ajax();
 
 // ------------ HOME ------------
@@ -177,8 +186,6 @@ $rb->add('GET', 'trip/{trip_id:\d+}/user/{user_trip_id:\d+}/promote', 'Trip', 'p
     ->middleware(['owner'])
     ->name('trip.user.promote')
     ->ajax();
-
-// TODO: Isn't this missing a validation?
 $rb->add('GET', 'trip/{trip_id:\d+}/day/add', 'Trip', 'addDay')
     ->middleware(['organiser'])
     ->name('trip.add-day')

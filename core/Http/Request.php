@@ -7,6 +7,8 @@ use App\Exception\MethodNotFoundException;
 use Core\DependencyInjector\DependencyInjector;
 use Core\Factories\ResponseFactory;
 use Core\Factories\ValidatorFactory;
+use Core\Http\Response\JsonResponse;
+use Core\Http\Response\Response;
 Use Core\Routing\Route;
 
 /**
@@ -68,13 +70,22 @@ class Request
     /**
      * Validates and processes request, calls action on a controller,
      * that is specified by a matching route
+     * @return Response
+     * @throws ControllerNotFoundException
+     * @throws MethodNotFoundException
      */
     public function process() {
         $validator = $this->validatorFactory->make();
         $validator->setRequest($this);
+
+        // TODO: Return with input???
         if (!$validator->validate()) {
+            if ($this->isAjax()) {
+                return $this->responseFactory->json(['validation_errors' => $validator->getErrors()], 200);
+            }
+
             var_dump($validator->getErrors());
-            // TODO: Redirect back or return errors if ajax
+            // TODO: Redirect back
             die();
         }
 

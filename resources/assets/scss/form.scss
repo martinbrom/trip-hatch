@@ -1,2 +1,8 @@
 @import "variables";
 
+.has-error {
+  p {
+    color: #a94442;
+    margin-bottom: 5px;
+  }
+}

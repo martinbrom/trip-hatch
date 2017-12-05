@@ -200,6 +200,15 @@ class Validator
     }
 
     /**
+     * Checks whether item is a valid integer or integer containing string
+     * @param mixed $item Validated input
+     * @return bool True if input is a valid integer, false otherwise
+     */
+    public function int($item): bool {
+        return filter_var($item, FILTER_VALIDATE_INT);
+    }
+
+    /**
      * Returns all validation errors
      * @return array Validation errors
      */
