@@ -89,14 +89,18 @@ class Auth
      * @param $trip_id
      */
     private function loadRoleArray($trip_id) {
-        $this->roles = [false, false, false];
-        $user_id = $this->session->get('user.id');
-        $result = $this->userTripRepository->getRole($user_id, $trip_id);
+        if ($this->session->get('user.is_admin')) {
+            $this->roles = [true, true, true];
+        } else {
+            $this->roles = [false, false, false];
+            $user_id = $this->session->get('user.id');
+            $result = $this->userTripRepository->getRole($user_id, $trip_id);
 
-        $role = empty($result) ? -1 : $result['role'];
+            $role = empty($result) ? -1 : $result['role'];
 
-        for ($i = 0; $i <= $role; $i++)
-            $this->roles[$i] = true;
+            for ($i = 0; $i <= $role; $i++)
+                $this->roles[$i] = true;
+        }
     }
 
     /**

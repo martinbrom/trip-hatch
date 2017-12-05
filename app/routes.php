@@ -96,19 +96,19 @@ $rb->add('POST', 'forgotten-password', 'User', 'forgottenPassword');
 $rb->add('GET', 'profile', 'UserSettings', 'profile')
     ->middleware(['logged'])
     ->name('profile');
-$rb->add('GET', 'change-display-name', 'UserSettings', 'changeDisplayNamePage')
+$rb->add('GET', 'settings/change-display-name', 'UserSettings', 'changeDisplayNamePage')
     ->middleware(['logged'])
     ->name('user.settings.change-display-name');
-$rb->add('POST', 'change-display-name', 'UserSettings', 'changeDisplayName')
+$rb->add('POST', 'settings/change-display-name', 'UserSettings', 'changeDisplayName')
     ->validate([
         'display_name' => ['maxLen:30']
     ])
     ->name('user.settings.change-display-name.submit')
     ->middleware(['logged']);
-$rb->add('GET', 'change-password', 'UserSettings', 'changePasswordPage')
+$rb->add('GET', 'settings/change-password', 'UserSettings', 'changePasswordPage')
     ->middleware(['logged'])
     ->name('user.settings.change-password');
-$rb->add('POST', 'change-password', 'UserSettings', 'changePassword')
+$rb->add('POST', 'settings/change-password', 'UserSettings', 'changePassword')
     ->middleware(['logged'])
     ->validate([
         'old_password' => ['required', 'passwordVerify'],
