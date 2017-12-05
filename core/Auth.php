@@ -44,12 +44,22 @@ class Auth
      * @return bool
      */
     public function login($email, $password) {
-        $user = $this->userRepository->getUser($email);
-        
-        if (empty($user) || !password_verify($password, $user['password'])) return false;
+        $user = $this->verifyUser($email, $password);
+        if ($user == null) return false;
 
         $this->session->set('user', $user);
         return true;
+    }
+
+    /**
+     * @param $email
+     * @param $password
+     * @return array|null
+     */
+    public function verifyUser($email, $password) {
+        $user = $this->userRepository->getUser($email);
+        if (empty($user) || !password_verify($password, $user['password'])) return null;
+        return $user;
     }
 
     /**

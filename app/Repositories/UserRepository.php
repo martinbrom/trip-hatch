@@ -60,6 +60,18 @@ class UserRepository
         return $this->baseRepository->fetch($query, $data);
     }
 
+    /**
+     * @param $user_id
+     * @param $password
+     * @return array
+     */
+    public function getUserByPassword($user_id, $password): array {
+        $query = "SELECT * FROM users
+                WHERE id = :id AND password = :password";
+        $data = ['id' => $user_id, 'password' => $password];
+        return $this->baseRepository->fetch($query, $data);
+    }
+
     public function createUser($email, $hash) {
         $query = "INSERT INTO `users` (
                 `id`, `email`, `password`, `display_name`, `is_admin`,

@@ -17,7 +17,12 @@ return [
         'error' => 'Something went wrong while trying to classify the trip'
     ],
     'change-display-name' => [
-        'success' => 'Your display name has been successfully changed'
+        'success' => 'Your display name has been successfully changed',
+        'error' => 'Something went wrong while trying to change a display name'
+    ],
+    'change-password' => [
+        'success' => 'Your password has been successfully changed',
+        'error' => 'Something went wrong while trying to change a password'
     ],
     'register' => [
         'success' => 'You have been successfully registered',

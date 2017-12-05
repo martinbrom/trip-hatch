@@ -1,8 +1,21 @@
 @import "variables";
 
-.has-error {
-  p {
-    color: #a94442;
-    margin-bottom: 5px;
+form {
+  div.form-group {
+    &.has-error {
+      p {
+        color: #a94442;
+        margin-bottom: 5px;
+      }
+    }
+
+    input.btn.btn-primary.btn-submit {
+      width: 100%;
+      display: block;
+
+      @media screen and (min-width: $size-sm) {
+        width: auto;
+      }
+    }
   }
 }

@@ -3,8 +3,10 @@
 namespace Core\Validation;
 
 use App\Repositories\ValidationRepository;
+use Core\Auth;
 use Core\Http\Request;
 use Core\Language\Language;
+use Core\Session;
 use Core\Validation\Exception\ValidationRuleNotExistsException;
 
 /**
@@ -28,14 +30,24 @@ class Validator
     /** @var ValidationRepository */
     private $validationRepository;
 
+    /** @var Auth */
+    private $auth;
+
+    /** @var Session */
+    private $session;
+
     /**
-     * Creates new instance and injects language instance
+     * Validator constructor.
      * @param Language $lang Language instance
      * @param ValidationRepository $validationRepository
+     * @param Auth $auth
+     * @param Session $session
      */
-    function __construct(Language $lang, ValidationRepository $validationRepository) {
+    function __construct(Language $lang, ValidationRepository $validationRepository, Auth $auth, Session $session) {
         $this->lang = $lang;
         $this->validationRepository = $validationRepository;
+        $this->auth = $auth;
+        $this->session = $session;
     }
 
     /**
@@ -206,6 +218,15 @@ class Validator
      */
     public function int($item): bool {
         return filter_var($item, FILTER_VALIDATE_INT);
+    }
+
+    /**
+     * Checks whether item is current user's password
+     * @param mixed $item Validated input
+     * @return bool True if password is correct, false otherwise
+     */
+    public function passwordVerify($item): bool {
+        return $this->auth->verifyUser($this->session->get('user.email'), $item) != null;
     }
 
     /**

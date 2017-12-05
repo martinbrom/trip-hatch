@@ -97,13 +97,25 @@ $rb->add('GET', 'profile', 'UserSettings', 'profile')
     ->middleware(['logged'])
     ->name('profile');
 $rb->add('GET', 'change-display-name', 'UserSettings', 'changeDisplayNamePage')
-    ->middleware(['logged']);
+    ->middleware(['logged'])
+    ->name('user.settings.change-display-name');
 $rb->add('POST', 'change-display-name', 'UserSettings', 'changeDisplayName')
+    ->validate([
+        'display_name' => ['maxLen:30']
+    ])
+    ->name('user.settings.change-display-name.submit')
     ->middleware(['logged']);
 $rb->add('GET', 'change-password', 'UserSettings', 'changePasswordPage')
-    ->middleware(['logged']);
+    ->middleware(['logged'])
+    ->name('user.settings.change-password');
 $rb->add('POST', 'change-password', 'UserSettings', 'changePassword')
-    ->middleware(['logged']);
+    ->middleware(['logged'])
+    ->validate([
+        'old_password' => ['required', 'passwordVerify'],
+        'new_password' => ['required'],
+        'new_password_confirm' => ['required', 'matches:new_password']
+    ])
+    ->name('user.settings.change-password.submit');
 
 // ---------------------------------------
 //  AJAX ROUTES

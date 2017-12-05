@@ -27,11 +27,32 @@ $(document).ready(function () {
         $('body,html').animate({ scrollTop: window.innerHeight * page_id}, scroll_speed);
     }
 
-    // TODO: Finish up with correct html
     // displays alert immediately
     function addAlert(type, message) {
         if (type == 'error') type = 'danger';
         $('.alert-container').append("<div class='alert alert-" + type + " alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>" + message + "!</div>");
+    }
+
+    function addValidationErrorMessages(validation_errors) {
+        console.log('validation failed');
+
+        for (var field in validation_errors) {
+            if (validation_errors.hasOwnProperty(field)) {
+                var errors = validation_errors[field];
+                var input = $("#" + field);
+                input.parent().addClass('has-error');
+                for (var error in errors) {
+                    if (errors.hasOwnProperty(error)) {
+                        input.before('<p class=validation-error-message>' + errors[error] + '</p>');
+                    }
+                }
+            }
+        }
+    }
+
+    function clearValidationErrorMessages() {
+        $('.form-group p.validation-error-message').remove();
+        $('.form-group.has-error').removeClass('has-error');
     }
 
 
@@ -122,24 +143,9 @@ $(document).ready(function () {
                 console.log(result);
 
                 if (result.validation_errors != null) {
-                    console.log('validation failed');
-                    
-                    var validation_errors = result.validation_errors;
-                    for (var field in validation_errors) {
-                        if (validation_errors.hasOwnProperty(field)) {
-                            var errors = validation_errors[field];
-                            var input = $("input#" + field);
-                            input.parent().addClass('has-error');
-                            for (var error in errors) {
-                                if (errors.hasOwnProperty(error)) {
-                                    input.before('<p class=validation-error-message>' + errors[error] + '</p>');
-                                }
-                            }
-                        }
-                    }
+                    addValidationErrorMessages(result.validation_errors);
                 } else {
-                    $('.day-edit-form .form-group p.validation-error-message').remove();
-                    $('.day-edit-form .form-group.has-error').removeClass('has-error');
+                    clearValidationErrorMessages();
                     $("#day-container-" + result.day_id).remove();
                     $('.trip-days-container').append(result.html);
 
@@ -237,16 +243,22 @@ $(document).ready(function () {
             data: $('form.action-edit-form').serialize(),
             success: function (result) {
                 console.log(result);
-                var actions_container = $("#day" + result.day_id + " .actions-container");
-                $("#action-container-" + result.action_id).remove();
-                actions_container.append(result.html);
-                console.log(result.html);
-                
-                // TODO: More elegant solution?
-                actions_container.children().sort(function (prev, next) {
-                    return parseInt(prev.dataset.order) - parseInt(next.dataset.order);
-                }).appendTo(actions_container);
-                $('#action-edit-modal').modal('hide');
+
+                if (result.validation_errors != null) {
+                    addValidationErrorMessages(result.validation_errors);
+                } else {
+                    clearValidationErrorMessages();
+                    var actions_container = $("#day" + result.day_id + " .actions-container");
+                    $("#action-container-" + result.action_id).remove();
+                    actions_container.append(result.html);
+                    console.log(result.html);
+
+                    // TODO: More elegant solution?
+                    actions_container.children().sort(function (prev, next) {
+                        return parseInt(prev.dataset.order) - parseInt(next.dataset.order);
+                    }).appendTo(actions_container);
+                    $('#action-edit-modal').modal('hide');
+                }
             },
             error: function (result) {
                 console.log(result);
@@ -290,8 +302,14 @@ $(document).ready(function () {
             data: $('form.action-add-form').serialize(),
             success: function (result) {
                 console.log(result);
-                $('#day' + result.day_id + ' .action-add-modal-btn').parent().before(result.html);
-                $('#action-add-modal').modal('hide');
+
+                if (result.validation_errors != null) {
+                    addValidationErrorMessages(result.validation_errors);
+                } else {
+                    clearValidationErrorMessages();
+                    $('#day' + result.day_id + ' .action-add-modal-btn').parent().before(result.html);
+                    $('#action-add-modal').modal('hide');
+                }
             },
             error: function (result) {
                 console.log(result);

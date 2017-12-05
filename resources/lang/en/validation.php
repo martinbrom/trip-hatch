@@ -51,5 +51,19 @@ return [
         'required' => 'Action type is required',
         'int' => 'Action type must be a number',
         'exists' => 'Action type must be a valid action type'
+    ],
+    'display_name' => [
+        'maxLen' => 'Display name must be at most :p1 characters long'
+    ],
+    'old_password' => [
+        'required' => 'Old password is required',
+        'passwordVerify' => 'Old password doesn\'t match your current password'
+    ],
+    'new_password' => [
+        'required' => 'New password is required'
+    ],
+    'new_password_confirm' => [
+        'required' => 'Confirmation of new password is required',
+        'matches' => 'Confirmation of new password must match new password'
     ]
 ];
