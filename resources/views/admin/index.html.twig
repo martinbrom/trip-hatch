@@ -5,8 +5,54 @@
 {% block content %}
 
     <div class="admin-content">
-        <h1 class="text-center">{{ t('pages.admin.dashboard.heading') }}</h1>
-        <p class="text-center">{{ t('pages.admin.dashboard.text') }}</p>
+        <section class="admin-section">
+            <h1 class="text-center">{{ t('pages.admin.dashboard.heading') }}</h1>
+        </section>
+
+        <section class="admin-section">
+            <div class="info-box-container">
+                <div class="info-box-wrapper col-md-4">
+                    <div class="info-box">
+                        <a href="#">
+                            <div class="info-box-head users">
+                                <i class="fa fa-user"></i>
+                            </div>
+                            <div class="info-box-body">
+                                <p class="info-box-content">New users: <span class="value">{{ new.users }}</span></p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="info-box-wrapper col-md-4">
+                    <div class="info-box">
+                        <a href="#">
+                            <div class="info-box-head trips">
+                                <i class="fa fa-suitcase"></i>
+                            </div>
+                            <div class="info-box-body">
+                                <p class="info-box-content">New trips: <span class="value">{{ new.trips }}</span></p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="info-box-wrapper col-md-4">
+                    <div class="info-box">
+                        <a href="#">
+                            <div class="info-box-head days">
+                                <i class="fa fa-sun-o"></i>
+                            </div>
+                            <div class="info-box-body">
+                                <p class="info-box-content">New days: <span class="value">{{ new.days }}</span></p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="admin-section">
+            graphs and stuff
+        </section>
     </div>
 
 {% endblock %}

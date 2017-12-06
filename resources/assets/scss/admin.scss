@@ -6,4 +6,26 @@ div.admin-content {
     width: 80%;
     float: left;
   }
+
+  padding: $application_padding;
+
+  .admin-section {
+    margin-bottom: $application_margin;
+
+    &:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+
+    .info-box-container {
+      margin-left: -$application_margin / 2;
+      margin-right: -$application_margin / 2;
+
+      .info-box-wrapper {
+        padding-left: $application_margin / 2;
+        padding-right: $application_margin / 2;
+      }
+    }
+  }
 }

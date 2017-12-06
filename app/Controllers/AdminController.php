@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Repositories\DayRepository;
 use App\Repositories\TripRepository;
 use App\Repositories\UserRepository;
 use Core\Http\Controller;
@@ -15,21 +16,37 @@ class AdminController extends Controller
     /** @var TripRepository */
     private $tripRepository;
 
+    /** @var DayRepository */
+    private $dayRepository;
+
     /**
      * AdminController constructor.
      * @param UserRepository $userRepository
      * @param TripRepository $tripRepository
+     * @param DayRepository $dayRepository
      */
-    function __construct(UserRepository $userRepository, TripRepository $tripRepository) {
+    function __construct(UserRepository $userRepository, TripRepository $tripRepository, DayRepository $dayRepository) {
         $this->userRepository = $userRepository;
         $this->tripRepository = $tripRepository;
+        $this->dayRepository = $dayRepository;
     }
 
     /**
      * @return HtmlResponse
      */
     public function index() {
-        return $this->responseFactory->html('admin/index.html.twig');
+        $userCount = $this->userRepository->getNewCount();
+        $tripCount = $this->tripRepository->getNewCount();
+        $dayCount  = $this->dayRepository ->getNewCount();
+
+        $data = [
+            'new' => [
+                'users' => $userCount,
+                'trips' => $tripCount,
+                'days'  => $dayCount
+            ]
+        ];
+        return $this->responseFactory->html('admin/index.html.twig', $data);
     }
 
     /**

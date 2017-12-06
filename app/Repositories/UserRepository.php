@@ -39,12 +39,22 @@ class UserRepository
      */
     public function getNewUsers($limit = 100, $page = 0): array {
         // TODO: Maybe validate limit and page
-        $now = (new \DateTime())->format('Y-m-d H:i:s');
+        $date = date('Y-m-d H:i:s', strtotime('-1 week'));
         $offset = $page * $limit;
         $query = "SELECT * FROM users
-                WHERE created_at <= '$now'
+                WHERE created_at <= '$date'
                 LIMIT $limit OFFSET $offset";
         return $this->baseRepository->fetchAll($query);
+    }
+
+    /**
+     * @return int
+     */
+    public function getNewCount(): int {
+        $date = date('Y-m-d H:i:s', strtotime('-1 week'));
+        $query = "SELECT COUNT(*) as count FROM users
+                WHERE created_at <= '$date'";
+        return $this->baseRepository->fetch($query)['count'];
     }
 
     /**

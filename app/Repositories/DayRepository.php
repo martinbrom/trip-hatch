@@ -62,6 +62,16 @@ class DayRepository
     }
 
     /**
+     * @return int
+     */
+    public function getNewCount(): int {
+        $date = date('Y-m-d H:i:s', strtotime('-1 week'));
+        $query = "SELECT COUNT(*) as count FROM days
+                WHERE created_at <= '$date'";
+        return $this->baseRepository->fetch($query)['count'];
+    }
+
+    /**
      * @param int $trip_id
      * @param int $day_id
      * @return bool
