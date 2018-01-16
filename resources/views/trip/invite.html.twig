@@ -8,6 +8,7 @@
         <div class="container">
             <h1 class="text-center trip-title">{{ t('pages.trip.invite.heading') }}</h1>
             {% if trip.public_url %}
+                <!-- TODO: Add final URL -->
                 <p class="text-center">http:\\www.trip-hatch.com{{ routeTripPublic(trip.public_url) }}</p>
             {% endif %}
             <div class="invite-container col-md-offset-3 col-md-6">
@@ -16,6 +17,10 @@
                     <div class="form-group">
                         <label class="control-label" for="invite_email">{{ t('pages.trip.invite.email') }}</label>
                         <input class="form-control" type="email" name="invite_email" id="invite_email">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="invite_message">{{ t('pages.trip.invite.message') }}</label>
+                        <textarea rows="3" class="form-control" name="invite_message" id="invite_message"></textarea>
                     </div>
                     <div class="form-group">
                         <input class="hidden-xs hidden-sm btn btn-primary" type="submit" value="{{ t('pages.trip.invite.submit') }}">

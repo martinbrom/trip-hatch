@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Repositories\ActionTypeRepository;
 use App\Repositories\DayRepository;
+use App\Repositories\InviteRepository;
 use App\Repositories\TripRepository;
 use App\Repositories\UserTripRepository;
 use Core\AlertHelper;
@@ -50,6 +51,8 @@ class TripController extends Controller
 
     /** @var TripValidatorFactory */
     private $tripValidatorFactory;
+    /** @var InviteRepository */
+    private $inviteRepository;
 
     /**
      * TripController constructor.
@@ -62,6 +65,7 @@ class TripController extends Controller
      * @param Auth $auth
      * @param ActionTypeRepository $actionTypeRepository
      * @param TripValidatorFactory $tripValidatorFactory
+     * @param InviteRepository $inviteRepository
      */
     function __construct(
             TripRepository $tripRepository,
@@ -72,7 +76,8 @@ class TripController extends Controller
             Language $lang,
             Auth $auth,
             ActionTypeRepository $actionTypeRepository,
-            TripValidatorFactory $tripValidatorFactory) {
+            TripValidatorFactory $tripValidatorFactory,
+            InviteRepository $inviteRepository) {
         $this->tripRepository = $tripRepository;
         $this->userTripRepository = $userTripRepository;
         $this->session = $session;
@@ -82,6 +87,7 @@ class TripController extends Controller
         $this->auth = $auth;
         $this->actionTypeRepository = $actionTypeRepository;
         $this->tripValidatorFactory = $tripValidatorFactory;
+        $this->inviteRepository = $inviteRepository;
     }
 
     /**
@@ -294,8 +300,33 @@ class TripController extends Controller
         return $this->responseFactory->html('trip/invite.html.twig', ['trip' => $trip]);
     }
 
+    /**
+     * @param $trip_id
+     * @return RedirectResponse
+     */
     public function invite($trip_id) {
-        // TODO: Send a link with unique invitation token
+        $trip = $this->tripRepository->getTrip($trip_id);
+
+        if ($trip == NULL) {
+            $this->alertHelper->error($this->lang->get('alerts.trip.missing'));
+            return $this->route('dashboard');
+        }
+
+        if ($this->inviteRepository->exists($trip_id, $_POST['invite_email'])) {
+            $this->alertHelper->warning($this->lang->get('alerts.trip-invite.exists'));
+            return $this->route('trip.invite', ['trip_id' => $trip_id]);
+        }
+
+        $token = token(32);     // token must be unique but 62^32 combinations is way too many...
+        if (!$this->inviteRepository->create($trip_id, $_POST['invite_email'], $_POST['invite_message'], $token)) {
+            $this->alertHelper->error($this->lang->get('alerts.trip-invite.error'));
+            return $this->route('trip.invite', ['trip_id' => $trip_id]);
+        }
+
+        // TODO: Send email with token and message
+
+        $this->alertHelper->success($this->lang->get('alerts.trip-invite.success'));
+        return $this->route('trip.invite', ['trip_id' => $trip_id]);
     }
 
 

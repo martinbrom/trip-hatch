@@ -74,5 +74,10 @@ return [
     'trip-edit' => [
         'error' => 'Something went wrong while trying to edit a trip',
         'success' => 'A trip has been successfully edited'
+    ],
+    'trip-invite' => [
+        'error' => 'Something went wrong while trying to invite a person to this trip',
+        'success' => 'A person has been successfully invited to this trip',
+        'exists' => 'This person has already been invited to this trip. You can invite again after 10 minutes'
     ]
 ];

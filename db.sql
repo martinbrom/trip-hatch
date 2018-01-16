@@ -189,6 +189,29 @@ CREATE TABLE IF NOT EXISTS `triphatch`.`trip_comments` (
 ENGINE = InnoDB;
 
 
+-- -----------------------------------------------------
+-- Table `triphatch`.`invites`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `triphatch`.`invites` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `email` VARCHAR(255) NOT NULL,
+  `message` VARCHAR(255) NULL,
+  `token` VARCHAR(32) NOT NULL,
+  `trip_id` INT UNSIGNED NOT NULL,
+  `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC),
+  INDEX `fk_invites_1_idx` (`trip_id` ASC),
+  UNIQUE INDEX `token_UNIQUE` (`token` ASC),
+  CONSTRAINT `fk_invites_1`
+  FOREIGN KEY (`trip_id`)
+  REFERENCES `triphatch`.`trips` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION)
+  ENGINE = InnoDB;
+
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

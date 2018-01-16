@@ -77,7 +77,8 @@ return [
             'heading' => 'Invite a traveller',
             'title' => 'Invite to trip',
             'submit' => 'Invite',
-            'email' => 'Email'
+            'email' => 'Email',
+            'message' => 'Message'
         ]
     ],
     'day' => [
