@@ -35,7 +35,7 @@ class Session
 
     /**
      * @param $name
-     * @return null
+     * @return mixed
      */
     public function get($name) {
         // return $this->exists($name) ? $_SESSION[$name] : null;
@@ -49,6 +49,16 @@ class Session
         }
 
         return $result;
+    }
+
+    /**
+     * @param $name
+     * @return mixed
+     */
+    public function pop($name) {
+        $item = $this->get($name);
+        $this->delete($name);
+        return $item;
     }
 
     /**

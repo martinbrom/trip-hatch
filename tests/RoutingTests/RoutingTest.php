@@ -9,6 +9,7 @@ use Core\Http\Request;
 use Core\Routing\Route;
 use Core\Routing\RouteBuilder;
 use Core\Routing\Router;
+use Core\Session;
 use PHPUnit\Framework\TestCase;
 
 class RoutingTest extends TestCase
@@ -38,7 +39,7 @@ class RoutingTest extends TestCase
     public function createRequest() {
         $this->di->register(ResponseFactory::class);
         $this->di->register(ValidatorFactory::class);
-        $this->request = new Request($this->di, $this->di->getService(ResponseFactory::class), $this->di->getService(ValidatorFactory::class));
+        $this->request = new Request($this->di, $this->di->getService(ResponseFactory::class), $this->di->getService(ValidatorFactory::class), $this->di->getService(Session::class));
     }
 
     public function createRoute() {

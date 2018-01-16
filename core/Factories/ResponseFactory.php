@@ -74,6 +74,15 @@ class ResponseFactory
     }
 
     /**
+     * @return RedirectResponse
+     */
+    public function redirectBack() {
+        $path = $_SERVER['HTTP_REFERER'];
+
+        return $path == '' ? $this->redirectToRoute('dashboard') : $this->redirect($path);
+    }
+
+    /**
      * @param $routeName
      * @param array $params
      * @return RedirectResponse

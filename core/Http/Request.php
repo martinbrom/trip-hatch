@@ -10,6 +10,7 @@ use Core\Factories\ValidatorFactory;
 use Core\Http\Response\JsonResponse;
 use Core\Http\Response\Response;
 Use Core\Routing\Route;
+use Core\Session;
 
 /**
  * Contains SERVER request data and calls action on a controller
@@ -49,13 +50,21 @@ class Request
     /** @var ValidatorFactory Instance for creating validators */
     private $validatorFactory;
 
+    /** @var Session */
+    private $session;
+
     /**
      * Creates new Request instance and injects DependencyInjector, ResponseFactory and ValidatorFactory
      * @param DependencyInjector $di Instance containing registered services
      * @param ResponseFactory $responseFactory Instance for creating responses
      * @param ValidatorFactory $validatorFactory Instance for creating validators
+     * @param Session $session
      */
-    public function __construct(DependencyInjector $di, ResponseFactory $responseFactory, ValidatorFactory $validatorFactory) {
+    public function __construct(
+            DependencyInjector $di,
+            ResponseFactory $responseFactory,
+            ValidatorFactory $validatorFactory,
+            Session $session) {
         // TODO: WHEN IN DOUBT, DUMP IT OUT
         // var_dump($_SERVER);
         $this->di = $di;
@@ -65,6 +74,7 @@ class Request
         $this->headers = getallheaders();
         $this->responseFactory = $responseFactory;
         $this->validatorFactory = $validatorFactory;
+        $this->session = $session;
     }
 
     /**
@@ -84,9 +94,8 @@ class Request
                 return $this->responseFactory->json(['validation_errors' => $validator->getErrors()], 200);
             }
 
-            var_dump($validator->getErrors());
-            // TODO: Redirect back
-            die();
+            $this->session->set('validation_errors', $validator->getErrors());
+            return $this->responseFactory->redirectBack();
         }
 
         $controllerClass = self::NAMESPACE . $this->route->getController() . "Controller";

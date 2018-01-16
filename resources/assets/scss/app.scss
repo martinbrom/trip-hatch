@@ -93,6 +93,11 @@ span.badge {
 
 .info-box-wrapper {
   height: $infobox_height;
+  margin-bottom: $application_margin;
+
+  @media screen and (min-width: $size-sm) {
+    margin-bottom: 0;
+  }
 
   .info-box {
     height: $infobox_height;

@@ -4,6 +4,10 @@
 
 {% block content %}
 
+    {% if validation_errors is not empty %}
+        <h1>validation errors</h1>
+    {% endif %}
+
     <section class="container-section">
         <div class="container">
             <div class="login-container col-md-offset-1 col-md-4">

@@ -30,7 +30,7 @@ class HtmlResponse extends Response
     }
 
     /**
-     *
+     * @return string
      */
     public function createContent() {
         return $this->view->render($this->getContent(), $this->getData());

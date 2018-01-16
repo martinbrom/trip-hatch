@@ -142,10 +142,10 @@ $(document).ready(function () {
             success: function (result) {
                 console.log(result);
 
+                clearValidationErrorMessages();
                 if (result.validation_errors != null) {
                     addValidationErrorMessages(result.validation_errors);
                 } else {
-                    clearValidationErrorMessages();
                     $("#day-container-" + result.day_id).remove();
                     $('.trip-days-container').append(result.html);
 
@@ -244,10 +244,10 @@ $(document).ready(function () {
             success: function (result) {
                 console.log(result);
 
+                clearValidationErrorMessages();
                 if (result.validation_errors != null) {
                     addValidationErrorMessages(result.validation_errors);
                 } else {
-                    clearValidationErrorMessages();
                     var actions_container = $("#day" + result.day_id + " .actions-container");
                     $("#action-container-" + result.action_id).remove();
                     actions_container.append(result.html);
@@ -303,10 +303,10 @@ $(document).ready(function () {
             success: function (result) {
                 console.log(result);
 
+                clearValidationErrorMessages();
                 if (result.validation_errors != null) {
                     addValidationErrorMessages(result.validation_errors);
                 } else {
-                    clearValidationErrorMessages();
                     $('#day' + result.day_id + ' .action-add-modal-btn').parent().before(result.html);
                     $('#action-add-modal').modal('hide');
                 }

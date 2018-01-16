@@ -10,6 +10,7 @@ use Core\Factories\ValidatorFactory;
 use Core\Http\Request;
 use Core\Routing\RouteBuilder;
 use Core\Routing\Router;
+use Core\Session;
 use PHPUnit\Framework\TestCase;
 
 class RequestTest extends TestCase
@@ -22,7 +23,7 @@ class RequestTest extends TestCase
 
     public function createRequest(): Request {
         $di = $this->initDI();
-        return new Request($di, $di->getService(ResponseFactory::class), $di->getService(ValidatorFactory::class));
+        return new Request($di, $di->getService(ResponseFactory::class), $di->getService(ValidatorFactory::class), $di->getService(Session::class));
     }
 
     public function createRouter(): Router {
