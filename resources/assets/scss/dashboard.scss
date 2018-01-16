@@ -5,30 +5,10 @@ div.trip-controls {
   margin-top: $application_margin;
   padding: 0;
 
-  div.trip-search-container {
-    form.trip-search-form {
-      div.input-group {
-        box-shadow: 0 0 $application_shadow_distance $application_shadow_color;
-        border-radius: $application_border_radius;
-
-        @media screen and (max-width: $size-sm - 1) {
-          margin-bottom: 2 * $application_margin;
-        }
-
-        span {
-          border: none;
-          background: $dashboard_card_background;
-        }
-
-        input.trip-search {
-          border: none;
-          border-left: 1px solid $lightgray;
-        }
-      }
-    }
-  }
-
   div.trip-add-container {
+    padding-left: $application_padding;
+    padding-right: $application_padding;
+
     a.trip-add {
       box-shadow: 0 0 $application_shadow_distance $application_shadow_color;
       border: none;
@@ -64,11 +44,13 @@ div.trip-card-container {
 
       h3 {
         margin-top: 0;
-        margin-bottom: $application_margin;
+        margin-bottom: $application_margin; // TODO: Not sure if looks better with or without
         line-height: 26px;
 
         @media screen and (min-width: $size-sm) {
           min-height: 52px;
+          max-height: 52px;
+          overflow: hidden;
         }
       }
 

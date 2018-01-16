@@ -40,8 +40,7 @@ return [
     'trip' => [
         'dashboard' => [
             'title' => 'Trips',
-            'hatch-trip' => 'Hatch a new trip',
-            'search' => 'Search'
+            'hatch-trip' => 'Hatch a new trip'
         ],
         'show' => [
             'title' => 'Trip overview',
