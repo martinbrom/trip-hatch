@@ -242,7 +242,6 @@ class TripController extends Controller
      * @return JsonResponse
      */
     public function removeUser($trip_id, $user_trip_id) {
-        // TODO: Deleting when user_trip has comments...
         if (!$this->userTripRepository->isExactlyTraveller($user_trip_id))
             return $this->responseFactory->jsonAlert($this->lang->get('alerts.remove-user.wrong-role'), 'danger', 401);
 

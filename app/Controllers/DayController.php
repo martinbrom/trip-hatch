@@ -66,12 +66,11 @@ class DayController extends Controller
         $result = $tripValidator->validateDay($trip_id, $day_id);
         if ($result != NULL) return $result;
 
-        // TODO: Deleting day with actions
         if (!$this->dayRepository->delete($day_id)) {
             return $this->responseFactory->jsonAlert($this->lang->get('alerts.day-delete.error'), 'error', 500);
         }
 
-        // TODO: Delete day and change trip end date and order of all days
+        // TODO: Delete day and change trip end date
         $data = [
             'message' => $this->lang->get('alerts.day-delete.success', [$tripValidator->getDay()['title']]),
             'type' => 'success',
