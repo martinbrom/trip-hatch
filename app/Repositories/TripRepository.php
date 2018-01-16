@@ -110,10 +110,10 @@ class TripRepository
      */
     public function createTrip($title) {
         $query = "INSERT INTO `trips` (
-                `id`, `title`, `start_date`, `end_date`, `ended`,
-                `image_id`, `created_at`, `updated_at`, `deleted_at`)
-                VALUES (NULL, :title, NULL, NULL, 0,
-                '2', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL)";
+                `id`, `title`, `start_date`, `end_date`,
+                `image_id`, `created_at`, `updated_at`)
+                VALUES (NULL, :title, NULL, NULL,
+                '2', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)";
         $data = ['title' => $title];
         return $this->baseRepository->run($query, $data);
     }

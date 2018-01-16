@@ -102,9 +102,9 @@ class DayRepository
     public function create(int $trip_id, int $order) {
         $query = "INSERT INTO `days`(
                 `id`, `title`, `order`, `image_id`, `trip_id`,
-                `created_at`, `updated_at`, `deleted_at`)
+                `created_at`, `updated_at`)
                 VALUES (NULL, 'New day', :order, 2, :trip_id,
-                CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL)";
+                CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)";
         $data = ['trip_id' => $trip_id, 'order' => $order];
         return $this->baseRepository->run($query, $data);
     }

@@ -85,9 +85,9 @@ class UserRepository
     public function createUser($email, $hash) {
         $query = "INSERT INTO `users` (
                 `id`, `email`, `password`, `display_name`, `is_admin`,
-                `image_id`, `created_at`, `updated_at`, `deleted_at`)
+                `image_id`, `created_at`, `updated_at`)
                 VALUES (NULL, :email, :hash, NULL, '0',
-                '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL)";
+                '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)";
         $data = ['email' => $email, 'hash' => $hash];
         return $this->baseRepository->run($query, $data);
     }

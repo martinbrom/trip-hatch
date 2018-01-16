@@ -92,9 +92,9 @@ class UserTripRepository
         $role = UserTripRoles::OWNER;
         $query = "INSERT INTO `user_trip_xref` (
                 `id`, `user_id`, `trip_id`, `role`,
-                `created_at`, `updated_at`, `deleted_at`)
+                `created_at`, `updated_at`)
                 VALUES (NULL, :user_id, :trip_id, :role,
-                CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL)";
+                CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)";
         $data = ['trip_id' => $trip_id, 'user_id' => $user_id, 'role' => $role];
         return $this->baseRepository->run($query, $data);
     }

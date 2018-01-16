@@ -64,10 +64,10 @@ class ActionRepository
     public function create($title, $content, int $order, int $day_id, int $action_type_id) {
         $query = "INSERT INTO `actions`(`id`, `title`, `content`,
                 `order`, `day_id`, `action_type_id`,
-                `created_at`, `updated_at`, `deleted_at`)
+                `created_at`, `updated_at`)
                 VALUES (NULL, :title, :content,
                 :order, :day_id, :action_type_id,
-                CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL)";
+                CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)";
         $data = [
             'title' => $title,
             'content' => $content,

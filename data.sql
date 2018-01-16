@@ -27,11 +27,11 @@ INSERT INTO `images` (`id`, `path`, `description`, `created_at`, `updated_at`) V
 -- USERS
 -- -----------------------------------------------------
 INSERT INTO `users` (`id`, `email`, `password`, `display_name`, `is_admin`, `image_id`, `created_at`, `updated_at`) VALUES
-  (NULL, 'testemail1@test.test', 'definitelynotrealpasswordhash', 'Test User 1', '1', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-  (NULL, 'testemail2@test.test', 'definitelynotrealpasswordhash', NULL, '0', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-  (NULL, 'testemail3@test.test', 'definitelynotrealpasswordhash', 'Test User 3', '0', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-  (NULL, 'testemail4@test.test', 'definitelynotrealpasswordhash', NULL, '0', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-  (NULL, 'testemail5@test.test', 'definitelynotrealpasswordhash', 'Test User 5', '0', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+  (NULL, 'testemail1@test.test', '$2a$12$A1BhpvR.QRIdzDqLZybbPe8MJimTe7WOaz.p8gMb3aZvXzguhr8re', 'Test User 1', '1', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+  (NULL, 'testemail2@test.test', '$2a$12$A1BhpvR.QRIdzDqLZybbPe8MJimTe7WOaz.p8gMb3aZvXzguhr8re', NULL, '0', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+  (NULL, 'testemail3@test.test', '$2a$12$A1BhpvR.QRIdzDqLZybbPe8MJimTe7WOaz.p8gMb3aZvXzguhr8re', 'Test User 3', '0', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+  (NULL, 'testemail4@test.test', '$2a$12$A1BhpvR.QRIdzDqLZybbPe8MJimTe7WOaz.p8gMb3aZvXzguhr8re', NULL, '0', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+  (NULL, 'testemail5@test.test', '$2a$12$A1BhpvR.QRIdzDqLZybbPe8MJimTe7WOaz.p8gMb3aZvXzguhr8re', 'Test User 5', '0', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 -- -----------------------------------------------------
 -- TRIPS
