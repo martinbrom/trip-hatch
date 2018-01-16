@@ -119,6 +119,21 @@ class TripRepository
     }
 
     /**
+     * @param $trip_id
+     * @param $title
+     * @param $image_id
+     * @return bool
+     */
+    public function edit($trip_id, $title, $image_id) {
+        $query = "UPDATE trips
+                SET title = :title, image_id = :image_id,
+                updated_at = CURRENT_TIMESTAMP
+                WHERE id = :id";
+        $data = ['title' => $title, 'id' => $trip_id, 'image_id' => $image_id];
+        return $this->baseRepository->run($query, $data);
+    }
+
+    /**
      * @return string
      */
     public function lastInsertID() {

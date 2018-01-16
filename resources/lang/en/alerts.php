@@ -70,5 +70,9 @@ return [
     'trip-edit-action' => [
         'error' => 'Something went wrong while trying to edit an action',
         'success' => 'An action has been successfully edited'
+    ],
+    'trip-edit' => [
+        'error' => 'Something went wrong while trying to edit a trip',
+        'success' => 'A trip has been successfully edited'
     ]
 ];

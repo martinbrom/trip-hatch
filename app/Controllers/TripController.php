@@ -145,7 +145,30 @@ class TripController extends Controller
         return $this->responseFactory->html('trip/show.html.twig', ['days' => $days, 'trip' => $trip, 'action_types' => $action_types]);
     }
 
-    public function edit($trip_id) {}
+    /**
+     * TODO: Document this
+     * @param $trip_id
+     * @return Response
+     */
+    public function edit($trip_id) {
+        $trip = $this->tripRepository->getTrip($trip_id);
+
+        if ($trip == NULL) {
+            $this->alertHelper->error($this->lang->get('alerts.trip.missing'));
+            return $this->route('dashboard');
+        }
+
+        // TODO: File upload
+        // TODO: If file input empty set default image id
+        $image_id = 2;
+        if (!$this->tripRepository->edit($trip_id, $_POST['trip_title'], $image_id)) {
+            $this->alertHelper->error($this->lang->get('alerts.trip-edit.error'));
+            return $this->route('dashboard');
+        }
+
+        $this->alertHelper->success($this->lang->get('alerts.trip-edit.success'));
+        return $this->route('trip.show', ['trip_id' => $trip_id]);
+    }
 
     /**
      * @param $trip_id

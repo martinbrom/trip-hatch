@@ -48,7 +48,12 @@ return [
             'add-action' => 'Add a new action'
         ],
         'edit' => [
-            'title' => 'Trip edit'
+            'title' => 'Trip edit',
+            'heading' => 'Edit a trip',
+            'submit' => 'Edit',
+            'trip-title' => 'Trip title',
+            'trip-image' => 'Trip cover image',
+            'trip-image-help' => 'leave blank for default image'
         ],
         'manage-people' => [
             'title' => 'Trip manage people',

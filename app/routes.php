@@ -57,7 +57,9 @@ $rb->add('GET', 'trip/{trip_id:\d+}/edit', 'Trip', 'editPage')
     ->middleware(['organiser'])
     ->name('trip.edit');
 $rb->add('POST', 'trip/{trip_id:\d+}/edit', 'Trip', 'edit')
-    ->middleware(['organiser']);
+    ->middleware(['organiser'])
+    ->validate(['trip_title' => ['required', 'maxLen:100']])
+    ->name('trip.edit.submit');
 $rb->add('GET', 'trip/public/{public_url:\w+}', 'Trip', 'showPublic')
     ->name('trip.public');
 $rb->add('GET', 'trip/{trip_id:\d+}/manage-people', 'Trip', 'managePeoplePage')
