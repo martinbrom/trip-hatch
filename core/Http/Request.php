@@ -88,7 +88,6 @@ class Request
         $validator = $this->validatorFactory->make();
         $validator->setRequest($this);
 
-        // TODO: Return with input???
         if (!$validator->validate()) {
             if ($this->isAjax()) {
                 return $this->responseFactory->json(['validation_errors' => $validator->getErrors()], 200);

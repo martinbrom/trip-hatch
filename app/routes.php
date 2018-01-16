@@ -81,7 +81,7 @@ $rb->add('GET', 'login', 'User', 'loginPage')
 $rb->add('GET', 'forgotten-password', 'User', 'forgottenPasswordPage')
     ->name('forgotten-password');
 $rb->add('POST', 'login', 'User', 'login')
-    ->validate(['login_email' => ['email', 'maxLen:255']])
+    ->validate(['login_email' => ['email', 'maxLen:255'], 'login_password' => ['required']])
     ->name('login.submit');
 $rb->add('POST', 'register', 'User', 'register')
     ->validate([

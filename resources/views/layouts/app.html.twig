@@ -16,6 +16,16 @@
                     {% include 'layouts/_alert.html.twig' %}
                 {% endfor %}
             {% endif %}
+
+            {% if validation_errors is not empty %}
+                {% for fields in validation_errors %}
+                    {% for error in fields %}
+                        <div class="alert alert-danger alert-dismissable">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>{{ error }}
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+            {% endif %}
         </div>
         {% block content %}{% endblock %}
         {% include 'layouts/_footer.html.twig' %}

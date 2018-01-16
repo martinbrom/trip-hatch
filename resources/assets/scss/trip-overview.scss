@@ -65,6 +65,7 @@ nav.trip-navigation {
 
         &.links-right {
           margin-top: 0;
+          margin-right: -$application_margin;
 
           li:first-of-type {
             border-top: 1px solid $navigation_text_color;

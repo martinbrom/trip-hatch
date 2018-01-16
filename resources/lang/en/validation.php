@@ -5,6 +5,9 @@ return [
         'email' => 'Login email must be a valid email address',
         'maxLen' => 'Login email must be at most :p1 characters long'
     ],
+    'login_password' => [
+        'required' => 'Login password is required'
+    ],
     'register_email' => [
         'required' => 'Registration email is required',
         'email' => 'Registration email must be a valid email address',
