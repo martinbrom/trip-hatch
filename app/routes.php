@@ -78,6 +78,9 @@ $rb->add('POST', 'trip/{trip_id:\d+}/invite', 'Trip', 'invite')
 $rb->add('GET', 'trip/invite-accept/{token:\w+}', 'Trip', 'inviteAccept')
     ->middleware(['logged'])
     ->name('trip.invite-accept');
+$rb->add('GET', 'trip/{trip_id:\d+}/delete', 'Trip', 'delete')
+    ->middleware(['owner'])
+    ->name('trip.delete');
 
 // ------------ USER ------------
 $rb->add('GET', 'login', 'User', 'loginPage')

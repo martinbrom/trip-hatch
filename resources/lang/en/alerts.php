@@ -85,5 +85,9 @@ return [
         'error' => 'Something went wrong while trying to accept a trip invitation',
         'success' => 'You have successfully accepted a trip invitation',
         'access' => 'You already have access to this trip'
+    ],
+    'trip-delete' => [
+        'error' => 'Something went wrong while trying to delete a trip',
+        'success' => 'You have successfully deleted a trip'
     ]
 ];

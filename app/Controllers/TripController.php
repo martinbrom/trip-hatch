@@ -375,6 +375,27 @@ class TripController extends Controller
 
     /**
      * @param $trip_id
+     * @return RedirectResponse
+     */
+    public function delete($trip_id) {
+        $trip = $this->tripRepository->getTrip($trip_id);
+
+        if ($trip == NULL) {
+            $this->alertHelper->error($this->lang->get('alerts.trip.missing'));
+            return $this->route('dashboard');
+        }
+
+        if (!$this->tripRepository->delete($trip_id)) {
+            $this->alertHelper->error($this->lang->get('alerts.trip-delete.error'));
+            return $this->route('trip.show', ['trip_id' => $trip_id]);
+        }
+
+        $this->alertHelper->success($this->lang->get('alerts.trip-delete.success'));
+        return $this->route('dashboard');
+    }
+
+    /**
+     * @param $trip_id
      * @return JsonResponse
      */
     public function addDay($trip_id) {

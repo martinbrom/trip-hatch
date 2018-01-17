@@ -134,6 +134,17 @@ class TripRepository
     }
 
     /**
+     * @param $trip_id
+     * @return bool
+     */
+    public function delete($trip_id) {
+        $query = "DELETE FROM trips
+                WHERE id = :id";
+        $data = ['id' => $trip_id];
+        return $this->baseRepository->run($query, $data);
+    }
+
+    /**
      * @return string
      */
     public function lastInsertID() {

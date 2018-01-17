@@ -20,7 +20,7 @@ return [
         'manage-people' => 'Správa cestovatelů',
         'manage-staff' => 'Správa vedení',
         'edit' => 'Upravit',
-        'archive' => 'Archivovat',
+        'delete' => 'Odstranit',
         'hatch-trip' => 'Vylíhnout nový výlet',
         'invite' => 'Pozvat',
         'back-to-index' => 'Domů'

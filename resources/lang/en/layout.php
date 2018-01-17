@@ -20,7 +20,7 @@ return [
         'manage-people' => 'Manage people',
         'manage-staff' => 'Manage staff',
         'edit' => 'Edit',
-        'archive' => 'Archive',
+        'delete' => 'Delete',
         'hatch-trip' => 'Hatch a new trip',
         'invite' => 'Invite',
         'back-to-index' => 'Back to index'

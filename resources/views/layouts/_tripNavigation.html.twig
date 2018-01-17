@@ -20,11 +20,13 @@
                 <li><a class="add-day-link" href="#" data-ajax-url="{{ routeTrip('add-day', trip.id) }}"><i class="fa fa-plus"></i> {{ t('layout.trip.add-day') }}</a></li>
             </ul>
             <ul class="nav navbar-nav links-right">
-                <!-- TODO: edit trip stuff, another page prob -->
                 <li><a href="{{ routeTrip('edit', trip.id) }}"><i class="fa fa-pencil"></i> {{ t('layout.trip.edit') }}</a></li>
 
-                <!-- TODO: confirm prompt, then redirect to dashboard -->
-                <li><a href="#"><i class="fa fa-trash"></i> {{ t('layout.trip.archive') }}</a></li>
+                <li>
+                    <a class="trip-delete-modal-btn" data-toggle="modal" data-target="#trip-delete-modal" href="#">
+                        <i class="fa fa-trash"></i> {{ t('layout.trip.delete') }}
+                    </a>
+                </li>
             </ul>
         </div>
     </div>

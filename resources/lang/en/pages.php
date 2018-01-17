@@ -79,6 +79,10 @@ return [
             'submit' => 'Invite',
             'email' => 'Email',
             'message' => 'Message'
+        ],
+        'delete' => [
+            'heading' => 'Delete a trip',
+            'title' => 'Are you sure you want to delete this trip?'
         ]
     ],
     'day' => [

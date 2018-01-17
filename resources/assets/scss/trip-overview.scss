@@ -8,6 +8,21 @@ button.action-delete-btn {
   float: left;
 }
 
+#trip-delete-modal {
+  div.modal-body {
+    overflow: auto;
+
+    h3 {
+      margin-bottom: $application_margin;
+    }
+
+    .trip-delete-btn {
+      width: 40%;
+      margin: 5%;
+    }
+  }
+}
+
 nav.trip-navigation {
   background: $trip_overview_navigation_background;
 
