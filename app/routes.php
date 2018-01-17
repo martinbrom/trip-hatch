@@ -73,7 +73,11 @@ $rb->add('GET', 'trip/{trip_id:\d+}/invite', 'Trip', 'invitePage')
     ->name('trip.invite');
 $rb->add('POST', 'trip/{trip_id:\d+}/invite', 'Trip', 'invite')
     ->middleware(['organiser'])
+    ->validate(['invite_email' => ['email', 'required', 'maxLen:255'], 'invite_message' => ['maxLen:255']])
     ->name('trip.invite.submit');
+$rb->add('GET', 'trip/invite-accept/{token:\w+}', 'Trip', 'inviteAccept')
+    ->middleware(['logged'])
+    ->name('trip.invite-accept');
 
 // ------------ USER ------------
 $rb->add('GET', 'login', 'User', 'loginPage')

@@ -68,5 +68,13 @@ return [
     'new_password_confirm' => [
         'required' => 'Confirmation of new password is required',
         'matches' => 'Confirmation of new password must match new password'
+    ],
+    'invite_email' => [
+        'required' => 'Invitation email is required',
+        'email' => 'Invitation email must be a valid email address',
+        'maxLen' => 'Invitation email must be at most :p1 characters long'
+    ],
+    'invite_message' => [
+        'maxLen' => 'Invitation message must be at most :p1 characters long'
     ]
 ];

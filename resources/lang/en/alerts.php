@@ -78,6 +78,12 @@ return [
     'trip-invite' => [
         'error' => 'Something went wrong while trying to invite a person to this trip',
         'success' => 'A person has been successfully invited to this trip',
-        'exists' => 'This person has already been invited to this trip. You can invite again after 10 minutes'
+        'exists' => 'This person has already been invited to this trip. You can invite again after 10 minutes',
+        'missing' => 'Trip and token combination does not exist in our database'
+    ],
+    'trip-invite-accept' => [
+        'error' => 'Something went wrong while trying to accept a trip invitation',
+        'success' => 'You have successfully accepted a trip invitation',
+        'access' => 'You already have access to this trip'
     ]
 ];

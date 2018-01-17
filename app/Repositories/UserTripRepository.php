@@ -98,4 +98,29 @@ class UserTripRepository
         $data = ['trip_id' => $trip_id, 'user_id' => $user_id, 'role' => $role];
         return $this->baseRepository->run($query, $data);
     }
+
+    /**
+     * @param $user_id
+     * @param $trip_id
+     * @param $role
+     * @return bool
+     */
+    public function create($user_id, $trip_id, $role) {
+        $query = "INSERT INTO `user_trip_xref` (
+                `id`, `user_id`, `trip_id`, `role`,
+                `created_at`, `updated_at`)
+                VALUES (NULL, :user_id, :trip_id, :role,
+                CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)";
+        $data = ['trip_id' => $trip_id, 'user_id' => $user_id, 'role' => $role];
+        return $this->baseRepository->run($query, $data);
+    }
+
+    /**
+     * @param $user_id
+     * @param $trip_id
+     * @return mixed
+     */
+    public function hasAccess($user_id, $trip_id) {
+        return $this->getRole($user_id, $trip_id) != NULL;
+    }
 }

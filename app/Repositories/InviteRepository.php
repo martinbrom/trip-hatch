@@ -46,13 +46,35 @@ class InviteRepository
      * @param $email
      * @return bool
      */
-    public function exists($trip_id, $email) {
+    public function canInvite($trip_id, $email) {
         // all invites from the last 10 minutes
         $query = "SELECT COUNT(ID) AS 'count' FROM `invites`
                 WHERE `email` = :email
                 AND `trip_id` = :trip_id
                 AND `created_at` >= (now() - INTERVAL 10 MINUTE)";
         $data = ['trip_id' => $trip_id, 'email' => $email];
-        return $this->baseRepository->fetch($query, $data)['count'] >= 1;
+        return $this->baseRepository->fetch($query, $data)['count'] == 0;
+    }
+
+    /**
+     * @param $token
+     * @return array
+     */
+    public function getInvite($token) {
+        $query = "SELECT * FROM `invites`
+                WHERE `token` = :token";
+        $data = ['token' => $token];
+        return $this->baseRepository->fetch($query, $data);
+    }
+
+    /**
+     * @param $id
+     * @return bool
+     */
+    public function delete($id) {
+        $query = "DELETE FROM `invites`
+                WHERE id = :id";
+        $data = ['id' => $id];
+        return $this->baseRepository->run($query, $data);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Enums\UserTripRoles;
 use App\Repositories\ActionTypeRepository;
 use App\Repositories\DayRepository;
 use App\Repositories\InviteRepository;
@@ -17,6 +18,7 @@ use Core\Http\Response\RedirectResponse;
 use Core\Http\Response\Response;
 use Core\Language\Language;
 use Core\Session;
+use phpDocumentor\Reflection\Types\Null_;
 
 /**
  * Handles creating responses for trip related pages
@@ -51,6 +53,7 @@ class TripController extends Controller
 
     /** @var TripValidatorFactory */
     private $tripValidatorFactory;
+
     /** @var InviteRepository */
     private $inviteRepository;
 
@@ -312,7 +315,7 @@ class TripController extends Controller
             return $this->route('dashboard');
         }
 
-        if ($this->inviteRepository->exists($trip_id, $_POST['invite_email'])) {
+        if (!$this->inviteRepository->canInvite($trip_id, $_POST['invite_email'])) {
             $this->alertHelper->warning($this->lang->get('alerts.trip-invite.exists'));
             return $this->route('trip.invite', ['trip_id' => $trip_id]);
         }
@@ -329,6 +332,46 @@ class TripController extends Controller
         return $this->route('trip.invite', ['trip_id' => $trip_id]);
     }
 
+    /**
+     * @param $token
+     * @return RedirectResponse
+     */
+    public function inviteAccept($token) {
+        $invite = $this->inviteRepository->getInvite($token);
+
+        if ($invite == NULL) {
+            $this->alertHelper->error($this->lang->get('alerts.trip-invite.missing'));
+            return $this->route('dashboard');
+        }
+
+        $trip_id = $invite['trip_id'];
+        $trip = $this->tripRepository->getTrip($trip_id);
+
+        if ($trip == NULL) {
+            $this->alertHelper->error($this->lang->get('alerts.trip.missing'));
+            return $this->route('dashboard');
+        }
+
+        $user_id = $this->session->get('user.id');
+
+        if (!$this->inviteRepository->delete($invite['id'])) {
+            $this->alertHelper->error($this->lang->get('alerts.trip-invite-accept.error'));
+            return $this->route('dashboard');
+        }
+        
+        if ($this->userTripRepository->hasAccess($user_id, $trip_id)) {
+            $this->alertHelper->info($this->lang->get('alerts.trip-invite-accept.access'));
+            return $this->route('trip.show', ['trip_id' => $trip_id]);
+        }
+
+        if (!$this->userTripRepository->create($user_id, $trip_id, UserTripRoles::TRAVELLER)) {
+            $this->alertHelper->error($this->lang->get('alerts.trip-invite-accept.error'));
+            return $this->route('dashboard');
+        }
+
+        $this->alertHelper->success($this->lang->get('alerts.trip-invite-accept.success'));
+        return $this->route('trip.show', ['trip_id' => $trip_id]);
+    }
 
     /**
      * @param $trip_id
