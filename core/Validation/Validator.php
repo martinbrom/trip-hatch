@@ -229,6 +229,8 @@ class Validator
         return $this->auth->verifyUser($this->session->get('user.email'), $item) != null;
     }
 
+    // TODO: File type, file size, min width, min height
+
     /**
      * Returns all validation errors
      * @return array Validation errors

@@ -10,7 +10,9 @@ use Core\Factories\TripValidatorFactory;
 use Core\Http\Controller;
 use Core\Http\Response\JsonResponse;
 use Core\Http\Response\Response;
+use Core\ImageHandler;
 use Core\Language\Language;
+use Core\Storage\Storage;
 
 class DayController extends Controller
 {
@@ -32,6 +34,12 @@ class DayController extends Controller
     /** @var TripValidatorFactory */
     private $tripValidatorFactory;
 
+    /** @var Storage */
+    private $storage;
+
+    /** @var ImageHandler */
+    private $imageHandler;
+
     /**
      * DayController constructor.
      * @param Auth $auth
@@ -40,6 +48,8 @@ class DayController extends Controller
      * @param Language $lang
      * @param ActionRepository $actionRepository
      * @param TripValidatorFactory $tripValidatorFactory
+     * @param Storage $storage
+     * @param ImageHandler $imageHandler
      */
     public function __construct(
             Auth $auth,
@@ -47,13 +57,17 @@ class DayController extends Controller
             TripRepository $tripRepository,
             Language $lang,
             ActionRepository $actionRepository,
-            TripValidatorFactory $tripValidatorFactory) {
+            TripValidatorFactory $tripValidatorFactory,
+            Storage $storage,
+            ImageHandler $imageHandler) {
         $this->auth = $auth;
         $this->dayRepository = $dayRepository;
         $this->tripRepository = $tripRepository;
         $this->lang = $lang;
         $this->actionRepository = $actionRepository;
         $this->tripValidatorFactory = $tripValidatorFactory;
+        $this->storage = $storage;
+        $this->imageHandler = $imageHandler;
     }
 
     /**
@@ -102,11 +116,26 @@ class DayController extends Controller
         $result = $tripValidator->validateDay($trip_id, $day_id);
         if ($result != NULL) return $result;
 
-        // TODO: File upload
-        // TODO: If file input empty set default image id
-        $image_id = 2;
-        if (!$this->dayRepository->edit($day_id, $_POST['day_title'], $image_id)) {
-            return $this->responseFactory->jsonAlert($this->lang->get('alerts.day-edit.error'), 'danger', 500);
+        $this->imageHandler->processDayCover($_FILES['day_image']);
+        if ($this->imageHandler->isEmpty()) {
+            if (!$this->dayRepository->editTitle($day_id, $_POST['day_title'])) {
+                return $this->responseFactory->jsonAlert($this->lang->get('alerts.day-edit.title-error'), 'danger', 500);
+            }
+        } else {
+            if ($this->imageHandler->isInvalid()) {
+                return $this->responseFactory->jsonAlert(
+                    $this->lang->get('validation.file.' . $this->imageHandler->getValidationError()),
+                    'danger', 500);
+            }
+
+            $this->imageHandler->resizeDayCover();
+            $this->storage->storeDayCover($this->imageHandler->getResult());
+            // TODO: $image_id = $this->storage->getImageID();
+            $image_id = 1;
+
+            if (!$this->dayRepository->edit($day_id, $_POST['day_title'], $image_id)) {
+                return $this->responseFactory->jsonAlert($this->lang->get('alerts.day-edit.error'), 'danger', 500);
+            }
         }
 
         $day = $this->dayRepository->getDay($day_id);

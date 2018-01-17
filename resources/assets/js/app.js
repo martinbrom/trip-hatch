@@ -121,6 +121,7 @@ $(document).ready(function () {
                 console.log(result.day);
                 console.log(result.trip);
                 $('#day_title').val(result.day.title);
+                $('#day_image').val("");
                 $('#day-edit-modal').modal('show');
             },
             error: function (result) {
@@ -135,10 +136,17 @@ $(document).ready(function () {
     $(".day-edit-btn").click(function (e) {
         e.preventDefault();
         var url  = $(this).attr(ajax_url_parameter_name);
+        console.log("Aaaaaaaaaaaaaa");
+        var formData = new FormData($('form.day-edit-form')[0]);
+        console.log("Aaaaaaaaaaaaaa");
+        console.log(this);
+
         $.ajax({
             url: url,
-            method: 'post',
-            data: $('form.day-edit-form').serialize(),
+            method: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
             success: function (result) {
                 console.log(result);
 

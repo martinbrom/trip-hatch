@@ -214,6 +214,8 @@ class Request
         return $this->method == 'GET' ? (isset($_GET[$key]) ? $_GET[$key] : null) : (isset($_POST[$key]) ? $_POST[$key] : null);
     }
 
+    // TODO: getFile($key) {}
+
     /**
      * Returns a parameter parsed from route
      * @param string $param Name of parameter

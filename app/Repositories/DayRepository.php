@@ -140,6 +140,19 @@ class DayRepository
 
     /**
      * @param $day_id
+     * @param $title
+     * @return bool
+     */
+    public function editTitle($day_id, $title) {
+        $query = "UPDATE days
+                SET title = :title
+                WHERE id = :id";
+        $data = ['title' => $title, 'id' => $day_id];
+        return $this->baseRepository->run($query, $data);
+    }
+
+    /**
+     * @param $day_id
      * @return bool
      */
     public function delete($day_id) {

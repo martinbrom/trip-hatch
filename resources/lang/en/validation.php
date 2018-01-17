@@ -76,5 +76,12 @@ return [
     ],
     'invite_message' => [
         'maxLen' => 'Invitation message must be at most :p1 characters long'
+    ],
+    'file' => [
+        'max_filesize' => 'The uploaded file is too large',
+        'partial' => 'The file was only partially uploaded',
+        'write' => 'The uploaded file couldn\'t be written on the disk',
+        'default' => 'The file couldn\'t be uploaded for some reason',
+        'extension' => 'The uploaded file is not in an allowed format. Allowed formats are: JPG and PNG'
     ]
 ];

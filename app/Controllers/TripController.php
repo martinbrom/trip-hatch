@@ -167,6 +167,11 @@ class TripController extends Controller
             return $this->route('dashboard');
         }
 
+        var_dump($_SERVER);
+        var_dump($_POST);
+        var_dump($_FILES);
+        die();
+
         // TODO: File upload
         // TODO: If file input empty set default image id
         $image_id = 2;

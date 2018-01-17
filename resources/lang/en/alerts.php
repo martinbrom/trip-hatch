@@ -51,7 +51,9 @@ return [
     ],
     'day-edit' => [
         'error' => 'Something went wrong while trying to edit a day',
-        'success' => 'A day has been successfully edited'
+        'success' => 'A day has been successfully edited',
+        'title-error' => 'Something went wrong while trying to edit a day title',
+        'image-error' => 'Something went wrong while trying to edit a day image',
     ],
     'day-delete' => [
         'error' => 'Something went wrong while trying to delete a day',
