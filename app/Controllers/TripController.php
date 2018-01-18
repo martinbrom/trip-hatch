@@ -16,6 +16,7 @@ use Core\Http\Response\HtmlResponse;
 use Core\Http\Response\JsonResponse;
 use Core\Http\Response\RedirectResponse;
 use Core\Http\Response\Response;
+use Core\ImageHandler;
 use Core\Language\Language;
 use Core\Session;
 use phpDocumentor\Reflection\Types\Null_;
@@ -57,6 +58,9 @@ class TripController extends Controller
     /** @var InviteRepository */
     private $inviteRepository;
 
+    /** @var ImageHandler */
+    private $imageHandler;
+
     /**
      * TripController constructor.
      * @param TripRepository $tripRepository
@@ -69,6 +73,7 @@ class TripController extends Controller
      * @param ActionTypeRepository $actionTypeRepository
      * @param TripValidatorFactory $tripValidatorFactory
      * @param InviteRepository $inviteRepository
+     * @param ImageHandler $imageHandler
      */
     function __construct(
             TripRepository $tripRepository,
@@ -80,7 +85,8 @@ class TripController extends Controller
             Auth $auth,
             ActionTypeRepository $actionTypeRepository,
             TripValidatorFactory $tripValidatorFactory,
-            InviteRepository $inviteRepository) {
+            InviteRepository $inviteRepository,
+            ImageHandler $imageHandler) {
         $this->tripRepository = $tripRepository;
         $this->userTripRepository = $userTripRepository;
         $this->session = $session;
@@ -91,6 +97,7 @@ class TripController extends Controller
         $this->actionTypeRepository = $actionTypeRepository;
         $this->tripValidatorFactory = $tripValidatorFactory;
         $this->inviteRepository = $inviteRepository;
+        $this->imageHandler = $imageHandler;
     }
 
     /**
@@ -167,9 +174,13 @@ class TripController extends Controller
             return $this->route('dashboard');
         }
 
-        var_dump($_SERVER);
+        // var_dump($_SERVER);
         var_dump($_POST);
         var_dump($_FILES);
+
+        $this->imageHandler->processDayCover($_FILES['trip_image']);
+        $this->imageHandler->resizeDayCover();
+
         die();
 
         // TODO: File upload

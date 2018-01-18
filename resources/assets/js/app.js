@@ -136,17 +136,15 @@ $(document).ready(function () {
     $(".day-edit-btn").click(function (e) {
         e.preventDefault();
         var url  = $(this).attr(ajax_url_parameter_name);
-        console.log("Aaaaaaaaaaaaaa");
-        var formData = new FormData($('form.day-edit-form')[0]);
-        console.log("Aaaaaaaaaaaaaa");
-        console.log(this);
+        var formData = $('form.day-edit-form').serialize();
+        console.log(formData);
+        formData['day_image'] = new FileReader().readAsDataURL($('form.day-edit-form #day_image').files[0]);
+        console.log(formData);
 
         $.ajax({
             url: url,
             method: "POST",
             data: formData,
-            processData: false,
-            contentType: false,
             success: function (result) {
                 console.log(result);
 

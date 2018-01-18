@@ -10,6 +10,7 @@ namespace Core;
 class ImageHandler
 {
     private $image;
+    private $extension;
     private $result;
     private $empty;
     private $validationError;
@@ -26,7 +27,23 @@ class ImageHandler
     }
 
     public function resizeDayCover() {
-        $this->resize(100, 100);
+        var_dump($this->image);
+        list($width, $height) = getimagesize($this->image['tmp_name']);
+
+        $source = $this->extension == 'png' ?
+            imagecreatefrompng($this->image['tmp_name']) :
+            imagecreatefromjpeg($this->image['tmp_name']);
+
+        header('Content-Type: image/png');
+        imagepng($source);
+        die();
+
+        $dest = imagecreatetruecolor(100, 100);
+        imagecopyresized($dest, $source, 0, 0, 0, 0, 100, 100, $width, $height);
+
+        header('Content-Type: image/png');
+        imagepng($dest);
+        die();
     }
 
     public function processAvatar($image) {}
@@ -42,14 +59,16 @@ class ImageHandler
             return;
         }
 
-        $extension = pathinfo($image['name'], PATHINFO_EXTENSION);
-        if (!in_array($extension, $this->allowedExtensions)) {
+        $this->extension = strtolower(pathinfo($image['name'], PATHINFO_EXTENSION));
+        if (!in_array($this->extension, $this->allowedExtensions)) {
             $this->validationError = 'extension';
             return;
         }
 
-        if ($error == 0)
+        if ($error == 0) {
+            $this->image = $image;
             return;
+        }
 
         switch ($error) {
             case 1: case 2: $this->validationError = 'max-filesize';break;
