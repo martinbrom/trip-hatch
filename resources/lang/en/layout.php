@@ -23,6 +23,8 @@ return [
         'delete' => 'Delete',
         'hatch-trip' => 'Hatch a new trip',
         'invite' => 'Invite',
-        'back-to-index' => 'Back to index'
+        'back-to-index' => 'Back to index',
+        'publish' => 'Publish',
+        'classify' => 'Classify'
     ]
 ];

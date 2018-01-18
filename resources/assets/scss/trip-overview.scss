@@ -30,6 +30,10 @@ nav.trip-navigation {
     height: $trip_overview_navigation_height;
     color: $navigation_text_color;
 
+    @media screen and (min-width: $size-sm) {
+      height: auto;
+    }
+
     div.navbar-header {
       height: $trip_overview_navigation_height;
       z-index: 1024;

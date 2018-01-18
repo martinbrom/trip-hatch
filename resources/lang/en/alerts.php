@@ -9,7 +9,7 @@ return [
         'success' => 'You have been successfully logged out'
     ],
     'publish' => [
-        'success' => 'The trip has been successfully published',
+        'success' => 'The trip has been successfully published. The public URL can be found under the "invite" tab',
         'error' => 'Something went wrong while trying to publish the trip'
     ],
     'classify' => [

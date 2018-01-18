@@ -132,7 +132,6 @@ $rb->add('POST', 'settings/change-password', 'UserSettings', 'changePassword')
 
 // ----------- ACTION -----------
 $rb->add('GET', 'trip/{trip_id:\d+}/day/{day_id:\d+}/actions', 'Action', 'actions')
-    ->middleware(['logged'])
     ->name('trip.day.actions')
     ->ajax();
 $rb->add('GET', 'trip/{trip_id:\d+}/day/{day_id:\d+}/action/add', 'Action', 'addActionModal')
@@ -195,9 +194,11 @@ $rb->add('POST', 'trip/{trip_id:\d+}/day/{day_id:\d+}/action/add', 'Day', 'addAc
 // ------------ TRIP ------------
 $rb->add('GET', 'trip/{trip_id:\d+}/publish', 'Trip', 'publish')
     ->middleware(['owner'])
+    ->name('trip.publish')
     ->ajax();
 $rb->add('GET', 'trip/{trip_id:\d+}/classify', 'Trip', 'classify')
     ->middleware(['owner'])
+    ->name('trip.classify')
     ->ajax();
 $rb->add('GET', 'trip/{trip_id:\d+}/user/{user_trip_id:\d+}/remove', 'Trip', 'removeUser')
     ->middleware(['organiser'])

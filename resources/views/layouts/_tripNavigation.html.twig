@@ -20,6 +20,18 @@
                 <li><a class="add-day-link" href="#" data-ajax-url="{{ routeTrip('add-day', trip.id) }}"><i class="fa fa-plus"></i> {{ t('layout.trip.add-day') }}</a></li>
             </ul>
             <ul class="nav navbar-nav links-right">
+
+                {% if isOwner %}
+                    <li>
+                        <a class="{% if trip.public_url is not null %}{{ "hidden" }}{% endif %} trip-visibility-btn trip-publish-btn" data-ajax-url="{{ routeTrip('publish', trip.id) }}" href="#">
+                            <i class="fa fa-eye"></i> {{ t('layout.trip.publish') }}
+                        </a>
+                        <a class="{% if trip.public_url is null %}{{ "hidden" }}{% endif %} trip-visibility-btn trip-publish-btn" data-ajax-url="{{ routeTrip('classify', trip.id) }}" href="#">
+                            <i class="fa fa-eye-slash"></i> {{ t('layout.trip.classify') }}
+                        </a>
+                    </li>
+                {% endif %}
+
                 <li><a href="{{ routeTrip('edit', trip.id) }}"><i class="fa fa-pencil"></i> {{ t('layout.trip.edit') }}</a></li>
 
                 <li>

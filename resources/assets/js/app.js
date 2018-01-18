@@ -361,7 +361,26 @@ $(document).ready(function () {
                 addAlert(r['type'], r['message']);
             }
         });
-    })
+    });
+
+    $('.trip-visibility-btn').click(function (e) {
+        e.preventDefault();
+        $.ajax({
+            url: $(this).attr(ajax_url_parameter_name),
+            dataType: 'json',
+            success: function (result) {
+                console.log(result);
+                addAlert(result.type, result.message);
+                $('.trip-visibility-btn').toggleClass('hidden');
+            },
+            error: function (result) {
+                console.log(result);
+                console.log(result.responseText);
+                var r = JSON.parse(result.responseText);
+                addAlert(r['type'], r['message']);
+            }
+        });
+    });
 });
 
 // TODO: Client-side form validation

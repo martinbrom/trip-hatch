@@ -240,8 +240,11 @@ class TripController extends Controller
             return $this->route('dashboard');
         }
 
-        if ($this->auth->isLogged())
-            return $this->tripRoute('show', $trip['id']);
+        $trip_id = $trip['id'];
+
+        if ($this->auth->isTraveller($trip_id)) {
+            return $this->tripRoute('show', $trip_id);
+        }
 
         $days = $this->dayRepository->getDays($trip['id']);
         return $this->responseFactory->html('trip/show.html.twig', ['days' => $days, 'trip' => $trip]);
@@ -252,10 +255,11 @@ class TripController extends Controller
      * @return JsonResponse
      */
     public function publish($trip_id) {
-        if ($this->tripRepository->publishTrip($trip_id))
-            return $this->responseFactory->jsonAlert($this->lang->get('alerts.publish.success'), 'success', 200);
+        if (!$this->tripRepository->publishTrip($trip_id)) {
+            return $this->responseFactory->jsonAlert($this->lang->get('alerts.publish.error'), 'error', 500);
+        }
 
-        return $this->responseFactory->jsonAlert($this->lang->get('alerts.publish.error'), 'error', 500);
+        return $this->responseFactory->jsonAlert($this->lang->get('alerts.publish.success'), 'success', 200);
     }
 
     /**
@@ -263,10 +267,11 @@ class TripController extends Controller
      * @return JsonResponse
      */
     public function classify($trip_id) {
-        if ($this->tripRepository->classifyTrip($trip_id))
-            return $this->responseFactory->jsonAlert($this->lang->get('alerts.classify.success'), 'success', 200);
+        if (!$this->tripRepository->classifyTrip($trip_id)) {
+            return $this->responseFactory->jsonAlert($this->lang->get('alerts.classify.error'), 'error', 500);
+        }
 
-        return $this->responseFactory->jsonAlert($this->lang->get('alerts.classify.error'), 'error', 500);
+        return $this->responseFactory->jsonAlert($this->lang->get('alerts.classify.success'), 'success', 200);
     }
 
     /**

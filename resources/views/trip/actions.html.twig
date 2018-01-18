@@ -2,8 +2,10 @@
     {% include "layouts/_action.html.twig" %}
 {% endfor %}
 
-<div data-order="2147483648" class="action-container">
-    <button data-ajax-url="{{ routeTripDay('action.add', trip.id, day.id) }}" class="btn btn-primary action-add-modal-btn">
-        <i class="fa fa-thumb-tack"></i> {{ t('pages.trip.show.add-action') }}
-    </button>
-</div>
+{% if isOrganiser %}
+    <div data-order="2147483648" class="action-container">
+        <button data-ajax-url="{{ routeTripDay('action.add', trip.id, day.id) }}" class="btn btn-primary action-add-modal-btn">
+            <i class="fa fa-thumb-tack"></i> {{ t('pages.trip.show.add-action') }}
+        </button>
+    </div>
+{% endif %}
