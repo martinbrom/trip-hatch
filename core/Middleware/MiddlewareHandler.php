@@ -33,7 +33,6 @@ class MiddlewareHandler
     /** @var ResponseFactory */
     private $responseFactory;
 
-    // TODO: If user logged, check if his login is valid before each request
     /** @var array */
     private $alwaysUsedMiddleware = ['csrf', 'alerts', 'viewData'];
 

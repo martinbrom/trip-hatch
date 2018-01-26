@@ -61,7 +61,6 @@ class UserSettingsController extends Controller
      * @return HtmlResponse
      */
     public function changeDisplayNamePage() {
-        // TODO: Add current data to form
         return $this->responseFactory->html('settings/changeDisplayName.html.twig');
     }
 
@@ -69,7 +68,11 @@ class UserSettingsController extends Controller
      * @return Response
      */
     public function changeDisplayName() {
-        if (!$this->userSettingsRepository->changeDisplayName($this->session->get('user.id'), $_POST['display_name'])) {
+        $display_name = $_POST['display_name'];
+        if ($display_name == "")
+            $display_name = NULL;
+
+        if (!$this->userSettingsRepository->changeDisplayName($this->session->get('user.id'), $display_name)) {
             $this->alertHelper->success($this->lang->get('alerts.change-display-name.error'));
             return $this->error(500);
         }
@@ -82,7 +85,6 @@ class UserSettingsController extends Controller
      * @return HtmlResponse
      */
     public function changePasswordPage() {
-        // TODO: Add current data to form
         return $this->responseFactory->html('settings/changePassword.html.twig');
     }
 

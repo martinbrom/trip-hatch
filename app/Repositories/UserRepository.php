@@ -82,6 +82,23 @@ class UserRepository
         return $this->baseRepository->fetch($query, $data);
     }
 
+    /**
+     * @param $user_id
+     * @return array
+     */
+    public function getUserByID($user_id) {
+        $query = "SELECT * FROM users
+                INNER JOIN images ON users.image_id = images.id
+                WHERE users.id = :user_id";
+        $data = ['user_id' => $user_id];
+        return $this->baseRepository->fetch($query, $data);
+    }
+
+    /**
+     * @param $email
+     * @param $hash
+     * @return bool
+     */
     public function createUser($email, $hash) {
         $query = "INSERT INTO `users` (
                 `id`, `email`, `password`, `display_name`, `is_admin`,

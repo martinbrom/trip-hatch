@@ -12,7 +12,7 @@
                     <input name="csrf_token" type="hidden" value="{{ csrf_token }}">
                     <div class="form-group">
                         <label class="control-label" for="display_name">Display name</label>
-                        <input type="text" id="display_name" name="display_name" class="form-control">
+                        <input type="text" id="display_name" name="display_name" value="{% if user.display_name is not null %}{{ user.display_name }}{% endif %}" class="form-control">
                     </div>
                     <div class="form-group">
                         <input class="btn btn-primary btn-submit" type="submit" value="Change">

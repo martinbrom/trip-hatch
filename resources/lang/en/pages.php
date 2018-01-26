@@ -82,7 +82,9 @@ return [
         ],
         'delete' => [
             'heading' => 'Delete a trip',
-            'title' => 'Are you sure you want to delete this trip?'
+            'title' => 'Are you sure you want to delete this trip?',
+            'yes' => 'Yes',
+            'no' => 'No'
         ]
     ],
     'day' => [

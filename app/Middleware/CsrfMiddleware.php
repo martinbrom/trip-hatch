@@ -33,6 +33,7 @@ class CsrfMiddleware extends Middleware
      * @param CsrfTokenHandler $csrfTokenHandler
      * @param ResponseFactory $responseFactory
      * @param Language $language
+     * @param Session $session
      */
     public function __construct(CsrfTokenHandler $csrfTokenHandler, ResponseFactory $responseFactory, Language $language, Session $session) {
         $this->responseFactory = $responseFactory;

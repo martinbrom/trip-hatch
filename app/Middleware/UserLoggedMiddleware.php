@@ -47,10 +47,12 @@ class UserLoggedMiddleware extends Middleware
      */
     public function before() {
         if (!$this->auth->isLogged()) {
-            if ($this->request->isAjax())
-                return $this->responseFactory->jsonAlert($this->lang->get('middleware.logged.failure'), 'error', 401);
+            $message = $this->lang->get('middleware.logged.failure');
 
-            $this->alertHelper->error($this->lang->get('middleware.logged.failure'));
+            if ($this->request->isAjax())
+                return $this->responseFactory->jsonAlert($message, 'error', 401);
+
+            $this->alertHelper->error($message);
             return $this->responseFactory->redirectToRoute('login');
         }
 

@@ -65,6 +65,17 @@ class Auth
     /**
      *
      */
+    public function updateUserData() {
+        if (!$this->isLogged())
+            return;
+
+        $user = $this->userRepository->getUserByID($this->session->get('user.id'));
+        $this->session->set('user', $user);
+    }
+
+    /**
+     *
+     */
     public function logout() {
         $this->session->delete('user');
     }
