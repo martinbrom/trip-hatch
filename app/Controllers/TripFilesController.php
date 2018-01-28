@@ -8,6 +8,7 @@ use Core\AlertHelper;
 use Core\Auth;
 use Core\Http\Controller;
 use Core\Http\Response\JsonResponse;
+use Core\Http\Response\RedirectResponse;
 use Core\Http\Response\Response;
 use Core\Language\Language;
 
@@ -100,5 +101,18 @@ class TripFilesController extends Controller
             'type' => 'success',
             'file_id' => $file_id
         ], 200);
+    }
+
+    /**
+     * @param $trip_id
+     * @return RedirectResponse
+     */
+    public function create($trip_id) {
+        $trip = $this->tripRepository->getTrip($trip_id);
+
+        if ($trip == NULL) {
+            $this->alertHelper->error($this->lang->get('alerts.trip.missing'), 404);
+            return $this->route('dashboard');
+        }
     }
 }

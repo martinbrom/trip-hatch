@@ -69,7 +69,7 @@ class TripRepository
     public function getNewCount(): int {
         $date = date('Y-m-d H:i:s', strtotime('-1 week'));
         $query = "SELECT COUNT(*) as count FROM trips
-                WHERE created_at <= '$date'";
+                WHERE created_at >= '$date'";
         return $this->baseRepository->fetch($query)['count'];
     }
 

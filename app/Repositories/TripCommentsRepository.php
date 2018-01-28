@@ -75,4 +75,14 @@ class TripCommentsRepository
         $data = ['comment_id' => $comment_id];
         return $this->baseRepository->run($query, $data);
     }
+
+    /**
+     * @return int
+     */
+    public function getNewCount(): int {
+        $date = date('Y-m-d H:i:s', strtotime('-1 week'));
+        $query = "SELECT COUNT(*) as count FROM trip_comments
+                WHERE created_at >= '$date'";
+        return $this->baseRepository->fetch($query)['count'];
+    }
 }

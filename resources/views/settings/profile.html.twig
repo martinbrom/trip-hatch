@@ -1,14 +1,23 @@
 {% extends "layouts/app.html.twig" %}
 
-{% block title %}Profile{% endblock %}
+{% block title %}{{ t('pages.profile.title') }}{% endblock %}
 
 {% block content %}
 
     <section class="container-section">
         <div class="container">
-            <h2 class="text-center">Profile</h2>
-            <a href="{{ route('user.settings.change-display-name') }}">Change display name</a>
-            <a href="{{ route('user.settings.change-password') }}">Change password</a>
+            <h2 class="text-center">{{ t('pages.profile.heading') }}</h2>
+            <img src="/images/thumbnails/{{ user.path }}" alt="{{ user.description }}" title="{{ user.description }}" class="profile-avatar">
+            <h3 class="profile-name">
+                {% if user.display_name is not null %}
+                    {{ user.display_name }}
+                {% else %}
+                    {{ t('pages.profile.no-name') }}
+                {% endif %}
+            </h3>
+            <h3 class="profile-email">{{ user.email }}</h3>
+            <a class="profile-link btn btn-default" href="{{ route('user.settings.change-display-name') }}">{{ t('pages.profile.change-display-name') }}</a>
+            <a class="profile-link btn btn-default" href="{{ route('user.settings.change-password') }}">{{ t('pages.profile.change-password') }}</a>
         </div>
     </section>
 

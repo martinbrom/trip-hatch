@@ -1,0 +1,22 @@
+@import "variables";
+
+img.profile-avatar {
+  width: 128px;
+  height: 128px;
+  float: left;
+}
+
+h3.profile-name,
+h3.profile-email {
+  float: left;
+  clear: both;
+  margin-top: $application_margin;
+  margin-bottom: 0;
+}
+
+a.profile-link {
+  margin-top: $application_margin;
+  float: left;
+  clear: both;
+  font-size: 16px;
+}

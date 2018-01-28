@@ -2,7 +2,10 @@
 
 namespace App\Controllers;
 
+use App\Repositories\ActionRepository;
 use App\Repositories\DayRepository;
+use App\Repositories\TripCommentsRepository;
+use App\Repositories\TripFilesRepository;
 use App\Repositories\TripRepository;
 use App\Repositories\UserRepository;
 use Core\Http\Controller;
@@ -19,16 +22,37 @@ class AdminController extends Controller
     /** @var DayRepository */
     private $dayRepository;
 
+    /** @var ActionRepository */
+    private $actionRepository;
+
+    /** @var TripCommentsRepository */
+    private $tripCommentsRepository;
+
+    /** @var TripFilesRepository */
+    private $tripFilesRepository;
+
     /**
      * AdminController constructor.
      * @param UserRepository $userRepository
      * @param TripRepository $tripRepository
      * @param DayRepository $dayRepository
+     * @param ActionRepository $actionRepository
+     * @param TripCommentsRepository $tripCommentsRepository
+     * @param TripFilesRepository $tripFilesRepository
      */
-    function __construct(UserRepository $userRepository, TripRepository $tripRepository, DayRepository $dayRepository) {
+    function __construct(
+            UserRepository $userRepository,
+            TripRepository $tripRepository,
+            DayRepository $dayRepository,
+            ActionRepository $actionRepository,
+            TripCommentsRepository $tripCommentsRepository,
+            TripFilesRepository $tripFilesRepository) {
         $this->userRepository = $userRepository;
         $this->tripRepository = $tripRepository;
         $this->dayRepository = $dayRepository;
+        $this->actionRepository = $actionRepository;
+        $this->tripCommentsRepository = $tripCommentsRepository;
+        $this->tripFilesRepository = $tripFilesRepository;
     }
 
     /**
@@ -38,12 +62,18 @@ class AdminController extends Controller
         $userCount = $this->userRepository->getNewCount();
         $tripCount = $this->tripRepository->getNewCount();
         $dayCount  = $this->dayRepository ->getNewCount();
+        $actionCount  = $this->actionRepository->getNewCount();
+        $commentCount = $this->tripCommentsRepository->getNewCount();
+        $filesCount   = $this->tripFilesRepository->getNewCount();
 
         $data = [
             'new' => [
                 'users' => $userCount,
                 'trips' => $tripCount,
-                'days'  => $dayCount
+                'days'  => $dayCount,
+                'actions'  => $actionCount,
+                'comments' => $commentCount,
+                'files'    => $filesCount
             ]
         ];
         return $this->responseFactory->html('admin/index.html.twig', $data);

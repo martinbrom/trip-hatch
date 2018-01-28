@@ -118,5 +118,12 @@ return [
             'submit' => 'Edit',
             'close' => 'Close'
         ]
+    ],
+    'profile' => [
+        'change-display-name' => 'Change display name',
+        'change-password' => 'Change password',
+        'title' => 'Profile',
+        'heading' => 'Profile',
+        'no-name' => 'You have no display name'
     ]
 ];
