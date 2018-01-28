@@ -1,0 +1,28 @@
+{% extends "layouts/trip.html.twig" %}
+
+{% block title %}{{ t('pages.trip.comments.title') }}{% endblock %}
+
+{% block content %}
+
+    <section class="container-section">
+        <div class="container">
+            <h1 class="text-center trip-title">{{ t('pages.trip.comments.heading') }} - {{ trip.title }}</h1>
+
+            {% for comment in comments %}
+                {% include "layouts/_comment.html.twig" %}
+            {% endfor %}
+
+            <form class="comment-form" method="post" action="{{ routeTrip('comments.create.submit', trip.id) }}">
+                <input name="csrf_token" type="hidden" value="{{ csrf_token }}">
+                <div class="form-group">
+                    <label class="control-label" for="comment_content">{{ t('pages.trip.comments.content') }}</label>
+                    <textarea autofocus rows="5" name="comment_content" id="comment_content" class="form-control"></textarea>
+                </div>
+                <div class="form-group">
+                    <input class="btn btn-primary" type="submit" value="{{ t('pages.trip.comments.submit') }}">
+                </div>
+            </form>
+        </div>
+    </section>
+
+{% endblock %}

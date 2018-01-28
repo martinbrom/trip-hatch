@@ -76,5 +76,9 @@ return [
     ],
     'invite_message' => [
         'maxLen' => 'Invitation message must be at most :p1 characters long'
+    ],
+    'comment_content' => [
+        'required' => 'Comment message is required',
+        'maxLen' => 'Comment message must be at most :p1 characters long'
     ]
 ];

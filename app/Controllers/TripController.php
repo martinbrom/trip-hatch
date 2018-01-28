@@ -422,4 +422,18 @@ class TripController extends Controller
         $data = ['message' => $this->lang->get('alerts.trip-add-day.success'), 'type' => 'success', 'html' => $html];
         return $this->responseFactory->json($data, 200);
     }
+
+    // TODO: Finish
+    public function filesPage($trip_id) {
+        $trip = $this->tripRepository->getTrip($trip_id);
+
+        if ($trip == NULL) {
+            $this->alertHelper->error($this->lang->get('alerts.trip.missing'));
+            return $this->route('dashboard');
+        }
+
+        // TODO: load trip files
+
+        return $this->responseFactory->html('trip/files.html.twig');
+    }
 }

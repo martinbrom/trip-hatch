@@ -31,6 +31,19 @@ $rb->add('GET', 'admin/trips', 'Admin', 'tripsPage')
     ->middleware(['admin'])
     ->name('admin.trips');
 
+// ---------- COMMENTS ----------
+$rb->add('GET', 'trip/{trip_id:\d+}/comments', 'TripComments', 'index')
+    ->middleware(['traveller'])
+    ->name('trip.comments');
+$rb->add('POST', 'trip/{trip_id:\d+}/comment/add', 'TripComments', 'create')
+    ->middleware(['traveller'])
+    ->validate(['comment_content' => ['required', 'maxLen:500']])
+    ->name('trip.comments.create.submit');
+$rb->add('GET', 'trip/{trip_id:\d+}/comment/{comment_id:\d+}/delete', 'TripComments', 'delete')
+    ->middleware(['traveller'])
+    ->name('trip.comments.delete.submit');
+
+
 // ------------- DAY ------------
 
 // ------------ HOME ------------
@@ -81,6 +94,10 @@ $rb->add('GET', 'trip/invite-accept/{token:\w+}', 'Trip', 'inviteAccept')
 $rb->add('GET', 'trip/{trip_id:\d+}/delete', 'Trip', 'delete')
     ->middleware(['owner'])
     ->name('trip.delete');
+$rb->add('GET', 'trip/{trip_id:\d+}/files', 'Trip', 'filePage')
+    ->middleware(['traveller'])
+    ->name('trip.files');
+
 
 // ------------ USER ------------
 $rb->add('GET', 'login', 'User', 'loginPage')

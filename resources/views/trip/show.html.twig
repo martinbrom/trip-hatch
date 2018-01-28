@@ -13,6 +13,10 @@
 <section class="container-section">
     <div class="container">
         <h1 class="text-center trip-title">{{ trip.title }}</h1>
+        <div class="text-center trip-additional-container">
+            <a class="btn btn-default" href="{{ routeTrip('comments', trip.id) }}"><i class="fa fa-commenting-o"></i> {{ t('pages.trip.show.comments') }}</a>
+            <a class="btn btn-default" href="{{ routeTrip('files', trip.id) }}"><i class="fa fa-files-o"></i> {{ t('pages.trip.show.files') }}</a>
+        </div>
         <div class="trip-days-container">
             {% for day in days %}
                 {% include "layouts/_day.html.twig" %}

@@ -98,5 +98,9 @@ class View
         $this->twig->addFunction(new \Twig_Function('routeTripDayAction', function ($route, $trip_id, $day_id, $action_id) {
             return $this->routeHelper->get('trip.day.action.' . $route, ['trip_id' => $trip_id, 'day_id' => $day_id, 'action_id' => $action_id]);
         }));
+
+        $this->twig->addFunction(new \Twig_Function('routeTripComment', function ($route, $trip_id, $comment_id) {
+            return $this->routeHelper->get('trip.comments.' . $route, ['trip_id' => $trip_id, 'comment_id' => $comment_id]);
+        }));
     }
 }

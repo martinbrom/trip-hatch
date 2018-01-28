@@ -1,0 +1,15 @@
+<div class="trip-comment">
+    <div class="trip-comment-body">
+        <h4 class="text-left">
+            {% if comment.user_name is not null %}
+                {{ comment.user_name }}
+            {% else %}
+                {{ comment.user_email }}
+            {% endif %}
+        </h4>
+        <p class="text-left">{{ comment.content }}</p>
+    </div>
+    <div class="trip-comment-image">
+        <img src="/images/thumbnails/{{ comment.image_path }}" alt="{{ comment.image_description }}" title="{{ comment.image_description }}">
+    </div>
+</div>

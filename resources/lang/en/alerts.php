@@ -89,5 +89,11 @@ return [
     'trip-delete' => [
         'error' => 'Something went wrong while trying to delete a trip',
         'success' => 'You have successfully deleted a trip'
+    ],
+    'trip-comment' => [
+        'traveller' => 'You cannot comment without belonging to this trip',
+        'error' => 'Something went wrong while trying to comment a trip',
+        'success' => 'You have successfully commented a trip',
+        'missing' => 'Selected trip comment doesn\'t exist'
     ]
 ];

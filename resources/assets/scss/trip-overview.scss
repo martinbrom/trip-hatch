@@ -137,6 +137,19 @@ nav.trip-navigation {
   }
 }
 
+div.trip-additional-container {
+  margin-bottom: $application_margin;
+
+  a {
+    margin: 0;
+    box-shadow: 0 0 $application_shadow_distance $application_shadow_color;
+
+    &:first-of-type {
+      margin-right: $application_margin;
+    }
+  }
+}
+
 div.trip-days-container {
   div.trip-day-container {
     margin-bottom: $application_margin;
@@ -260,6 +273,47 @@ div.trip-days-container {
         }
       }
     }
+  }
+}
+
+div.trip-comment {
+  box-shadow: 0 0 $application_shadow_distance $application_shadow_color;
+  border-radius: $application_border_radius;
+  background: $white;
+  padding: 2 * $application_padding_small;
+  overflow: auto;
+  position: relative;
+  margin-bottom: $application_margin;
+  min-height: 84px;
+
+  div.trip-comment-image {
+    float: left;
+    position: absolute;
+    left: 10px;
+    top: 10px;
+
+    img {
+      width: 64px;
+      height: 64px;
+    }
+  }
+
+  div.trip-comment-body {
+    margin-left: 74px;
+
+    p {
+      overflow-wrap: break-word;
+      margin-bottom: 0;
+    }
+  }
+}
+
+form.comment-form {
+  margin-top: $application_margin;
+
+  textarea {
+    box-shadow: 0 0 $application_shadow_distance $application_shadow_color;
+    resize: vertical;
   }
 }
 

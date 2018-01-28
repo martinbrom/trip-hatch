@@ -44,7 +44,9 @@ return [
         ],
         'show' => [
             'title' => 'Trip overview',
-            'add-action' => 'Add a new action'
+            'add-action' => 'Add a new action',
+            'comments' => 'Comments',
+            'files' => 'Trip files'
         ],
         'edit' => [
             'title' => 'Trip edit',
@@ -85,6 +87,12 @@ return [
             'title' => 'Are you sure you want to delete this trip?',
             'yes' => 'Yes',
             'no' => 'No'
+        ],
+        'comments' => [
+            'heading' => 'Comments',
+            'title' => 'Trip comments',
+            'submit' => 'Comment',
+            'content' => 'Comment message'
         ]
     ],
     'day' => [

@@ -123,4 +123,17 @@ class UserTripRepository
     public function hasAccess($user_id, $trip_id) {
         return $this->getRole($user_id, $trip_id) != NULL;
     }
+
+    /**
+     * @param $user_id
+     * @param $trip_id
+     * @return array
+     */
+    public function getID($user_id, $trip_id) {
+        $query = "SELECT user_trip_xref.id as id
+                FROM user_trip_xref
+                WHERE user_id = :user_id AND trip_id = :trip_id";
+        $data = ['user_id' => $user_id, 'trip_id' => $trip_id];
+        return $this->baseRepository->fetch($query, $data);
+    }
 }
