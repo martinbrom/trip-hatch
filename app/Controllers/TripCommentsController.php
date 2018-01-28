@@ -11,11 +11,9 @@ use Core\Http\Controller;
 use Core\Http\Response\Response;
 use Core\Language\Language;
 use Core\Session;
-use phpDocumentor\Reflection\Types\Null_;
 
 /**
- * Handles creating responses for pages related to the main page
- * such as frequently asked questions or terms and conditions
+ * Class TripCommentsController
  * @package App\Controllers
  * @author Martin Brom
  */

@@ -102,5 +102,9 @@ class View
         $this->twig->addFunction(new \Twig_Function('routeTripComment', function ($route, $trip_id, $comment_id) {
             return $this->routeHelper->get('trip.comments.' . $route, ['trip_id' => $trip_id, 'comment_id' => $comment_id]);
         }));
+
+        $this->twig->addFunction(new \Twig_Function('routeTripFile', function ($route, $trip_id, $file_id) {
+            return $this->routeHelper->get('trip.files.' . $route, ['trip_id' => $trip_id, 'file_id' => $file_id]);
+        }));
     }
 }

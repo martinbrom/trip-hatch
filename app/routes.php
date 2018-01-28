@@ -43,6 +43,15 @@ $rb->add('POST', 'trip/{trip_id:\d+}/comment/add', 'TripComments', 'create')
 
 // ------------- DAY ------------
 
+// ------------ FILES -----------
+$rb->add('GET', 'trip/{trip_id:\d+}/files', 'TripFiles', 'index')
+    ->middleware(['traveller'])
+    ->name('trip.files');
+$rb->add('POST', 'trip/{trip_id:\d+}/file/add', 'TripFiles', 'create')
+    ->middleware(['traveller'])
+    ->name('trip.files.create.submit');
+// TODO! Validate file
+
 // ------------ HOME ------------
 $rb->add('GET', '', 'Home', 'index');
 $rb->add('GET', 'testvalidate', 'Home', 'testValidation')
@@ -91,9 +100,6 @@ $rb->add('GET', 'trip/invite-accept/{token:\w+}', 'Trip', 'inviteAccept')
 $rb->add('GET', 'trip/{trip_id:\d+}/delete', 'Trip', 'delete')
     ->middleware(['owner'])
     ->name('trip.delete');
-$rb->add('GET', 'trip/{trip_id:\d+}/files', 'Trip', 'filePage')
-    ->middleware(['traveller'])
-    ->name('trip.files');
 
 
 // ------------ USER ------------
@@ -177,7 +183,6 @@ $rb->add('GET', 'action-types', 'ActionType', 'index')
 // ------------ ADMIN -----------
 
 // ----------- COMMENTS ---------
-
 $rb->add('GET', 'trip/{trip_id:\d+}/comment/{comment_id:\d+}/delete', 'TripComments', 'delete')
     ->middleware(['organiser'])
     ->name('trip.comments.delete.submit')
@@ -208,6 +213,12 @@ $rb->add('POST', 'trip/{trip_id:\d+}/day/{day_id:\d+}/action/add', 'Day', 'addAc
         'action_title' => ['required', 'maxLen:100'],
         'action_type' => ['required', 'int', 'exists:action_types,id']
     ])
+    ->ajax();
+
+// ------------ FILES -----------
+$rb->add('GET', 'trip/{trip_id:\d+}/file/{file_id:\d+}/delete', 'TripFiles', 'delete')
+    ->middleware(['organiser'])
+    ->name('trip.files.delete')
     ->ajax();
 
 // ------------ HOME ------------

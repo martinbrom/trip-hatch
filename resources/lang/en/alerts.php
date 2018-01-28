@@ -95,5 +95,12 @@ return [
         'error' => 'Something went wrong while trying to comment a trip',
         'success' => 'You have successfully commented a trip',
         'missing' => 'Selected trip comment doesn\'t exist'
+    ],
+    'trip-file' => [
+        'missing' => 'Selected trip file doesn\'t exist'
+    ],
+    'trip-file-delete' => [
+        'success' => 'You have successfully deleted a file',
+        'error' => 'Something went wrong while trying to delete a file'
     ]
 ];

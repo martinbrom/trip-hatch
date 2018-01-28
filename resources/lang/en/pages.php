@@ -93,6 +93,20 @@ return [
             'title' => 'Trip comments',
             'submit' => 'Comment',
             'content' => 'Comment message'
+        ],
+        'files' => [
+            'heading' => 'Files',
+            'title' => 'Trip files',
+            'submit' => 'Upload a file',
+            'file' => 'Trip file',
+            'file-title' => 'Trip file title',
+            'upload' => 'Upload a new file',
+        ],
+        'file-delete' => [
+            'heading' => 'Delete a file',
+            'title' => 'Are you sure you want to delete this file?',
+            'yes' => 'Yes',
+            'no' => 'No'
         ]
     ],
     'day' => [

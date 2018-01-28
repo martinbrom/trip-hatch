@@ -96,3 +96,11 @@ INSERT INTO `trip_comments`(`id`, `content`, `user_trip_id`, `created_at`, `upda
   (NULL, 'Sure, I\'ll change the plan accordingly.', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
   (NULL, 'And what about visiting a ZOO on day 3?', 3, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
   (NULL, 'Unfortunately we won\'t be able to squeeze it in our schedule :(...', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
+-- -----------------------------------------------------
+-- TRIP FILES
+-- -----------------------------------------------------
+INSERT INTO `trip_files`(`id`, `title`, `path`, `trip_id`, `created_at`, `updated_at`) VALUES
+  (NULL, 'testfile1', 'testfile1.pdf', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+  (NULL, 'testfile2', 'testfile2.txt', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+  (NULL, 'testfile3', 'testfile3.jpg', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);

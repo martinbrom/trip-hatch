@@ -6,7 +6,7 @@ use Core\Database\Repository;
 
 /**
  * Instance of class provides simple functions,
- * that fetch invite data from Database,
+ * that fetch data from Database,
  * to be used in TripController
  * @package App\Repositories
  * @author Martin Brom

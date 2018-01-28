@@ -212,6 +212,28 @@ CREATE TABLE IF NOT EXISTS `triphatch`.`invites` (
   ENGINE = InnoDB;
 
 
+-- -----------------------------------------------------
+-- Table `triphatch`.`trip_files`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `triphatch`.`trip_files` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `title` VARCHAR(50) NOT NULL,
+  `path` VARCHAR(50) NOT NULL,
+  `trip_id` INT UNSIGNED NOT NULL,
+  `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC),
+  UNIQUE INDEX `path_UNIQUE` (`path` ASC),
+  INDEX `fk_trip_files_1_idx` (`trip_id` ASC),
+  CONSTRAINT `fk_trip_files_1`
+  FOREIGN KEY (`trip_id`)
+  REFERENCES `triphatch`.`trips` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+  ENGINE = InnoDB;
+
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

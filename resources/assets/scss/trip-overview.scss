@@ -8,7 +8,8 @@ button.action-delete-btn {
   float: left;
 }
 
-#trip-delete-modal {
+#trip-delete-modal,
+#file-delete-modal {
   div.modal-body {
     overflow: auto;
 
@@ -16,7 +17,8 @@ button.action-delete-btn {
       margin-bottom: $application_margin;
     }
 
-    .trip-delete-btn {
+    .trip-delete-btn,
+    .file-delete-btn {
       width: 40%;
       margin: 5%;
     }
@@ -325,8 +327,63 @@ form.comment-form {
   }
 }
 
+div.trip-files-container {
+  margin-left: -$application_margin / 2;
+  margin-right: -$application_margin / 2;
+
+  div.trip-file {
+    position: relative;
+    float: left;
+    width: 160px;
+    height: 120px;
+    margin: $application_margin / 2;
+    text-align: center;
+
+    a.file-delete-modal-btn {
+      position: absolute;
+      top: 0;
+      right: 30px;
+      color: $trip_overview_text_color;
+
+      &:hover, &:focus {
+        color: #ae3a32;
+        text-decoration: none;
+      }
+    }
+
+    a.trip-file-download-btn {
+      color: $trip_overview_text_color;
+
+      &:hover, &:focus {
+        color: $trip_overview_text_color_hover;
+        text-decoration: none;
+      }
+
+      i.trip-file-icon {
+        height: 84px;
+        padding-top: 10px;
+        line-height: 64px;
+        font-size: 64px;
+      }
+
+      p.trip-file-title {
+        overflow-wrap: break-word;
+        line-height: 18px;
+        max-height: 36px;
+        font-size: 18px;
+        overflow: hidden;
+      }
+    }
+  }
+}
+
+form.files-form {
+  margin-top: $application_margin;
+}
+
 div.trip-days-container:after,
-div.trip-day-head:after {
+div.trip-day-head:after,
+div.trip-files-container:after {
   clear: both;
   content: "";
   display: table;

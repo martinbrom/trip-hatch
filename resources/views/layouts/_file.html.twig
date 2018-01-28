@@ -1,0 +1,12 @@
+<div id="trip-file-{{ file.id }}" class="trip-file">
+    {% if isOrganiser %}
+        <a href="#" data-ajax-url="{{ routeTripFile('delete', trip.id, file.id) }}"
+           data-toggle="modal" data-target="#file-delete-modal" class="file-delete-modal-btn">
+            <i class="fa fa-2x fa-close"></i>
+        </a>
+    {% endif %}
+    <a href="#" class="trip-file-download-btn">
+        <i class="fa fa-file-o trip-file-icon"></i>
+        <p class="trip-file-title">{{ file.title }}</p>
+    </a>
+</div>

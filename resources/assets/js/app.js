@@ -394,6 +394,30 @@ $(document).ready(function () {
            }
        });
     });
+
+    $('.file-delete-modal-btn').click(function (e) {
+        e.preventDefault();
+        $('.file-delete-btn').attr(ajax_url_parameter_name, $(this).attr(ajax_url_parameter_name));
+    });
+
+    $('.file-delete-btn').click(function (e) {
+       e.preventDefault();
+       $.ajax({
+           url: $(this).attr(ajax_url_parameter_name),
+           success: function (result) {
+               console.log(result);
+               $('#trip-file-' + result.file_id).remove();
+               $('#file-delete-modal').modal('hide');
+           },
+           error: function (result) {
+               console.log(result);
+               console.log(result.responseText);
+               var r = JSON.parse(result.responseText);
+               addAlert(r['type'], r['message']);
+               $('#file-delete-modal').modal('hide');
+           }
+       });
+    });
 });
 
 // TODO: Client-side form validation

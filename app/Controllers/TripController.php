@@ -155,7 +155,6 @@ class TripController extends Controller
     }
 
     /**
-     * TODO: Document this
      * @param $trip_id
      * @return Response
      */
@@ -423,7 +422,10 @@ class TripController extends Controller
         return $this->responseFactory->json($data, 200);
     }
 
-    // TODO: Finish
+    /**
+     * @param $trip_id
+     * @return Response
+     */
     public function filesPage($trip_id) {
         $trip = $this->tripRepository->getTrip($trip_id);
 
