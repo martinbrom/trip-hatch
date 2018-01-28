@@ -4,10 +4,7 @@
             <img src="/images/thumbnails/{{ day.path }}" class="img-responsive trip-day-thumbnail" alt="{{ day.description }}">
 
             {% if isOrganiser %}
-                <a href="#" data-ajax-url="{{ routeTripDay('delete', trip.id, day.id) }}" class="day-delete-btn non-collapse">
-                    <i class="fa fa-remove non-collapse"></i>
-                </a>
-                <a href="#" data-ajax-url="{{ routeTripDay('edit', trip.id, day.id) }}" class="day-edit-modal-btn non-collapse">
+                <a href="#" data-ajax-url="{{ routeTripDay('edit', trip.id, day.id) }}" data-ajax-url2="{{ routeTripDay('delete', trip.id, day.id) }}" class="day-edit-modal-btn non-collapse">
                     <i class="fa fa-pencil non-collapse"></i>
                 </a>
             {% endif %}

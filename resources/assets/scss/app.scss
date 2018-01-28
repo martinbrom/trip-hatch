@@ -28,6 +28,10 @@ body {
   @media screen and (min-width: $size-sm) {
     padding-bottom: $footer_total_height;
   }
+
+  &.fixed-navbar-top {
+    padding-top: 35px;
+  }
 }
 
 h1, h2, h3 {

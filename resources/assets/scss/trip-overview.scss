@@ -381,6 +381,10 @@ form.files-form {
   margin-top: $application_margin;
 }
 
+a.day-delete-btn {
+  float: left;
+}
+
 div.trip-days-container:after,
 div.trip-day-head:after,
 div.trip-files-container:after {

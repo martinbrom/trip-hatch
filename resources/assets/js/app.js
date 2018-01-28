@@ -112,6 +112,7 @@ $(document).ready(function () {
         e.preventDefault();
         var url = $(this).attr(ajax_url_parameter_name);
         $('.day-edit-btn').attr(ajax_url_parameter_name, url);
+        $('.day-delete-btn').attr(ajax_url_parameter_name, $(this).attr(ajax_url_parameter_name + "2"));
         $('form.day-edit-form').attr(ajax_url_parameter_name, url);
 
         $.ajax({
@@ -174,12 +175,14 @@ $(document).ready(function () {
                 console.log(result);
                 $("#day-container-" + result.day_id).remove();
                 addAlert(result.type, result.message);
+                $('#day-edit-modal').modal('hide');
             },
             error: function (result) {
                 console.log(result);
                 console.log(result.responseText);
                 var r = JSON.parse(result.responseText);
                 addAlert(r['type'], r['message']);
+                $('#day-edit-modal').modal('hide');
             }
         });
     });
@@ -320,6 +323,7 @@ $(document).ready(function () {
     if ($('.trip-navigation').length) {
         $(window).scroll(function () {
             $('.trip-navigation').toggleClass('navbar-fixed-top', $(this).scrollTop() > navigation_height);
+            $('body').toggleClass('fixed-navbar-top', $(this).scrollTop() > navigation_height);
         });
     }
 
