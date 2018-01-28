@@ -212,10 +212,6 @@ $(document).ready(function () {
     $('.action-delete-btn').click(function (e) {
         e.preventDefault();
         var url = $(this).attr(ajax_url_parameter_name);
-        
-        console.log("here");
-        
-
         $.ajax({
             url: url,
             success: function (result) {
@@ -380,6 +376,23 @@ $(document).ready(function () {
                 addAlert(r['type'], r['message']);
             }
         });
+    });
+
+    $('.comment-delete-btn').click(function (e) {
+       e.preventDefault();
+       $.ajax({
+           url: $(this).attr(ajax_url_parameter_name),
+           success: function (result) {
+               console.log(result);
+               $('#trip-comment-' + result.comment_id).remove();
+           },
+           error: function (result) {
+               console.log(result);
+               console.log(result.responseText);
+               var r = JSON.parse(result.responseText);
+               addAlert(r['type'], r['message']);
+           }
+       });
     });
 });
 

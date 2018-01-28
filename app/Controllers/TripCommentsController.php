@@ -6,6 +6,7 @@ use App\Repositories\TripCommentsRepository;
 use App\Repositories\TripRepository;
 use App\Repositories\UserTripRepository;
 use Core\AlertHelper;
+use Core\Auth;
 use Core\Http\Controller;
 use Core\Http\Response\Response;
 use Core\Language\Language;
@@ -38,6 +39,9 @@ class TripCommentsController extends Controller
     /** @var Session */
     private $session;
 
+    /** @var Auth */
+    private $auth;
+
     /**
      * TripCommentsController constructor.
      * @param TripRepository $tripRepository
@@ -46,6 +50,7 @@ class TripCommentsController extends Controller
      * @param TripCommentsRepository $tripCommentsRepository
      * @param UserTripRepository $userTripRepository
      * @param Session $session
+     * @param Auth $auth
      */
     function __construct(
             TripRepository $tripRepository,
@@ -53,13 +58,15 @@ class TripCommentsController extends Controller
             Language $lang,
             TripCommentsRepository $tripCommentsRepository,
             UserTripRepository $userTripRepository,
-            Session $session) {
+            Session $session,
+            Auth $auth) {
         $this->tripRepository = $tripRepository;
         $this->alertHelper = $alertHelper;
         $this->lang = $lang;
         $this->tripCommentsRepository = $tripCommentsRepository;
         $this->userTripRepository = $userTripRepository;
         $this->session = $session;
+        $this->auth = $auth;
     }
 
     /**
@@ -76,7 +83,9 @@ class TripCommentsController extends Controller
 
         $comments = $this->tripCommentsRepository->getComments($trip_id);
 
-        return $this->responseFactory->html('trip/comments.html.twig', ['trip' => $trip, 'comments' => $comments]);
+        return $this->responseFactory->html('trip/comments.html.twig',
+            ['trip' => $trip, 'comments' => $comments, 'isOrganiser' => $this->auth->isOrganiser($trip_id)]
+        );
     }
 
     /**
@@ -116,22 +125,23 @@ class TripCommentsController extends Controller
         $trip = $this->tripRepository->getTrip($trip_id);
 
         if ($trip == NULL) {
-            $this->alertHelper->error($this->lang->get('alerts.trip.missing'));
-            return $this->route('dashboard');
+            return $this->responseFactory->jsonAlert($this->lang->get('alerts.trip.missing'), 'error', 404);
         }
 
         $comment = $this->tripCommentsRepository->getComment($comment_id);
 
         if ($comment == NULL) {
-            $this->alertHelper->error($this->lang->get('alerts.trip-comment.missing'));
-            return $this->route('trip.comments', ['trip_id' => $trip_id]);
+            return $this->responseFactory->jsonAlert($this->lang->get('alerts.trip-comment.missing'), 'error', 404);
         }
 
         if (!$this->tripCommentsRepository->delete($comment_id)) {
-            $this->alertHelper->error($this->lang->get('alerts.comment-delete.error'));
+            return $this->responseFactory->jsonAlert($this->lang->get('alerts.comment-delete.error'), 'error', 500);
         }
 
-        $this->alertHelper->success($this->lang->get('alerts.comment-delete.success'));
-        return $this->route('trip.comments', ['trip_id' => $trip_id]);
+        return $this->responseFactory->json([
+            'message' => 'Success',
+            'type' => 'success',
+            'comment_id' => $comment_id
+        ], 200);
     }
 }

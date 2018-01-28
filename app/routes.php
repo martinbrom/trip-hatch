@@ -39,9 +39,6 @@ $rb->add('POST', 'trip/{trip_id:\d+}/comment/add', 'TripComments', 'create')
     ->middleware(['traveller'])
     ->validate(['comment_content' => ['required', 'maxLen:500']])
     ->name('trip.comments.create.submit');
-$rb->add('GET', 'trip/{trip_id:\d+}/comment/{comment_id:\d+}/delete', 'TripComments', 'delete')
-    ->middleware(['traveller'])
-    ->name('trip.comments.delete.submit');
 
 
 // ------------- DAY ------------
@@ -178,6 +175,13 @@ $rb->add('GET', 'action-types', 'ActionType', 'index')
     ->ajax();
 
 // ------------ ADMIN -----------
+
+// ----------- COMMENTS ---------
+
+$rb->add('GET', 'trip/{trip_id:\d+}/comment/{comment_id:\d+}/delete', 'TripComments', 'delete')
+    ->middleware(['organiser'])
+    ->name('trip.comments.delete.submit')
+    ->ajax();
 
 // ------------- DAY ------------
 $rb->add('GET', 'trip/{trip_id:\d+}/day/{day_id:\d+}/delete', 'Day', 'delete')

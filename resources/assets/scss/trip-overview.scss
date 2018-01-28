@@ -281,20 +281,28 @@ div.trip-comment {
   border-radius: $application_border_radius;
   background: $white;
   padding: 2 * $application_padding_small;
+  padding-right: 4 * $application_padding_small;
   overflow: auto;
   position: relative;
   margin-bottom: $application_margin;
   min-height: 84px;
 
-  div.trip-comment-image {
-    float: left;
+  img {
     position: absolute;
     left: 10px;
     top: 10px;
+    width: 64px;
+    height: 64px;
+  }
 
-    img {
-      width: 64px;
-      height: 64px;
+  a.comment-delete-btn {
+    color: $trip_overview_text_color;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+
+    &:hover, &:focus {
+      color: $trip_overview_text_color_hover;
     }
   }
 

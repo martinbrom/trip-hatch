@@ -1,4 +1,4 @@
-<div class="trip-comment">
+<div id="trip-comment-{{ comment.id }}" class="trip-comment">
     <div class="trip-comment-body">
         <h4 class="text-left">
             {% if comment.user_name is not null %}
@@ -9,7 +9,9 @@
         </h4>
         <p class="text-left">{{ comment.content }}</p>
     </div>
-    <div class="trip-comment-image">
-        <img src="/images/thumbnails/{{ comment.image_path }}" alt="{{ comment.image_description }}" title="{{ comment.image_description }}">
-    </div>
+    <img src="/images/thumbnails/{{ comment.image_path }}" alt="{{ comment.image_description }}" title="{{ comment.image_description }}">
+
+    {% if isOrganiser %}
+        <a data-ajax-url="{{ routeTripComment('delete.submit', trip.id, comment.id) }}" class="comment-delete-btn" href="#"><i class="fa fa-close"></i></a>
+    {% endif %}
 </div>

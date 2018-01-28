@@ -30,7 +30,7 @@ class TripCommentsRepository
      */
     public function getComment($comment_id) {
         $query = "SELECT * FROM trip_comments
-                WHERE user_trip_xref.trip_id = :trip_id AND user_trip_xref.id = :comment_id";
+                WHERE trip_comments.id = :comment_id";
         $data = ['comment_id' => $comment_id];
         return $this->baseRepository->fetch($query, $data);
     }
@@ -71,7 +71,7 @@ class TripCommentsRepository
      */
     public function delete($comment_id) {
         $query = "DELETE FROM trip_comments
-                WHERE comment_id = :comment_id";
+                WHERE id = :comment_id";
         $data = ['comment_id' => $comment_id];
         return $this->baseRepository->run($query, $data);
     }
