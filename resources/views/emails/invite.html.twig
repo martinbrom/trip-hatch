@@ -1,0 +1,17 @@
+{% extends "layouts/email.html.twig" %}
+
+{% block content %}
+
+    <p>
+        You receive this email because someone invited you to participate<br>
+        in a trip called <b>{{ title }}</b> on our website.
+    </p>
+    <p>
+        The person who invited you attached a message:<br>
+        '{{ message }}'
+    </p>
+    <p>
+        You can accept this invitation by visiting <a href="triphatch.loc/trip/invite-accept/{{ token }}">this link</a>.
+    </p>
+
+{% endblock %}

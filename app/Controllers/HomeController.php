@@ -35,8 +35,4 @@ class HomeController extends Controller
             return $this->route('dashboard');
         return $this->responseFactory->html('home/index.html.twig');
     }
-
-    public function testValidation() {
-        return $this->responseFactory->html('home/layout.html.twig');
-    }
 }

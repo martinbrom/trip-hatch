@@ -17,8 +17,8 @@ use Core\Http\Response\JsonResponse;
 use Core\Http\Response\RedirectResponse;
 use Core\Http\Response\Response;
 use Core\Language\Language;
+use Core\Mail\Mailer;
 use Core\Session;
-use phpDocumentor\Reflection\Types\Null_;
 
 /**
  * Handles creating responses for trip related pages
@@ -57,6 +57,9 @@ class TripController extends Controller
     /** @var InviteRepository */
     private $inviteRepository;
 
+    /** @var Mailer */
+    private $mailer;
+
     /**
      * TripController constructor.
      * @param TripRepository $tripRepository
@@ -69,6 +72,7 @@ class TripController extends Controller
      * @param ActionTypeRepository $actionTypeRepository
      * @param TripValidatorFactory $tripValidatorFactory
      * @param InviteRepository $inviteRepository
+     * @param Mailer $mailer
      */
     function __construct(
             TripRepository $tripRepository,
@@ -80,7 +84,8 @@ class TripController extends Controller
             Auth $auth,
             ActionTypeRepository $actionTypeRepository,
             TripValidatorFactory $tripValidatorFactory,
-            InviteRepository $inviteRepository) {
+            InviteRepository $inviteRepository,
+            Mailer $mailer) {
         $this->tripRepository = $tripRepository;
         $this->userTripRepository = $userTripRepository;
         $this->session = $session;
@@ -91,6 +96,7 @@ class TripController extends Controller
         $this->actionTypeRepository = $actionTypeRepository;
         $this->tripValidatorFactory = $tripValidatorFactory;
         $this->inviteRepository = $inviteRepository;
+        $this->mailer = $mailer;
     }
 
     /**
@@ -174,8 +180,6 @@ class TripController extends Controller
             $this->alertHelper->error($this->lang->get('alerts.trip-edit.error'));
             return $this->route('dashboard');
         }
-
-        $this->updateEndDate($trip);
 
         $this->alertHelper->success($this->lang->get('alerts.trip-edit.success'));
         return $this->route('trip.show', ['trip_id' => $trip_id]);
@@ -329,14 +333,16 @@ class TripController extends Controller
             return $this->route('trip.invite', ['trip_id' => $trip_id]);
         }
 
+        $recipient = $_POST['invite_email'];
+        $message = $_POST['invite_message'];
+
         $token = token(32);     // token must be unique but 62^32 combinations is way too many...
-        if (!$this->inviteRepository->create($trip_id, $_POST['invite_email'], $_POST['invite_message'], $token)) {
+        if (!$this->inviteRepository->create($trip_id, $recipient, $message, $token)) {
             $this->alertHelper->error($this->lang->get('alerts.trip-invite.error'));
             return $this->route('trip.invite', ['trip_id' => $trip_id]);
         }
 
-        // TODO: Send email with token and message
-
+        $this->mailer->invite($recipient, $token, $message, $trip['title']);
         $this->alertHelper->success($this->lang->get('alerts.trip-invite.success'));
         return $this->route('trip.invite', ['trip_id' => $trip_id]);
     }

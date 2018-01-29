@@ -31,8 +31,25 @@ class Mailer
      * @param $token
      */
     public function forgottenPassword($recipient, $token) {
-        $message = $this->view->render('emails/forgottenPassword.html.twig', ['token' => $token]);
+        $message = $this->view->render('emails/forgottenPassword.html.twig', ['email' => $recipient, 'token' => $token]);
         $this->send($recipient, 'TripHatch password recovery', $message);
+        // TODO: Localize
+    }
+
+    /**
+     * @param $recipient
+     * @param $token
+     * @param $inviteMessage
+     * @param $tripTitle
+     */
+    public function invite($recipient, $token, $inviteMessage, $tripTitle) {
+        $data = [
+            'token' => $token,
+            'message' => $inviteMessage,
+            'title' => $tripTitle
+        ];
+        $message = $this->view->render('emails/invite.html.twig', $data);
+        $this->send($recipient, 'TripHatch trip invite', $message);
         // TODO: Localize
     }
 
