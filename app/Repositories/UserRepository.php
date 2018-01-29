@@ -38,7 +38,6 @@ class UserRepository
      * @return array
      */
     public function getNewUsers($limit = 100, $page = 0): array {
-        // TODO: Maybe validate limit and page
         $date = date('Y-m-d H:i:s', strtotime('-1 week'));
         $offset = $page * $limit;
         $query = "SELECT * FROM users

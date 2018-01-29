@@ -37,7 +37,6 @@ class Auth
         $this->userTripRepository = $userTripRepository;
     }
 
-    // TODO: Maybe add 'remember me' for logging in
     /**
      * @param $email
      * @param $password

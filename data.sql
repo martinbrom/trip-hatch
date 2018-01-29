@@ -36,10 +36,10 @@ INSERT INTO `users` (`id`, `email`, `password`, `display_name`, `password_reset_
 -- -----------------------------------------------------
 -- TRIPS
 -- -----------------------------------------------------
-INSERT INTO `trips` (`id`, `title`, `start_date`, `end_date`, `image_id`, `created_at`, `updated_at`) VALUES
-  (NULL, 'Test trip 1', NULL, NULL, '2', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-  (NULL, 'Test trip 2', NULL, NULL, '2', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-  (NULL, 'Test trip 3', NULL, NULL, '2', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+INSERT INTO `trips` (`id`, `title`, `start_date`, `image_id`, `created_at`, `updated_at`) VALUES
+  (NULL, 'Test trip 1', NULL, '2', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+  (NULL, 'Test trip 2', NULL, '2', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+  (NULL, 'Test trip 3', NULL, '2', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 -- -----------------------------------------------------
 -- USER TRIP CROSS REFERENCE

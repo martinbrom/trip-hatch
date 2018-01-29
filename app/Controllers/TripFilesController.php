@@ -133,6 +133,6 @@ class TripFilesController extends Controller
         }
 
         $this->alertHelper->success($this->lang->get('alerts.trip-file-save.success'));
-        return $this->tripRoute('trip.files', $trip_id);
+        return $this->tripRoute('files', $trip_id);
     }
 }

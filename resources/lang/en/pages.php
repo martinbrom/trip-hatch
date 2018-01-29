@@ -54,7 +54,8 @@ return [
             'submit' => 'Edit',
             'trip-title' => 'Trip title',
             'trip-image' => 'Trip cover image',
-            'trip-image-help' => 'leave blank for default image'
+            'trip-image-help' => 'leave blank for default image',
+            'trip-start-date' => 'Trip start date'
         ],
         'manage-people' => [
             'title' => 'Trip manage people',

@@ -54,7 +54,6 @@ class TripRepository
      * @return array
      */
     public function getNewTrips($limit = 100, $page = 0): array {
-        // TODO: Maybe validate limit and page
         $date = date('Y-m-d H:i:s', strtotime('-1 week'));
         $offset = $page * $limit;
         $query = "SELECT * FROM trips
@@ -121,15 +120,16 @@ class TripRepository
     /**
      * @param $trip_id
      * @param $title
+     * @param $start_date
      * @param $image_id
      * @return bool
      */
-    public function edit($trip_id, $title, $image_id) {
+    public function edit($trip_id, $title, $start_date, $image_id) {
         $query = "UPDATE trips
                 SET title = :title, image_id = :image_id,
-                updated_at = CURRENT_TIMESTAMP
+                start_date = :start_date, updated_at = CURRENT_TIMESTAMP
                 WHERE id = :id";
-        $data = ['title' => $title, 'id' => $trip_id, 'image_id' => $image_id];
+        $data = ['title' => $title, 'id' => $trip_id, 'image_id' => $image_id, 'start_date' => $start_date];
         return $this->baseRepository->run($query, $data);
     }
 

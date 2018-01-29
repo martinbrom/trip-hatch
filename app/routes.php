@@ -215,7 +215,6 @@ $rb->add('POST', 'trip/{trip_id:\d+}/day/{day_id:\d+}/edit', 'Day', 'edit')
     ->name('trip.day.edit.submit')
     ->validate([
         'day_title' => ['required', 'maxLen:100']
-        // TODO: Validate day_image
     ])
     ->ajax();
 $rb->add('POST', 'trip/{trip_id:\d+}/day/{day_id:\d+}/action/add', 'Day', 'addAction')

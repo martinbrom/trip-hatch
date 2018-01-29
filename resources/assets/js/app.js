@@ -280,7 +280,7 @@ $(document).ready(function () {
                 console.log(result);
                 $('#action_title').val('');
                 $('#action_content').val('');
-                $('#action_type').val('');  // TODO: Select action_type: OTHER
+                $('#action_type').val('');
                 $('#action-add-modal').modal('show');
             },
             error: function (result) {
@@ -423,5 +423,3 @@ $(document).ready(function () {
        });
     });
 });
-
-// TODO: Client-side form validation

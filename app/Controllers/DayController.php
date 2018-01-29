@@ -70,7 +70,6 @@ class DayController extends Controller
             return $this->responseFactory->jsonAlert($this->lang->get('alerts.day-delete.error'), 'error', 500);
         }
 
-        // TODO: Delete day and change trip end date
         $data = [
             'message' => $this->lang->get('alerts.day-delete.success', [$tripValidator->getDay()['title']]),
             'type' => 'success',
@@ -103,7 +102,6 @@ class DayController extends Controller
         if ($result != NULL) return $result;
 
         // TODO: File upload
-        // TODO: If file input empty set default image id
         $image_id = 2;
         if (!$this->dayRepository->edit($day_id, $_POST['day_title'], $image_id)) {
             return $this->responseFactory->jsonAlert($this->lang->get('alerts.day-edit.error'), 'danger', 500);

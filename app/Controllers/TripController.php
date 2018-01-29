@@ -166,13 +166,16 @@ class TripController extends Controller
             return $this->route('dashboard');
         }
 
-        // TODO: File upload
-        // TODO: If file input empty set default image id
+        $trip_title = $_POST['trip_title'];
+        $trip_start_date = $_POST['trip_start_date'];
+
         $image_id = 2;
-        if (!$this->tripRepository->edit($trip_id, $_POST['trip_title'], $image_id)) {
+        if (!$this->tripRepository->edit($trip_id, $trip_title, $trip_start_date, $image_id)) {
             $this->alertHelper->error($this->lang->get('alerts.trip-edit.error'));
             return $this->route('dashboard');
         }
+
+        $this->updateEndDate($trip);
 
         $this->alertHelper->success($this->lang->get('alerts.trip-edit.success'));
         return $this->route('trip.show', ['trip_id' => $trip_id]);
@@ -190,7 +193,9 @@ class TripController extends Controller
             return $this->route('dashboard');
         }
 
-        return $this->responseFactory->html('trip/edit.html.twig', ['trip' => $trip]);
+        $date = date('Y-m-d', strtotime($trip['start_date']));
+
+        return $this->responseFactory->html('trip/edit.html.twig', ['trip' => $trip, 'date' => $date]);
     }
 
     /**
@@ -420,22 +425,5 @@ class TripController extends Controller
 
         $data = ['message' => $this->lang->get('alerts.trip-add-day.success'), 'type' => 'success', 'html' => $html];
         return $this->responseFactory->json($data, 200);
-    }
-
-    /**
-     * @param $trip_id
-     * @return Response
-     */
-    public function filesPage($trip_id) {
-        $trip = $this->tripRepository->getTrip($trip_id);
-
-        if ($trip == NULL) {
-            $this->alertHelper->error($this->lang->get('alerts.trip.missing'));
-            return $this->route('dashboard');
-        }
-
-        // TODO: load trip files
-
-        return $this->responseFactory->html('trip/files.html.twig');
     }
 }

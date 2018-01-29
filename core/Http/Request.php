@@ -65,7 +65,6 @@ class Request
             ResponseFactory $responseFactory,
             ValidatorFactory $validatorFactory,
             Session $session) {
-        // TODO: WHEN IN DOUBT, DUMP IT OUT
         // var_dump($_SERVER);
         $this->di = $di;
         $this->method = $this->determineMethod();

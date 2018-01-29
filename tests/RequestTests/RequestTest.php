@@ -142,6 +142,4 @@ class RequestTest extends TestCase
         $request->setRoute($di->getService(Router::class)->getRoutes()[0]);
         $request->process();
     }
-
-    // TODO: Request validation test
 }
