@@ -49,7 +49,10 @@ $rb->add('GET', 'trip/{trip_id:\d+}/files', 'TripFiles', 'index')
     ->name('trip.files');
 $rb->add('POST', 'trip/{trip_id:\d+}/file/add', 'TripFiles', 'create')
     ->middleware(['traveller'])
-    ->validate(['trip_file_title' => ['required', 'maxLen:50']])
+    ->validate([
+        'trip_file_title' => ['required', 'maxLen:50'],
+        'trip_file' => ['fileRequired', 'fileMaxSize:20971520', 'fileType:odt,txt,pdf,doc']
+    ])
     ->name('trip.files.create.submit');
 
 // ------------ HOME ------------

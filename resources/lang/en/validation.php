@@ -84,5 +84,10 @@ return [
     'trip_file_title' => [
         'required' => 'Trip file title is required',
         'maxLen' => 'Trip file title must be at most :p1 characters long'
+    ],
+    'trip_file' => [
+        'fileRequired' => 'Trip file is required',
+        'fileMaxSize' => 'Trip file must be at most :p1 bytes in size',
+        'fileType' => 'Trip file must be a file of either of these types [:a]'
     ]
 ];

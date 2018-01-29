@@ -230,6 +230,36 @@ class Validator
     }
 
     /**
+     * Checks whether a file was uploaded
+     * @param array $item Validated file
+     * @return bool True if file was uploaded without problem,
+     *              false otherwise
+     */
+    public function fileRequired($item): bool {
+        return $item['error'] == 0;
+    }
+
+    /**
+     * Checks whether size of a file is smaller than the limit
+     * @param array $item Validated file
+     * @param int $size File size limit
+     * @return bool True if file size is smaller than limit, false otherwise
+     */
+    public function fileMaxSize($item, $size): bool {
+        return $item['size'] <= $size;
+    }
+
+    /**
+     * Checks whether a file has an allowed extension
+     * @param array $item Validated file
+     * @param mixed $allowed Allowed extensions
+     * @return bool True if file has an allowed extension, false otherwise
+     */
+    public function fileType($item, ...$allowed): bool {
+        return in_array(pathinfo($item['name'], PATHINFO_EXTENSION), $allowed);
+    }
+
+    /**
      * Returns all validation errors
      * @return array Validation errors
      */

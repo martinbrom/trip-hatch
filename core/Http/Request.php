@@ -211,7 +211,20 @@ class Request
      * @return string|null Input if key exists, null otherwise
      */
     public function getInput($key) {
-        return $this->method == 'GET' ? (isset($_GET[$key]) ? $_GET[$key] : null) : (isset($_POST[$key]) ? $_POST[$key] : null);
+        if ($this->method == 'GET') {
+            if (isset($_GET[$key]))
+                return $_GET[$key];
+
+            return null;
+        }
+
+        if (isset($_POST[$key]))
+            return $_POST[$key];
+
+        if (isset($_FILES[$key]))
+            return $_FILES[$key];
+
+        return null;
     }
 
     /**

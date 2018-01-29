@@ -62,6 +62,9 @@ class Language
      * @return string Prepared translation message
      */
     private function replace(string $string, array $replace = []): string {
+        if (preg_match('/:a/', $string))
+            return str_replace(':a', implode(", ", $replace), $string);
+
         for ($i = 0; $i < count($replace); $i++) {
             $string = str_replace(':p' . ($i+1), $replace[$i], $string);
         }
