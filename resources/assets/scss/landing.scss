@@ -31,6 +31,7 @@ html, body {
 
   h1 {
     display: inline-block;
+    font-size: 48px;
     width: 100%;
   }
 
@@ -87,6 +88,105 @@ html, body {
 
       @media screen and (min-width: $size-sm) {
         display: inline;
+      }
+    }
+  }
+
+  .hero-container {
+    width: 80%;
+    bottom: 50%;
+    left: 50%;
+    transform: translate(-50%, +50%);
+    position: absolute;
+    text-align: center;
+    font-family: Raleway, sans-serif;
+    color: $landing_text_color;
+  }
+
+  .hero-wrapper {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .page-info {
+    height: 100%;
+
+    .page-preview {
+      img {
+        width: 100%;
+      }
+    }
+
+    .page-info-text {
+      margin-top: 20px;
+
+      @media screen and (min-width: $size-sm) {
+        margin-top: 0;
+      }
+
+      height: 60%;
+
+      p {
+        font-size: 24px;
+        word-wrap: break-word;
+
+        @media screen and (min-width: $size-lg) {
+          font-size: 36px;
+        }
+      }
+    }
+
+    .page-award {
+      height: 40%;
+      margin-top: 15px;
+      line-height: 4em;
+
+      .page-award-trophy {}
+
+      .page-award-text {
+        p {
+          font-size: 18px;
+          font-weight: bold;
+
+          @media screen and (min-width: $size-lg) {
+            font-size: 27px;
+          }
+        }
+      }
+    }
+  }
+
+  .page-user {
+    color: #DDD;
+    margin-bottom: 30px;
+
+    .page-user-portrait {
+      img {
+        margin: auto;
+        width: 100px;
+
+        @media screen and (min-width: $size-sm) {
+          width: 200px;
+        }
+      }
+    }
+
+    .page-user-name {
+      margin-top: 10px;
+
+      p {
+        font-size: 24px;
+        font-weight: bold;
+      }
+    }
+
+    .page-user-comment {
+      padding-left: 10px;
+      padding-right: 10px;
+
+      p {
+        font-size: 18px;
+        font-style: italic;
       }
     }
   }

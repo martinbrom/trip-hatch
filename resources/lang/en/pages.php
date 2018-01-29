@@ -18,7 +18,11 @@ return [
         'title' => 'Trip Hatch - Landing Page',
         'welcome' => 'Welcome to Trip Hatch',
         'back-to-top' => 'Back to top',
-        'login' => 'Log in'
+        'login' => 'Log in',
+        'page-info' => 'TripHatch is the best trip planning application ever.
+                        Because of our sharp and clean design and user-friendly
+                        interface, planning your next adventure has never been easier!',
+        'award-text' => 'NOT REAL AWARD 2017'
     ],
     'admin' => [
         'dashboard' => [

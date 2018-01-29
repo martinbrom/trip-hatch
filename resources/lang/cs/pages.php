@@ -18,7 +18,11 @@ return [
         'title' => 'Trip Hatch - Úvodní stránka',
         'welcome' => 'Vítejte na Trip Hatch',
         'back-to-top' => 'Zpět nahoru',
-        'login' => 'Přihlásit se'
+        'login' => 'Přihlásit se',
+        'page-info' => 'TripHatch je ta nejlepší aplikace na plánování výletů.
+                        Plánování Vašeho dobrodružství nikdy nebylo jednodušší díky
+                        našemu čistému designu a uživatelsky přívětivému prostředí!',
+        'award-text' => 'NEREÁLNÁ CENA 2017'
     ],
     'admin' => [
         'dashboard' => [
