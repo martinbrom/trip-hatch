@@ -11,6 +11,7 @@ use Core\Http\Response\JsonResponse;
 use Core\Http\Response\RedirectResponse;
 use Core\Http\Response\Response;
 use Core\Language\Language;
+use Core\Storage\Storage;
 
 /**
  * Class TripFilesController
@@ -34,6 +35,9 @@ class TripFilesController extends Controller
     /** @var TripFilesRepository */
     private $tripFilesRepository;
 
+    /** @var Storage */
+    private $storage;
+
     /**
      * TripFilesController constructor.
      * @param TripRepository $tripRepository
@@ -41,18 +45,21 @@ class TripFilesController extends Controller
      * @param AlertHelper $alertHelper
      * @param Language $lang
      * @param TripFilesRepository $tripFilesRepository
+     * @param Storage $storage
      */
     function __construct(
             TripRepository $tripRepository,
             Auth $auth,
             AlertHelper $alertHelper,
             Language $lang,
-            TripFilesRepository $tripFilesRepository) {
+            TripFilesRepository $tripFilesRepository,
+            Storage $storage) {
         $this->tripRepository = $tripRepository;
         $this->auth = $auth;
         $this->alertHelper = $alertHelper;
         $this->lang = $lang;
         $this->tripFilesRepository = $tripFilesRepository;
+        $this->storage = $storage;
     }
 
     /**
@@ -114,5 +121,11 @@ class TripFilesController extends Controller
             $this->alertHelper->error($this->lang->get('alerts.trip.missing'), 404);
             return $this->route('dashboard');
         }
+
+        $title = $_POST['trip_file_title'];
+        $file = $_FILES['trip_file'];
+
+        $fileName = $this->storage->store($file, $title);
+
     }
 }

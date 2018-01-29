@@ -80,5 +80,9 @@ return [
     'comment_content' => [
         'required' => 'Comment message is required',
         'maxLen' => 'Comment message must be at most :p1 characters long'
+    ],
+    'trip_file_title' => [
+        'required' => 'Trip file title is required',
+        'maxLen' => 'Trip file title must be at most :p1 characters long'
     ]
 ];

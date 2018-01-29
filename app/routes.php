@@ -49,8 +49,8 @@ $rb->add('GET', 'trip/{trip_id:\d+}/files', 'TripFiles', 'index')
     ->name('trip.files');
 $rb->add('POST', 'trip/{trip_id:\d+}/file/add', 'TripFiles', 'create')
     ->middleware(['traveller'])
+    ->validate(['trip_file_title' => ['required', 'maxLen:50']])
     ->name('trip.files.create.submit');
-// TODO! Validate file
 
 // ------------ HOME ------------
 $rb->add('GET', '', 'Home', 'index');
