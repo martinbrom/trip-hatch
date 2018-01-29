@@ -4,17 +4,17 @@ USE triphatch;
 -- ACTION TYPES
 -- -----------------------------------------------------
 INSERT INTO `action_types` (`id`, `name`, `icon_class`, `color_class`) VALUES
-  (NULL, 'Bus', 'fa-bus', 'transport'),
-  (NULL, 'Plane', 'fa-plane', 'transport'),
-  (NULL, 'Train', 'fa-train', 'transport'),
-  (NULL, 'Car', 'fa-car', 'transport'),
-  (NULL, 'Important', 'fa-star', 'important'),
-  (NULL, 'Point', 'fa-map-marker', 'interest'),
-  (NULL, 'Drink', 'fa-glass', 'food'),
-  (NULL, 'Food', 'fa-cutlery', 'food'),
-  (NULL, 'Coffee', 'fa-coffee', 'food'),
-  (NULL, 'Accommodation', 'fa-bed', 'accommodation'),
-  (NULL, 'Information', 'fa-info', 'other');
+  (NULL, 'bus', 'fa-bus', 'transport'),
+  (NULL, 'plane', 'fa-plane', 'transport'),
+  (NULL, 'train', 'fa-train', 'transport'),
+  (NULL, 'car', 'fa-car', 'transport'),
+  (NULL, 'important', 'fa-star', 'important'),
+  (NULL, 'point', 'fa-map-marker', 'interest'),
+  (NULL, 'drink', 'fa-glass', 'food'),
+  (NULL, 'food', 'fa-cutlery', 'food'),
+  (NULL, 'coffee', 'fa-coffee', 'food'),
+  (NULL, 'accommodation', 'fa-bed', 'accommodation'),
+  (NULL, 'information', 'fa-info', 'other');
 
 -- -----------------------------------------------------
 -- IMAGES

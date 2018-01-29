@@ -117,7 +117,8 @@ return [
             'day-image' => 'Day image',
             'day-image-help' => 'leave blank for default image',
             'submit' => 'Edit',
-            'close' => 'Close'
+            'close' => 'Close',
+            'delete' => 'Delete'
         ]
     ],
     'profile' => [
@@ -126,5 +127,24 @@ return [
         'title' => 'Profile',
         'heading' => 'Profile',
         'no-name' => 'You have no display name'
+    ],
+    'action' => [
+        'edit' => [
+            'heading' => 'Edit an action',
+            'action-title' => 'Action title',
+            'action-content' => 'Action content',
+            'action-type' => 'Action type',
+            'submit' => 'Edit',
+            'delete' => 'Delete action',
+            'close' => 'Close'
+        ],
+        'add' => [
+            'heading' => 'Add an action',
+            'action-title' => 'Action title',
+            'action-content' => 'Action content',
+            'action-type' => 'Action type',
+            'submit' => 'Add',
+            'close' => 'Close'
+        ]
     ]
 ];

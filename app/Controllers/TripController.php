@@ -157,7 +157,12 @@ class TripController extends Controller
 
         $action_types = $this->actionTypeRepository->getAll();
 
-        return $this->responseFactory->html('trip/show.html.twig', ['days' => $days, 'trip' => $trip, 'action_types' => $action_types]);
+        return $this->responseFactory->html('trip/show.html.twig', [
+            'days' => $days,
+            'trip' => $trip,
+            'action_types' => $action_types,
+            'isTraveller' => true
+        ]);
     }
 
     /**
@@ -250,12 +255,14 @@ class TripController extends Controller
 
         $trip_id = $trip['id'];
 
-        if ($this->auth->isTraveller($trip_id)) {
+        $isTraveller = $this->auth->isTraveller($trip_id);
+
+        if ($isTraveller) {
             return $this->tripRoute('show', $trip_id);
         }
 
         $days = $this->dayRepository->getDays($trip['id']);
-        return $this->responseFactory->html('trip/show.html.twig', ['days' => $days, 'trip' => $trip]);
+        return $this->responseFactory->html('trip/show.html.twig', ['days' => $days, 'trip' => $trip, 'isTraveller' => $isTraveller]);
     }
 
     /**

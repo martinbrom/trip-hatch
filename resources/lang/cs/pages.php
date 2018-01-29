@@ -51,7 +51,7 @@ return [
         'edit' => [
             'title' => 'Úprava výletu',
             'heading' => 'Upravit výlet',
-            'submit' => 'Úpravit',
+            'submit' => 'Upravit',
             'trip-title' => 'Název výletu',
             'trip-image' => 'Obrázek výletu',
             'trip-image-help' => ' ',
@@ -117,7 +117,8 @@ return [
             'day-image' => 'Obrázek dne',
             'day-image-help' => ' ',
             'submit' => 'Upravit',
-            'close' => 'Zavřít'
+            'close' => 'Zavřít',
+            'delete' => 'Odstranit'
         ]
     ],
     'profile' => [
@@ -126,5 +127,24 @@ return [
         'title' => 'Profil',
         'heading' => 'Profil',
         'no-name' => 'Nemáte žádně veřejné jméno'
+    ],
+    'action' => [
+        'edit' => [
+            'heading' => 'Úprava akce',
+            'action-title' => 'Název akce',
+            'action-content' => 'Obsah akce',
+            'action-type' => 'Typ akce',
+            'submit' => 'Upravit',
+            'delete' => 'Odstranit akci',
+            'close' => 'Zavřít'
+        ],
+        'add' => [
+            'heading' => 'Přidání akce',
+            'action-title' => 'Název akce',
+            'action-content' => 'Obsah akce',
+            'action-type' => 'Typ akce',
+            'submit' => 'Přidat',
+            'close' => 'Zavřít'
+        ]
     ]
 ];

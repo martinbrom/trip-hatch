@@ -3,34 +3,34 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Title</h4>
+                <h4 class="modal-title">{{ t('pages.action.add.heading') }}</h4>
             </div>
             <div class="modal-body">
                 <form class="action-add-form" method="post">
                     <input name="csrf_token" type="hidden" value="{{ csrf_token }}">
                     <div class="form-group">
-                        <label class="control-label" for="action_title">Action title</label>
+                        <label class="control-label" for="action_title">{{ t('pages.action.add.action-title') }}</label>
                         <textarea rows="2" class="form-control" name="action_title" id="action_title"></textarea>
                     </div>
                     <div class="form-group">
-                        <label class="control-label" for="action_content">Action content</label>
+                        <label class="control-label" for="action_content">{{ t('pages.action.add.action-content') }}</label>
                         <textarea rows="4" class="form-control" name="action_content" id="action_content"></textarea>
                     </div>
                     <div class="form-group">
-                        <label for="action_type" class="control-label">Action type</label>
+                        <label for="action_type" class="control-label">{{ t('pages.action.add.action-type') }}</label>
                         <select class="form-control" name="action_type" id="action_type">
                             {% for action_type in action_types %}
-                                <option value="{{ action_type.id }}">{{ action_type.name }}</option>
+                                <option value="{{ action_type.id }}">{{ t('action-types.' ~ action_type.name) }}</option>
                             {% endfor %}
                         </select>
                     </div>
                     <div class="form-group">
-                        <input type="submit" value="Submit" class="action-add-btn btn btn-primary">
+                        <input type="submit" value="{{ t('pages.action.add.submit') }}" class="action-add-btn btn btn-primary">
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" data-dismiss="modal" class="action-add-btn btn btn-default">Close</button>
+                <button type="button" data-dismiss="modal" class="action-add-btn btn btn-default">{{ t('pages.action.add.close') }}</button>
             </div>
         </div>
     </div>
