@@ -67,5 +67,18 @@ class TripFilesRepository
         return $this->baseRepository->fetch($query)['count'];
     }
 
-    // TODO: Create
+    /**
+     * @param $trip_id
+     * @param $title
+     * @param $path
+     * @return bool
+     */
+    public function create($trip_id, $title, $path) {
+        $query = "INSERT INTO `trip_files` (`id`, `title`, `path`, `trip_id`,
+                `created_at`, `updated_at`)
+                VALUES (NULL, :title, :path, :trip_id,
+                CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)";
+        $data = ['title' => $title, 'path' => $path, 'trip_id' => $trip_id];
+        return $this->baseRepository->run($query, $data);
+    }
 }

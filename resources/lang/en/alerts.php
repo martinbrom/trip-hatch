@@ -102,5 +102,9 @@ return [
     'trip-file-delete' => [
         'success' => 'You have successfully deleted a file',
         'error' => 'Something went wrong while trying to delete a file'
+    ],
+    'trip-file-save' => [
+        'success' => 'You have successfully uploaded a file',
+        'error' => 'Something went wrong while trying to upload a file'
     ]
 ];

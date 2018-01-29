@@ -125,7 +125,14 @@ class TripFilesController extends Controller
         $title = $_POST['trip_file_title'];
         $file = $_FILES['trip_file'];
 
-        $fileName = $this->storage->store($file, $title);
+        $fileName = $this->storage->store($file);
 
+        if (!$this->tripFilesRepository->create($trip_id, $title, $fileName)) {
+            $this->alertHelper->error($this->lang->get('alerts.trip-file-save.error'));
+            return $this->route('trip.show', ['trip_id' => $trip_id]);
+        }
+
+        $this->alertHelper->success($this->lang->get('alerts.trip-file-save.success'));
+        return $this->route('trip.files', ['trip_id' => $trip_id]);
     }
 }

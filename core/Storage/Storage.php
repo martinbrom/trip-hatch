@@ -8,15 +8,15 @@ use Core\Storage\Exception\FileAlreadyExistsException;
 
 class Storage
 {
-    /** @var Config */
-    private $config;
+    /** @var string */
+    private $tripFilesStoragePath;
 
     /**
      * Storage constructor.
      * @param Config $config
      */
     function __construct(Config $config) {
-        $this->config = $config;
+        $this->tripFilesStoragePath = $config->get('storage.trip_files');
     }
 
     /**
@@ -33,7 +33,8 @@ class Storage
         $name = $file['name'];
         $path = $file['tmp_name'];
         $extension = pathinfo($name, PATHINFO_EXTENSION);
-        $dest = __DIR__ . "/../../public/storage/files/" . $fileName . "." . $extension;
+        $fullName  = $fileName . "." . $extension;
+        $dest = __DIR__ . "/../../" . $this->tripFilesStoragePath . "/" . $fullName;
 
         if (file_exists($dest))
             throw new FileAlreadyExistsException($name);
@@ -41,6 +42,6 @@ class Storage
         if (!move_uploaded_file($path, $dest))
             throw new CannotMoveFileException($name);
 
-        return $fileName;
+        return $fullName;
     }
 }
