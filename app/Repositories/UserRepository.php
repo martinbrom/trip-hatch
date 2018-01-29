@@ -62,7 +62,8 @@ class UserRepository
      * @return array User with given email
      */
     public function getUser($email): array {
-        $query = "SELECT * FROM users
+        $query = "SELECT users.*,images.path AS path, images.description AS description
+                FROM users
                 INNER JOIN images ON users.image_id = images.id
                 WHERE email = :email";
         $data = ['email' => $email];
@@ -86,7 +87,8 @@ class UserRepository
      * @return array
      */
     public function getUserByID($user_id) {
-        $query = "SELECT * FROM users
+        $query = "SELECT users.*,images.path AS path, images.description AS description
+                FROM users
                 INNER JOIN images ON users.image_id = images.id
                 WHERE users.id = :user_id";
         $data = ['user_id' => $user_id];

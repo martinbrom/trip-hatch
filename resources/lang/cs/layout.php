@@ -23,6 +23,8 @@ return [
         'delete' => 'Odstranit',
         'hatch-trip' => 'Vylíhnout nový výlet',
         'invite' => 'Pozvat',
-        'back-to-index' => 'Domů'
+        'back-to-index' => 'Domů',
+        'publish' => 'Publikovat',
+        'classify' => 'Skrýt'
     ]
 ];

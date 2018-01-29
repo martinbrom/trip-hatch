@@ -57,6 +57,7 @@ class Auth
      */
     public function verifyUser($email, $password) {
         $user = $this->userRepository->getUser($email);
+
         if (empty($user) || !password_verify($password, $user['password'])) return null;
         return $user;
     }

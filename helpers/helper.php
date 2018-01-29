@@ -29,3 +29,9 @@ if (!function_exists('getallheaders')) {
         return $headers;
     }
 }
+
+if (!function_exists('str_starts_with')) {
+    function str_starts_with($string, $needle) {
+        return substr($string, 0, strlen($needle)) === $needle;
+    }
+}

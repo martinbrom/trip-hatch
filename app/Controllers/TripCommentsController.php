@@ -111,7 +111,7 @@ class TripCommentsController extends Controller
         }
 
         $this->alertHelper->success($this->lang->get('alerts.trip-comment.success'));
-        return $this->tripRoute('trip.comments', $trip_id);
+        return $this->tripRoute('comments', $trip_id);
     }
 
     /**
