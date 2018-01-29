@@ -89,5 +89,17 @@ return [
         'fileRequired' => 'Trip file is required',
         'fileMaxSize' => 'Trip file must be at most :p1 bytes in size',
         'fileType' => 'Trip file must be a file of either of these types [:a]'
+    ],
+    'forgotten_password_email' => [
+        'required' => 'Email for password recovery is required',
+        'email' => 'Email for password recovery must be a valid email address',
+        'exists' => 'This email does not exist in our database'
+    ],
+    'reset_password' => [
+        'required' => 'New password is required'
+    ],
+    'reset_password_confirm' => [
+        'required' => 'Confirmation of new password is required',
+        'matches' => 'Confirmation of new password must match new password'
     ]
 ];

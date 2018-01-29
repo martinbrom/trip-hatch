@@ -31,6 +31,7 @@ CREATE TABLE IF NOT EXISTS `triphatch`.`users` (
   `email` VARCHAR(255) NOT NULL,
   `password` VARCHAR(255) NOT NULL,
   `display_name` VARCHAR(30) NULL,
+  `password_reset_token` VARCHAR(32) NULL,
   `is_admin` TINYINT(1) NOT NULL,
   `image_id` INT UNSIGNED NOT NULL,
   `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -38,6 +39,7 @@ CREATE TABLE IF NOT EXISTS `triphatch`.`users` (
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC),
   UNIQUE INDEX `email_UNIQUE` (`email` ASC),
+  UNIQUE INDEX `password_reset_token_UNIQUE` (`password_reset_token` ASC),
   INDEX `fk_users_1_idx` (`image_id` ASC),
   CONSTRAINT `fk_users_1`
     FOREIGN KEY (`image_id`)

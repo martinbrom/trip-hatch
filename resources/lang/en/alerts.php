@@ -106,5 +106,13 @@ return [
     'trip-file-save' => [
         'success' => 'You have successfully uploaded a file',
         'error' => 'Something went wrong while trying to upload a file'
+    ],
+    'forgotten-password' => [
+        'success' => 'Email containing instructions on how to reset your password has been sent to your email address',
+        'error' => 'Something went wrong while trying to send a password recovery email'
+    ],
+    'reset-password' => [
+        'success' => 'Your password has been successfully reset',
+        'error' => 'Something went wrong while trying to reset a password'
     ]
 ];

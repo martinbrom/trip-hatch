@@ -122,7 +122,17 @@ $rb->add('POST', 'register', 'User', 'register')
     ->name('register.submit');
 $rb->add('GET', 'logout', 'User', 'logout')
     ->name('logout');
-$rb->add('POST', 'forgotten-password', 'User', 'forgottenPassword');
+$rb->add('POST', 'forgotten-password', 'User', 'forgottenPassword')
+    ->validate(['forgotten_password_email' => ['required', 'email', 'exists:users,email']])
+    ->name('forgotten-password.submit');
+$rb->add('GET', 'reset-password/{email:.+}/{token:\w+}', 'User', 'resetPasswordPage')
+    ->name('reset-password');
+$rb->add('POST', 'reset-password/{email:.+}/{token:\w+}', 'User', 'resetPassword')
+    ->validate([
+        'reset_password' => ['required'],
+        'reset_password_confirm' => ['required', 'matches:reset_password']
+    ])
+    ->name('reset-password.submit');
 
 // -------- USER SETTINGS -------
 $rb->add('GET', 'profile', 'UserSettings', 'profile')

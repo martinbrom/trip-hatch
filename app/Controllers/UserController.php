@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Repositories\UserRepository;
+use App\Repositories\UserSettingsRepository;
 use Core\AlertHelper;
 use Core\Auth;
 use Core\Http\Controller;
@@ -10,6 +11,8 @@ use Core\Http\Response\HtmlResponse;
 use Core\Http\Response\RedirectResponse;
 use Core\Http\Response\Response;
 use Core\Language\Language;
+use Core\Mail\Mailer;
+use Core\Session;
 
 /**
  * Handles creating responses for user related pages
@@ -31,18 +34,40 @@ class UserController extends Controller
     /** @var Language */
     private $lang;
 
+    /** @var Mailer */
+    private $mailer;
+
+    /** @var Session */
+    private $session;
+
+    /** @var UserSettingsRepository */
+    private $userSettingsRepository;
+
     /**
      * Creates new instance and injects user repository and auth
      * @param UserRepository $userRepository Instance for getting data from database
      * @param Auth $auth Instance for user authentication
      * @param AlertHelper $alertHelper
      * @param Language $lang
+     * @param Mailer $mailer
+     * @param Session $session
+     * @param UserSettingsRepository $userSettingsRepository
      */
-    function __construct(UserRepository $userRepository, Auth $auth, AlertHelper $alertHelper, Language $lang) {
+    function __construct(
+            UserRepository $userRepository,
+            Auth $auth,
+            AlertHelper $alertHelper,
+            Language $lang,
+            Mailer $mailer,
+            Session $session,
+            UserSettingsRepository $userSettingsRepository) {
         $this->userRepository = $userRepository;
         $this->auth = $auth;
         $this->alertHelper = $alertHelper;
         $this->lang = $lang;
+        $this->mailer = $mailer;
+        $this->session = $session;
+        $this->userSettingsRepository = $userSettingsRepository;
     }
 
     /**
@@ -64,8 +89,6 @@ class UserController extends Controller
     public function forgottenPasswordPage() {
         return $this->responseFactory->html('user/forgottenPassword.html.twig');
     }
-
-    public function resetPasswordPage() {}
 
     /**
      * Tries to log user in and redirects him after
@@ -120,9 +143,56 @@ class UserController extends Controller
      * @return RedirectResponse Login page
      */
     public function forgottenPassword() {
-        // TODO: Forgotten password
+        $token = token(32);
+
+        if ($this->auth->isLogged())
+            return $this->route('dashboard');
+
+        $email = $_POST['forgotten_password_email'];
+
+        if (!$this->userSettingsRepository->setPasswordResetToken($email, $token)) {
+            $this->alertHelper->error($this->lang->get('alerts.forgotten-password.error'));
+            return $this->route('login');
+        }
+
+        $this->mailer->forgottenPassword($email, $token);
+        $this->alertHelper->success($this->lang->get('alerts.forgotten-password.success'));
         return $this->route('login');
     }
 
-    public function resetPassword() {}
+    /**
+     * @param $email
+     * @param $token
+     * @return Response
+     */
+    public function resetPasswordPage($email, $token) {
+        if (!$this->userSettingsRepository->passwordResetExists($email, $token)) {
+            $this->alertHelper->error($this->lang->get('alerts.reset-password.error'));
+            return $this->route('login');
+        }
+
+        return $this->responseFactory->html('user/resetPassword.html.twig', ['email' => $email, 'token' => $token]);
+    }
+
+    /**
+     * @param $email
+     * @param $token
+     * @return RedirectResponse
+     */
+    public function resetPassword($email, $token) {
+        if (!$this->userSettingsRepository->passwordResetExists($email, $token)) {
+            $this->alertHelper->error($this->lang->get('alerts.reset-password.error'));
+            return $this->route('login');
+        }
+
+        $hash = bcrypt($_POST['reset_password']);
+
+        if (!$this->userSettingsRepository->resetPassword($email, $hash)) {
+            $this->alertHelper->error($this->lang->get('alerts.reset-password.error'));
+            return $this->route('login');
+        }
+
+        $this->alertHelper->success($this->lang->get('alerts.reset-password.success'));
+        return $this->route('login');
+    }
 }

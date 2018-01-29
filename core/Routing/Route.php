@@ -57,6 +57,7 @@ class Route
     public function prepareCleanUrl($url) {
         $url = str_replace(':\d+', '', $url);
         $url = str_replace(':\w+', '', $url);
+        $url = str_replace(':.+', '', $url);
         $url = str_replace('{', '', $url);
         $url = str_replace('}', '', $url);
         $url = '/' . $url;
