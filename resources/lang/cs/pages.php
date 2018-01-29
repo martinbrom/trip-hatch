@@ -146,5 +146,18 @@ return [
             'submit' => 'Přidat',
             'close' => 'Zavřít'
         ]
+    ],
+    'forgotten-password' => [
+        'heading' => 'Zapomenuté heslo',
+        'title' => 'Zapomenuté heslo',
+        'email' => 'Email',
+        'submit' => 'Odeslat email'
+    ],
+    'password-reset' => [
+        'heading' => 'Obnova hesla',
+        'title' => 'Obnova hesla',
+        'new-password' => 'Nové heslo',
+        'new-password-confirm' => 'Potvrzení nového hesla',
+        'submit' => 'Obnovit'
     ]
 ];

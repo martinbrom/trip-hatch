@@ -146,5 +146,18 @@ return [
             'submit' => 'Add',
             'close' => 'Close'
         ]
+    ],
+    'forgotten-password' => [
+        'heading' => 'Forgotten password',
+        'title' => 'Forgotten password',
+        'email' => 'Email',
+        'submit' => 'Send email'
+    ],
+    'password-reset' => [
+        'heading' => 'Password reset',
+        'title' => 'Password reset',
+        'new-password' => 'New password',
+        'new-password-confirm' => 'New password confirmation',
+        'submit' => 'Reset'
     ]
 ];

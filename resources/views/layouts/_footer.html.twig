@@ -11,8 +11,8 @@
                 </ul>
                 {% if user %}
                     <ul class="links">
-                        <li><a href="{{ route('profile') }}">Profile</a></li>
-                        <li><a href="{{ route('dashboard') }}">Dashboard</a></li>
+                        <li><a href="{{ route('profile') }}">{{ t('layout.navigation.profile') }}</a></li>
+                        <li><a href="{{ route('dashboard') }}">{{ t('layout.navigation.dashboard') }}</a></li>
                     </ul>
                 {% endif %}
             </nav>
