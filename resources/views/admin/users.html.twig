@@ -4,9 +4,37 @@
 
 {% block content %}
 
+    <div class="admin-alert-container alert-container">
+        {% if alerts is not null %}
+            {% for alert in alerts %}
+                {% include 'layouts/_alert.html.twig' %}
+            {% endfor %}
+        {% endif %}
+    </div>
     <div class="admin-content">
         <h1 class="text-center">{{ t('pages.admin.users.heading') }}</h1>
-        <p class="text-center">{{ t('pages.admin.users.text') }}</p>
+        <table class="text-center admin-table table table-striped table-bordered">
+            <tr>
+                <th class="col-xs-1">{{ t('pages.trip.manage-people.id') }}</th>
+                <th>{{ t('pages.trip.manage-people.email') }}</th>
+                <th>{{ t('pages.trip.manage-people.display_name') }}</th>
+                <th class="col-xs-1">{{ t('pages.trip.manage-people.delete') }}</th>
+            </tr>
+            {% for duser in users %}
+                {% if duser.id != user.id %}
+                    <tr>
+                        <td>{{ duser.id }}</td>
+                        <td>{{ duser.email }}</td>
+                        <td>{{ duser.display_name }}</td>
+                        <td>
+                            <a class="remove-user-link" href="{{ route('admin.delete-user', {'user_id':duser.id}) }}">
+                                <i class="fa fa-remove"></i>
+                            </a>
+                        </td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </table>
     </div>
 
 {% endblock %}

@@ -32,13 +32,15 @@ return [
         ],
         'users' => [
             'title' => 'Administrace',
-            'heading' => 'Administrace uživatelů',
-            'text' => 'Administrace uživatelů'
+            'heading' => 'Administrace uživatelů'
         ],
-        'trips' => [
-            'title' => 'Administrace',
-            'heading' => 'Administrace výletů',
-            'text' => 'Administrace výletů'
+        'new' => [
+            'users' => 'Noví uživatelé',
+            'trips' => 'Nové výlety',
+            'days' => 'Nové dny',
+            'actions' => 'Nové akce',
+            'comments' => 'Nové komentáře',
+            'files' => 'Nové soubory'
         ]
     ],
     'trip' => [

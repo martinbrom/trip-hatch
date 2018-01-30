@@ -114,5 +114,16 @@ return [
     'reset-password' => [
         'success' => 'Vaše heslo bylo úspěšně obnoveno',
         'error' => 'Něco se pokazilo během obnovování hesla'
+    ],
+    'user' => [
+        'missing' => 'Uživatel neexistuje'
+    ],
+    'admin' => [
+        'delete-user' => [
+            'success' => 'Úspěšně jste odstranili uživatele',
+            'error' => 'Něco se pokazilo během odstraňování uživatele',
+            'self' => 'Nemůžete odstranit sami sebe',
+            'admin' => 'Nemůžete odstranit administrátora'
+        ]
     ]
 ];

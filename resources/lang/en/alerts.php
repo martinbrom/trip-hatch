@@ -114,5 +114,16 @@ return [
     'reset-password' => [
         'success' => 'Your password has been successfully reset',
         'error' => 'Something went wrong while trying to reset a password'
+    ],
+    'user' => [
+        'missing' => 'User doesn\'t exist'
+    ],
+    'admin' => [
+        'delete-user' => [
+            'success' => 'You have successfully deleted an user',
+            'error' => 'Something went wrong while trying to delete an user',
+            'self' => 'You cannot remove yourself',
+            'admin' => 'You cannot remove an admin'
+        ]
     ]
 ];

@@ -8,8 +8,10 @@ use App\Repositories\TripCommentsRepository;
 use App\Repositories\TripFilesRepository;
 use App\Repositories\TripRepository;
 use App\Repositories\UserRepository;
+use Core\AlertHelper;
 use Core\Http\Controller;
 use Core\Http\Response\HtmlResponse;
+use Core\Session;
 
 class AdminController extends Controller
 {
@@ -31,6 +33,12 @@ class AdminController extends Controller
     /** @var TripFilesRepository */
     private $tripFilesRepository;
 
+    /** @var AlertHelper */
+    private $alertHelper;
+
+    /** @var Session */
+    private $session;
+
     /**
      * AdminController constructor.
      * @param UserRepository $userRepository
@@ -39,6 +47,8 @@ class AdminController extends Controller
      * @param ActionRepository $actionRepository
      * @param TripCommentsRepository $tripCommentsRepository
      * @param TripFilesRepository $tripFilesRepository
+     * @param AlertHelper $alertHelper
+     * @param Session $session
      */
     function __construct(
             UserRepository $userRepository,
@@ -46,13 +56,17 @@ class AdminController extends Controller
             DayRepository $dayRepository,
             ActionRepository $actionRepository,
             TripCommentsRepository $tripCommentsRepository,
-            TripFilesRepository $tripFilesRepository) {
+            TripFilesRepository $tripFilesRepository,
+            AlertHelper $alertHelper,
+            Session $session) {
         $this->userRepository = $userRepository;
         $this->tripRepository = $tripRepository;
         $this->dayRepository = $dayRepository;
         $this->actionRepository = $actionRepository;
         $this->tripCommentsRepository = $tripCommentsRepository;
         $this->tripFilesRepository = $tripFilesRepository;
+        $this->alertHelper = $alertHelper;
+        $this->session = $session;
     }
 
     /**
@@ -83,15 +97,35 @@ class AdminController extends Controller
      * @return HtmlResponse
      */
     public function usersPage() {
-        $users = $this->userRepository->getNewUsers(10);
+        $users = $this->userRepository->getUsers();
         return $this->responseFactory->html('admin/users.html.twig', ['users' => $users]);
     }
 
-    /**
-     * @return HtmlResponse
-     */
-    public function tripsPage() {
-        $trips = $this->tripRepository->getNewTrips(10);
-        return $this->responseFactory->html('admin/trips.html.twig', ['trips' => $trips]);
+    public function deleteUser($user_id) {
+        $user = $this->userRepository->getUserByID($user_id);
+        $self_id = $this->session->get('user.id');
+
+        if ($self_id == $user_id) {
+            $this->alertHelper->error('alerts.admin.delete-user.self');
+            return $this->route('admin.users');
+        }
+
+        if ($user == NULL) {
+            $this->alertHelper->error('alerts.user.missing');
+            return $this->route('admin.users');
+        }
+
+        if ($user['is_admin'] == 1) {
+            $this->alertHelper->error('alerts.admin.delete-user.admin');
+            return $this->route('admin.users');
+        }
+
+        if (!$this->userRepository->delete($user_id)) {
+            $this->alertHelper->error('alerts.admin.delete-user.error');
+            return $this->route('admin.users');
+        }
+
+        $this->alertHelper->success('alerts.admin.delete-user.success');
+        return $this->route('admin.users');
     }
 }

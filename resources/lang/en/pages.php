@@ -32,13 +32,15 @@ return [
         ],
         'users' => [
             'title' => 'Administration',
-            'heading' => 'User administration',
-            'text' => 'User administration and stuff'
+            'heading' => 'User administration'
         ],
-        'trips' => [
-            'title' => 'Administration',
-            'heading' => 'Trip administration',
-            'text' => 'Trip administration and stuff'
+        'new' => [
+            'users' => 'New users',
+            'trips' => 'New trips',
+            'days' => 'New days',
+            'actions' => 'New actions',
+            'comments' => 'New comments',
+            'files' => 'New files'
         ]
     ],
     'trip' => [

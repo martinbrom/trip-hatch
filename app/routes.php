@@ -27,9 +27,9 @@ $rb->add('GET', 'admin', 'Admin', 'index')
 $rb->add('GET', 'admin/users', 'Admin', 'usersPage')
     ->middleware(['admin'])
     ->name('admin.users');
-$rb->add('GET', 'admin/trips', 'Admin', 'tripsPage')
+$rb->add('GET', 'admin/delete-user/{user_id:\d+}', 'Admin', 'deleteUser')
     ->middleware(['admin'])
-    ->name('admin.trips');
+    ->name('admin.delete-user');
 
 // ---------- COMMENTS ----------
 $rb->add('GET', 'trip/{trip_id:\d+}/comments', 'TripComments', 'index')

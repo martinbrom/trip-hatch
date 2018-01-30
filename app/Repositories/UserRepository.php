@@ -109,4 +109,15 @@ class UserRepository
         $data = ['email' => $email, 'hash' => $hash];
         return $this->baseRepository->run($query, $data);
     }
+
+    /**
+     * @param $user_id
+     * @return bool
+     */
+    public function delete($user_id) {
+        $query = "DELETE FROM users
+                WHERE id = :user_id";
+        $data = ['user_id' => $user_id];
+        return $this->baseRepository->run($query, $data);
+    }
 }

@@ -27,11 +27,11 @@ INSERT INTO `images` (`id`, `path`, `description`, `created_at`, `updated_at`) V
 -- USERS
 -- -----------------------------------------------------
 INSERT INTO `users` (`id`, `email`, `password`, `display_name`, `password_reset_token`, `is_admin`, `image_id`, `created_at`, `updated_at`) VALUES
-  (NULL, 'testemail1@test.test', '$2a$12$A1BhpvR.QRIdzDqLZybbPe8MJimTe7WOaz.p8gMb3aZvXzguhr8re', 'Test User 1', NULL, '1', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-  (NULL, 'testemail2@test.test', '$2a$12$A1BhpvR.QRIdzDqLZybbPe8MJimTe7WOaz.p8gMb3aZvXzguhr8re', NULL, NULL, '0', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-  (NULL, 'testemail3@test.test', '$2a$12$A1BhpvR.QRIdzDqLZybbPe8MJimTe7WOaz.p8gMb3aZvXzguhr8re', 'Test User 3', NULL, '0', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-  (NULL, 'testemail4@test.test', '$2a$12$A1BhpvR.QRIdzDqLZybbPe8MJimTe7WOaz.p8gMb3aZvXzguhr8re', NULL, NULL, '0', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-  (NULL, 'testemail5@test.test', '$2a$12$A1BhpvR.QRIdzDqLZybbPe8MJimTe7WOaz.p8gMb3aZvXzguhr8re', 'Test User 5', NULL, '0', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+  (NULL, 'testemail1@test.test', '$2a$12$yVrQshXzeDfCi87fuYVIMuK5e1otEBf5ByyQGPMI4r4Z7jJGzJ3Y.', 'Test User 1', NULL, '1', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+  (NULL, 'testemail2@test.test', '$2a$12$yVrQshXzeDfCi87fuYVIMuK5e1otEBf5ByyQGPMI4r4Z7jJGzJ3Y.', NULL, NULL, '0', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+  (NULL, 'testemail3@test.test', '$2a$12$yVrQshXzeDfCi87fuYVIMuK5e1otEBf5ByyQGPMI4r4Z7jJGzJ3Y.', 'Test User 3', NULL, '0', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+  (NULL, 'testemail4@test.test', '$2a$12$yVrQshXzeDfCi87fuYVIMuK5e1otEBf5ByyQGPMI4r4Z7jJGzJ3Y.', NULL, NULL, '0', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+  (NULL, 'testemail5@test.test', '$2a$12$yVrQshXzeDfCi87fuYVIMuK5e1otEBf5ByyQGPMI4r4Z7jJGzJ3Y.', 'Test User 5', NULL, '0', '1', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 -- -----------------------------------------------------
 -- TRIPS
