@@ -126,6 +126,8 @@ class TripFilesController extends Controller
         $file = $_FILES['trip_file'];
 
         $fileName = $this->storage->store($file);
+        $extension = pathinfo($fileName, PATHINFO_EXTENSION);
+        $title .= "." . $extension;
 
         if (!$this->tripFilesRepository->create($trip_id, $title, $fileName)) {
             $this->alertHelper->error($this->lang->get('alerts.trip-file-save.error'));
