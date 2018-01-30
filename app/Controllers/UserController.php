@@ -7,6 +7,7 @@ use App\Repositories\UserSettingsRepository;
 use Core\AlertHelper;
 use Core\Auth;
 use Core\Http\Controller;
+use Core\Http\Request;
 use Core\Http\Response\HtmlResponse;
 use Core\Http\Response\RedirectResponse;
 use Core\Http\Response\Response;
@@ -92,11 +93,15 @@ class UserController extends Controller
 
     /**
      * Tries to log user in and redirects him after
+     * @param Request $request
      * @return RedirectResponse Dashboard on successful login,
      *                          login page on unsuccessful
      */
-    public function login() {
-        if ($this->auth->login($_POST['login_email'], $_POST['login_password'])) {
+    public function login(Request $request) {
+        $email    = $request->getInput('login_email');
+        $password = $request->getInput('login_password');
+
+        if ($this->auth->login($email, $password)) {
             $this->alertHelper->success($this->lang->get('alerts.login.success'));
             return $this->route('dashboard');
         }
@@ -117,11 +122,13 @@ class UserController extends Controller
 
     /**
      * Creates new user, logs him and redirects to dashboard
+     * @param Request $request
      * @return RedirectResponse Login page
      */
-    public function register() {
-        $email = $_POST['register_email'];
-        $password = $_POST['register_password'];
+    public function register(Request $request) {
+        $email    = $request->getInput('register_email');
+        $password = $request->getInput('register_password');
+
         if ($this->auth->login($email, $password)) {
             $this->alertHelper->success($this->lang->get('alerts.login.success'));
             return $this->route('dashboard');
@@ -140,15 +147,16 @@ class UserController extends Controller
     /**
      * Sends email with instructions to reset password
      * and redirects user back to login page
+     * @param Request $request
      * @return RedirectResponse Login page
      */
-    public function forgottenPassword() {
+    public function forgottenPassword(Request $request) {
         $token = token(32);
 
         if ($this->auth->isLogged())
             return $this->route('dashboard');
 
-        $email = $_POST['forgotten_password_email'];
+        $email = $request->getInput('forgotten_password_email');
 
         if (!$this->userSettingsRepository->setPasswordResetToken($email, $token)) {
             $this->alertHelper->error($this->lang->get('alerts.forgotten-password.error'));
@@ -161,11 +169,13 @@ class UserController extends Controller
     }
 
     /**
-     * @param $email
-     * @param $token
+     * @param Request $request
      * @return Response
      */
-    public function resetPasswordPage($email, $token) {
+    public function resetPasswordPage(Request $request) {
+        $email = $request->getParameter('email');
+        $token = $request->getParameter('token');
+
         if (!$this->userSettingsRepository->passwordResetExists($email, $token)) {
             $this->alertHelper->error($this->lang->get('alerts.reset-password.error'));
             return $this->route('login');
@@ -175,17 +185,19 @@ class UserController extends Controller
     }
 
     /**
-     * @param $email
-     * @param $token
+     * @param Request $request
      * @return RedirectResponse
      */
-    public function resetPassword($email, $token) {
+    public function resetPassword(Request $request) {
+        $email = $request->getParameter('email');
+        $token = $request->getParameter('token');
+
         if (!$this->userSettingsRepository->passwordResetExists($email, $token)) {
             $this->alertHelper->error($this->lang->get('alerts.reset-password.error'));
             return $this->route('login');
         }
 
-        $hash = bcrypt($_POST['reset_password']);
+        $hash = bcrypt($request->getInput('reset_password'));
 
         if (!$this->userSettingsRepository->resetPassword($email, $hash)) {
             $this->alertHelper->error($this->lang->get('alerts.reset-password.error'));

@@ -8,8 +8,8 @@ use App\Repositories\TripRepository;
 use Core\Auth;
 use Core\Factories\TripValidatorFactory;
 use Core\Http\Controller;
+use Core\Http\Request;
 use Core\Http\Response\JsonResponse;
-use Core\Http\Response\Response;
 use Core\Language\Language;
 
 class DayController extends Controller
@@ -57,11 +57,13 @@ class DayController extends Controller
     }
 
     /**
-     * @param $trip_id
-     * @param $day_id
-     * @return Response
+     * @param Request $request
+     * @return JsonResponse|null
      */
-    public function delete($trip_id, $day_id) {
+    public function delete(Request $request) {
+        $trip_id   = $request->getParameter('trip_id');
+        $day_id    = $request->getParameter('day_id');
+
         $tripValidator = $this->tripValidatorFactory->make();
         $result = $tripValidator->validateDay($trip_id, $day_id);
         if ($result != NULL) return $result;
@@ -79,11 +81,13 @@ class DayController extends Controller
     }
 
     /**
-     * @param $trip_id
-     * @param $day_id
+     * @param Request $request
      * @return JsonResponse
      */
-    public function editModal($trip_id, $day_id) {
+    public function editModal(Request $request) {
+        $trip_id   = $request->getParameter('trip_id');
+        $day_id    = $request->getParameter('day_id');
+
         $tripValidator = $this->tripValidatorFactory->make();
         $result = $tripValidator->validateDay($trip_id, $day_id);
         if ($result != NULL) return $result;
@@ -92,18 +96,21 @@ class DayController extends Controller
     }
 
     /**
-     * @param $trip_id
-     * @param $day_id
+     * @param Request $request
      * @return JsonResponse
      */
-    public function edit($trip_id, $day_id) {
+    public function edit(Request $request) {
+        $trip_id   = $request->getParameter('trip_id');
+        $day_id    = $request->getParameter('day_id');
+
         $tripValidator = $this->tripValidatorFactory->make();
         $result = $tripValidator->validateDay($trip_id, $day_id);
         if ($result != NULL) return $result;
 
         // TODO: File upload
         $image_id = 2;
-        if (!$this->dayRepository->edit($day_id, $_POST['day_title'], $image_id)) {
+        $title = $request->getInput('day_title');
+        if (!$this->dayRepository->edit($day_id, $title, $image_id)) {
             return $this->responseFactory->jsonAlert($this->lang->get('alerts.day-edit.error'), 'danger', 500);
         }
 
@@ -112,6 +119,7 @@ class DayController extends Controller
             'day' => $day, 'trip' => $tripValidator->getTrip(),
             'isOrganiser' => $this->auth->isOrganiser($trip_id)
         ])->createContent();
+
         $data = [
             'type' => 'success',
             'message' => $this->lang->get('alerts.day-edit.success'),
@@ -122,17 +130,22 @@ class DayController extends Controller
     }
 
     /**
-     * @param $trip_id
-     * @param $day_id
+     * @param Request $request
      * @return JsonResponse
      */
-    public function addAction($trip_id, $day_id) {
+    public function addAction(Request $request) {
+        $trip_id   = $request->getParameter('trip_id');
+        $day_id    = $request->getParameter('day_id');
+
         $tripValidator = $this->tripValidatorFactory->make();
         $result = $tripValidator->validateDay($trip_id, $day_id);
         if ($result != NULL) return $result;
 
-        $actionCount = $this->actionRepository->getActionCount($day_id);
-        if (!$this->actionRepository->create($_POST['action_title'], $_POST['action_content'], $actionCount, $day_id, $_POST['action_type'])) {
+        $actionCount    = $this->actionRepository->getActionCount($day_id);
+        $title   = $request->getInput('action_title');
+        $content = $request->getInput('action_content');
+        $type    = $request->getInput('action_type');
+        if (!$this->actionRepository->create($title, $content, $actionCount, $day_id, $type)) {
             return $this->responseFactory->jsonAlert($this->lang->get('alerts.trip-add-action.error'), 'error', 500);
         }
 

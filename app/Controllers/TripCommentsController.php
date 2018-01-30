@@ -8,6 +8,7 @@ use App\Repositories\UserTripRepository;
 use Core\AlertHelper;
 use Core\Auth;
 use Core\Http\Controller;
+use Core\Http\Request;
 use Core\Http\Response\Response;
 use Core\Language\Language;
 use Core\Session;
@@ -68,16 +69,12 @@ class TripCommentsController extends Controller
     }
 
     /**
-     * @param $trip_id
+     * @param Request $request
      * @return Response
      */
-    public function index($trip_id) {
+    public function index(Request $request) {
+        $trip_id = $request->getParameter('trip_id');
         $trip = $this->tripRepository->getTrip($trip_id);
-
-        if ($trip == NULL) {
-            $this->alertHelper->error($this->lang->get('alerts.trip.missing'));
-            return $this->route('dashboard');
-        }
 
         $comments = $this->tripCommentsRepository->getComments($trip_id);
 
@@ -87,25 +84,21 @@ class TripCommentsController extends Controller
     }
 
     /**
-     * @param $trip_id
+     * @param Request $request
      * @return Response
      */
-    public function create($trip_id) {
-        $trip = $this->tripRepository->getTrip($trip_id);
-
-        if ($trip == NULL) {
-            $this->alertHelper->error($this->lang->get('alerts.trip.missing'));
-            return $this->route('dashboard');
-        }
+    public function create(Request $request) {
+        $trip_id = $request->getParameter('trip_id');
 
         $user_trip_id = $this->userTripRepository->getID($this->session->get('user.id'), $trip_id);
+        $content = $request->getInput('comment_content');
 
         if ($user_trip_id == NULL) {
             $this->alertHelper->error($this->lang->get('alerts.trip-comment.traveller'));
             return $this->route('dashboard');
         }
 
-        if (!$this->tripCommentsRepository->create($user_trip_id['id'], $_POST['comment_content'])) {
+        if (!$this->tripCommentsRepository->create($user_trip_id['id'], $content)) {
             $this->alertHelper->error($this->lang->get('alerts.trip-comment.error'));
             return $this->route('dashboard');
         }
@@ -115,17 +108,11 @@ class TripCommentsController extends Controller
     }
 
     /**
-     * @param $trip_id
-     * @param $comment_id
+     * @param Request $request
      * @return Response
      */
-    public function delete($trip_id, $comment_id) {
-        $trip = $this->tripRepository->getTrip($trip_id);
-
-        if ($trip == NULL) {
-            return $this->responseFactory->jsonAlert($this->lang->get('alerts.trip.missing'), 'error', 404);
-        }
-
+    public function delete(Request $request) {
+        $comment_id = $request->getParameter('comment_id');
         $comment = $this->tripCommentsRepository->getComment($comment_id);
 
         if ($comment == NULL) {

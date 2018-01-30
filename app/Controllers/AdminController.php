@@ -10,6 +10,7 @@ use App\Repositories\TripRepository;
 use App\Repositories\UserRepository;
 use Core\AlertHelper;
 use Core\Http\Controller;
+use Core\Http\Request;
 use Core\Http\Response\HtmlResponse;
 use Core\Http\Response\RedirectResponse;
 use Core\Language\Language;
@@ -110,10 +111,12 @@ class AdminController extends Controller
     }
 
     /**
-     * @param $user_id
+     * @param Request $request
      * @return RedirectResponse
      */
-    public function deleteUser($user_id) {
+    public function deleteUser(Request $request) {
+        $user_id = $request->getParameter('user_id');
+
         $user = $this->userRepository->getUserByID($user_id);
         $self_id = $this->session->get('user.id');
 

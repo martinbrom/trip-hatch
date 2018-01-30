@@ -108,7 +108,7 @@ class Request
         if (!method_exists($controller, $action))
             throw new MethodNotFoundException($controllerClass, $action);
 
-        return call_user_func_array([$controller, $action], $this->params);
+        return call_user_func([$controller, $action], $this);
     }
 
     public function determineMethod() {

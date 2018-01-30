@@ -7,6 +7,7 @@ use App\Repositories\TripRepository;
 use Core\AlertHelper;
 use Core\Auth;
 use Core\Http\Controller;
+use Core\Http\Request;
 use Core\Http\Response\JsonResponse;
 use Core\Http\Response\RedirectResponse;
 use Core\Http\Response\Response;
@@ -63,16 +64,12 @@ class TripFilesController extends Controller
     }
 
     /**
-     * @param $trip_id
+     * @param Request $request
      * @return Response
      */
-    public function index($trip_id) {
+    public function index(Request $request) {
+        $trip_id = $request->getParameter('trip_id');
         $trip = $this->tripRepository->getTrip($trip_id);
-
-        if ($trip == NULL) {
-            $this->alertHelper->error($this->lang->get('alerts.trip.missing'), 404);
-            return $this->route('dashboard');
-        }
 
         $files = $this->tripFilesRepository->getFiles($trip_id);
 
@@ -82,17 +79,11 @@ class TripFilesController extends Controller
     }
 
     /**
-     * @param $trip_id
-     * @param $file_id
+     * @param Request $request
      * @return JsonResponse
      */
-    public function delete($trip_id, $file_id) {
-        $trip = $this->tripRepository->getTrip($trip_id);
-
-        if ($trip == NULL) {
-            return $this->responseFactory->jsonAlert($this->lang->get('alerts.trip.missing'), 'error', 404);
-        }
-
+    public function delete(Request $request) {
+        $file_id = $request->getParameter('file_id');
         $file = $this->tripFilesRepository->getFile($file_id);
 
         if ($file == NULL) {
@@ -111,19 +102,14 @@ class TripFilesController extends Controller
     }
 
     /**
-     * @param $trip_id
+     * @param Request $request
      * @return RedirectResponse
      */
-    public function create($trip_id) {
-        $trip = $this->tripRepository->getTrip($trip_id);
+    public function create(Request $request) {
+        $trip_id = $request->getParameter('trip_id');
 
-        if ($trip == NULL) {
-            $this->alertHelper->error($this->lang->get('alerts.trip.missing'), 404);
-            return $this->route('dashboard');
-        }
-
-        $title = $_POST['trip_file_title'];
-        $file = $_FILES['trip_file'];
+        $title = $request->getInput('trip_file_title');
+        $file  = $request->getInput('trip_file');
 
         $fileName = $this->storage->store($file);
         $extension = pathinfo($fileName, PATHINFO_EXTENSION);

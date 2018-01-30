@@ -6,6 +6,7 @@ use App\Repositories\UserSettingsRepository;
 use Core\AlertHelper;
 use Core\Auth;
 use Core\Http\Controller;
+use Core\Http\Request;
 use Core\Http\Response\HtmlResponse;
 use Core\Http\Response\Response;
 use Core\Language\Language;
@@ -65,10 +66,11 @@ class UserSettingsController extends Controller
     }
 
     /**
+     * @param Request $request
      * @return Response
      */
-    public function changeDisplayName() {
-        $display_name = $_POST['display_name'];
+    public function changeDisplayName(Request $request) {
+        $display_name = $request->getInput('display_name');
         if ($display_name == "")
             $display_name = NULL;
 
@@ -89,12 +91,13 @@ class UserSettingsController extends Controller
     }
 
     /**
+     * @param Request $request
      * @return Response
      */
-    public function changePassword() {
-        $newPassword = $_POST['new_password'];
+    public function changePassword(Request $request) {
+        $password = $request->getInput('new_password');
 
-        $hash = bcrypt($newPassword);
+        $hash = bcrypt($password);
         if (!$this->userSettingsRepository->changePassword($this->session->get('user.id'), $hash)) {
             $this->alertHelper->error($this->lang->get('alerts.change-password.error'));
             return $this->error(500);

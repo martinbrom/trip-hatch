@@ -8,6 +8,7 @@ use App\Repositories\TripRepository;
 use Core\Auth;
 use Core\Factories\TripValidatorFactory;
 use Core\Http\Controller;
+use Core\Http\Request;
 use Core\Http\Response\JsonResponse;
 use Core\Language\Language;
 
@@ -62,11 +63,13 @@ class ActionController extends Controller
 
     /**
      * Returns a response with all actions for given day or alert on error
-     * @param int $trip_id ID of a trip
-     * @param int $day_id ID of a day
+     * @param Request $request
      * @return JsonResponse All actions for given day or alert
      */
-    public function actions($trip_id, $day_id) {
+    public function actions(Request $request) {
+        $trip_id = $request->getParameter('trip_id');
+        $day_id =  $request->getParameter('day_id');
+
         $tripValidator = $this->tripValidatorFactory->make();
         $result = $tripValidator->validateDay($trip_id, $day_id);
         if ($result != NULL) return $result;
@@ -87,11 +90,13 @@ class ActionController extends Controller
     }
 
     /**
-     * @param $trip_id
-     * @param $day_id
+     * @param Request $request
      * @return JsonResponse
      */
-    public function addActionModal($trip_id, $day_id) {
+    public function addActionModal(Request $request) {
+        $trip_id   = $request->getParameter('trip_id');
+        $day_id    = $request->getParameter('day_id');
+
         $tripValidator = $this->tripValidatorFactory->make();
         $result = $tripValidator->validateDay($trip_id, $day_id);
         if ($result != NULL) return $result;
@@ -100,21 +105,23 @@ class ActionController extends Controller
     }
 
     /**
-     * @param $trip_id
-     * @param $day_id
-     * @param $action_id
+     * @param Request $request
      * @return JsonResponse
      */
-    public function edit($trip_id, $day_id, $action_id) {
+    public function edit(Request $request) {
+        $trip_id   = $request->getParameter('trip_id');
+        $day_id    = $request->getParameter('day_id');
+        $action_id = $request->getParameter('action_id');
+
         $tripValidator = $this->tripValidatorFactory->make();
         $result = $tripValidator->validateAction($trip_id, $day_id, $action_id);
         if ($result != NULL) return $result;
 
-        if (!$this->actionRepository->edit(
-                $action_id,
-                $_POST['action_edit_title'],
-                $_POST['action_edit_content'],
-                $_POST['action_edit_type'])) {
+        $title   = $request->getInput('action_edit_title');
+        $content = $request->getInput('action_edit_content');
+        $type    = $request->getInput('action_edit_type');
+
+        if (!$this->actionRepository->edit($action_id, $title, $content, $type)) {
             return $this->responseFactory->jsonAlert($this->lang->get('alerts.trip-edit-action.error'), 'error', 500);
         }
 
@@ -135,12 +142,14 @@ class ActionController extends Controller
     }
 
     /**
-     * @param $trip_id
-     * @param $day_id
-     * @param $action_id
+     * @param Request $request
      * @return JsonResponse
      */
-    public function editModal($trip_id, $day_id, $action_id) {
+    public function editModal(Request $request) {
+        $trip_id   = $request->getParameter('trip_id');
+        $day_id    = $request->getParameter('day_id');
+        $action_id = $request->getParameter('action_id');
+
         $tripValidator = $this->tripValidatorFactory->make();
         $result = $tripValidator->validateAction($trip_id, $day_id, $action_id);
         if ($result != NULL) return $result;
@@ -153,12 +162,14 @@ class ActionController extends Controller
     }
 
     /**
-     * @param $trip_id
-     * @param $day_id
-     * @param $action_id
+     * @param Request $request
      * @return JsonResponse
      */
-    public function delete($trip_id, $day_id, $action_id) {
+    public function delete(Request $request) {
+        $trip_id   = $request->getParameter('trip_id');
+        $day_id    = $request->getParameter('day_id');
+        $action_id = $request->getParameter('action_id');
+
         $tripValidator = $this->tripValidatorFactory->make();
         $result = $tripValidator->validateAction($trip_id, $day_id, $action_id);
         if ($result != NULL) return $result;

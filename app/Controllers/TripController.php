@@ -2,22 +2,20 @@
 
 namespace App\Controllers;
 
-use App\Enums\UserTripRoles;
 use App\Repositories\ActionTypeRepository;
 use App\Repositories\DayRepository;
-use App\Repositories\InviteRepository;
 use App\Repositories\TripRepository;
 use App\Repositories\UserTripRepository;
 use Core\AlertHelper;
 use Core\Auth;
 use Core\Factories\TripValidatorFactory;
 use Core\Http\Controller;
+use Core\Http\Request;
 use Core\Http\Response\HtmlResponse;
 use Core\Http\Response\JsonResponse;
 use Core\Http\Response\RedirectResponse;
 use Core\Http\Response\Response;
 use Core\Language\Language;
-use Core\Mail\Mailer;
 use Core\Session;
 
 /**
@@ -54,12 +52,6 @@ class TripController extends Controller
     /** @var TripValidatorFactory */
     private $tripValidatorFactory;
 
-    /** @var InviteRepository */
-    private $inviteRepository;
-
-    /** @var Mailer */
-    private $mailer;
-
     /**
      * TripController constructor.
      * @param TripRepository $tripRepository
@@ -71,8 +63,6 @@ class TripController extends Controller
      * @param Auth $auth
      * @param ActionTypeRepository $actionTypeRepository
      * @param TripValidatorFactory $tripValidatorFactory
-     * @param InviteRepository $inviteRepository
-     * @param Mailer $mailer
      */
     function __construct(
             TripRepository $tripRepository,
@@ -83,9 +73,7 @@ class TripController extends Controller
             Language $lang,
             Auth $auth,
             ActionTypeRepository $actionTypeRepository,
-            TripValidatorFactory $tripValidatorFactory,
-            InviteRepository $inviteRepository,
-            Mailer $mailer) {
+            TripValidatorFactory $tripValidatorFactory) {
         $this->tripRepository = $tripRepository;
         $this->userTripRepository = $userTripRepository;
         $this->session = $session;
@@ -95,8 +83,6 @@ class TripController extends Controller
         $this->auth = $auth;
         $this->actionTypeRepository = $actionTypeRepository;
         $this->tripValidatorFactory = $tripValidatorFactory;
-        $this->inviteRepository = $inviteRepository;
-        $this->mailer = $mailer;
     }
 
     /**
@@ -118,10 +104,13 @@ class TripController extends Controller
 
     /**
      * Creates new trip and redirects user to its page
+     * @param Request $request
      * @return Response Newly created trip page
      */
-    public function create() {
-        if (!$this->tripRepository->createTrip($_POST['trip_title'])) {
+    public function create(Request $request) {
+        $title = $request->getInput('trip_title');
+
+        if (!$this->tripRepository->createTrip($title)) {
             $this->alertHelper->error($this->lang->get('alerts.trip-create.error'));
             return $this->route('dashboard');
         }
@@ -139,17 +128,13 @@ class TripController extends Controller
     /**
      * Returns a html with with a content of trip with a given id
      * or redirects to trip list page if a trip with given id doesn't exist
-     * @param int $trip_id ID of a trip
+     * @param Request $request
      * @return HtmlResponse|RedirectResponse Content of trip page or redirect
      *                                       to all trips if trip doesn't exist
      */
-    public function show($trip_id) {
+    public function show(Request $request) {
+        $trip_id = $request->getParameter('trip_id');
         $trip = $this->tripRepository->getTrip($trip_id);
-
-        if ($trip == NULL) {
-            $this->alertHelper->error($this->lang->get('alerts.trip.missing'));
-            return $this->route('dashboard');
-        }
 
         $days = $this->dayRepository->getDays($trip_id);
         if (empty($days))
@@ -166,22 +151,17 @@ class TripController extends Controller
     }
 
     /**
-     * @param $trip_id
+     * @param Request $request
      * @return Response
      */
-    public function edit($trip_id) {
-        $trip = $this->tripRepository->getTrip($trip_id);
+    public function edit(Request $request) {
+        $trip_id = $request->getParameter('trip_id');
 
-        if ($trip == NULL) {
-            $this->alertHelper->error($this->lang->get('alerts.trip.missing'));
-            return $this->route('dashboard');
-        }
-
-        $trip_title = $_POST['trip_title'];
-        $trip_start_date = $_POST['trip_start_date'];
+        $title = $request->getInput('trip_title');
+        $start_date = $request->getInput('trip_start_date');
 
         $image_id = 2;
-        if (!$this->tripRepository->edit($trip_id, $trip_title, $trip_start_date, $image_id)) {
+        if (!$this->tripRepository->edit($trip_id, $title, $start_date, $image_id)) {
             $this->alertHelper->error($this->lang->get('alerts.trip-edit.error'));
             return $this->route('dashboard');
         }
@@ -191,16 +171,12 @@ class TripController extends Controller
     }
 
     /**
-     * @param $trip_id
+     * @param Request $request
      * @return Response
      */
-    public function editPage($trip_id) {
+    public function editPage(Request $request) {
+        $trip_id = $request->getParameter('trip_id');
         $trip = $this->tripRepository->getTrip($trip_id);
-
-        if ($trip == null) {
-            $this->alertHelper->error($this->lang->get('alerts.trip.missing'));
-            return $this->route('dashboard');
-        }
 
         $date = date('Y-m-d', strtotime($trip['start_date']));
 
@@ -208,18 +184,14 @@ class TripController extends Controller
     }
 
     /**
-     * @param $trip_id
+     * @param Request $request
      * @return Response
      */
-    public function managePeoplePage($trip_id) {
+    public function managePeoplePage(Request $request) {
+        $trip_id = $request->getParameter('trip_id');
         $trip = $this->tripRepository->getTrip($trip_id);
 
-        if ($trip == NULL) {
-            $this->alertHelper->error($this->lang->get('alerts.trip.missing'));
-            return $this->route('dashboard');
-        }
-
-        $travellers = $this->userTripRepository->getTravellers($trip['id']);
+        $travellers = $this->userTripRepository->getTravellers($trip_id);
         if (empty($travellers))
             $this->alertHelper->warning($this->lang->get('alerts.trip.no-travellers'));
 
@@ -227,18 +199,15 @@ class TripController extends Controller
     }
 
     /**
-     * @param $trip_id
+     * @param Request $request
      * @return Response
      */
-    public function manageStaffPage($trip_id) {
+    public function manageStaffPage(Request $request) {
+        $trip_id = $request->getParameter('trip_id');
         $trip = $this->tripRepository->getTrip($trip_id);
 
-        if ($trip == NULL) {
-            $this->alertHelper->error($this->lang->get('alerts.trip.missing'));
-            return $this->route('dashboard');
-        }
+        $organisers = $this->userTripRepository->getOrganisers($trip_id);
 
-        $organisers = $this->userTripRepository->getOrganisers($trip['id']);
         if (empty($organisers))
             $this->alertHelper->warning($this->lang->get('alerts.trip.no-organisers'));
 
@@ -246,10 +215,11 @@ class TripController extends Controller
     }
 
     /**
-     * @param $public_url
+     * @param Request $request
      * @return Response
      */
-    public function showPublic($public_url) {
+    public function showPublic(Request $request) {
+        $public_url = $request->getParameter('public_url');
         $trip = $this->tripRepository->getTripPublic($public_url);
 
         if ($trip == NULL) {
@@ -265,15 +235,17 @@ class TripController extends Controller
             return $this->tripRoute('show', $trip_id);
         }
 
-        $days = $this->dayRepository->getDays($trip['id']);
+        $days = $this->dayRepository->getDays($trip_id);
         return $this->responseFactory->html('trip/show.html.twig', ['days' => $days, 'trip' => $trip, 'isTraveller' => $isTraveller]);
     }
 
     /**
-     * @param $trip_id
+     * @param Request $request
      * @return JsonResponse
      */
-    public function publish($trip_id) {
+    public function publish(Request $request) {
+        $trip_id = $request->getParameter('trip_id');
+
         if (!$this->tripRepository->publishTrip($trip_id)) {
             return $this->responseFactory->jsonAlert($this->lang->get('alerts.publish.error'), 'error', 500);
         }
@@ -282,10 +254,12 @@ class TripController extends Controller
     }
 
     /**
-     * @param $trip_id
+     * @param Request $request
      * @return JsonResponse
      */
-    public function classify($trip_id) {
+    public function classify(Request $request) {
+        $trip_id = $request->getParameter('trip_id');
+
         if (!$this->tripRepository->classifyTrip($trip_id)) {
             return $this->responseFactory->jsonAlert($this->lang->get('alerts.classify.error'), 'error', 500);
         }
@@ -294,10 +268,12 @@ class TripController extends Controller
     }
 
     /**
-     * @param $user_trip_id
+     * @param Request $request
      * @return JsonResponse
      */
-    public function removeUser($trip_id, $user_trip_id) {
+    public function removeUser(Request $request) {
+        $user_trip_id = $request->getInput('user_trip_id');
+
         if (!$this->userTripRepository->isExactlyTraveller($user_trip_id))
             return $this->responseFactory->jsonAlert($this->lang->get('alerts.remove-user.wrong-role'), 'danger', 401);
 
@@ -309,11 +285,12 @@ class TripController extends Controller
     }
 
     /**
-     * @param $trip_id
-     * @param $user_trip_id
+     * @param Request $request
      * @return JsonResponse
      */
-    public function promoteUser($trip_id, $user_trip_id) {
+    public function promoteUser(Request $request) {
+        $user_trip_id = $request->getInput('user_trip_id');
+
         if (!$this->userTripRepository->isExactlyTraveller($user_trip_id))
             return $this->responseFactory->jsonAlert($this->lang->get('alerts.promote-user.wrong-role'), 'danger', 401);
 
@@ -325,11 +302,12 @@ class TripController extends Controller
     }
 
     /**
-     * @param $trip_id
-     * @param $user_trip_id
+     * @param Request $request
      * @return JsonResponse
      */
-    public function demoteUser($trip_id, $user_trip_id) {
+    public function demoteUser(Request $request) {
+        $user_trip_id = $request->getInput('user_trip_id');
+
         if (!$this->userTripRepository->isExactlyOrganiser($user_trip_id))
             return $this->responseFactory->jsonAlert($this->lang->get('alerts.demote-user.wrong-role'), 'danger', 401);
 
@@ -341,97 +319,11 @@ class TripController extends Controller
     }
 
     /**
-     * @param $trip_id
-     * @return Response
-     */
-    public function invitePage($trip_id) {
-        $trip = $this->tripRepository->getTrip($trip_id);
-
-        if ($trip == NULL) {
-            $this->alertHelper->error($this->lang->get('alerts.trip.missing'));
-            return $this->route('dashboard');
-        }
-
-        return $this->responseFactory->html('trip/invite.html.twig', ['trip' => $trip]);
-    }
-
-    /**
-     * @param $trip_id
+     * @param Request $request
      * @return RedirectResponse
      */
-    public function invite($trip_id) {
-        $trip = $this->tripRepository->getTrip($trip_id);
-
-        if ($trip == NULL) {
-            $this->alertHelper->error($this->lang->get('alerts.trip.missing'));
-            return $this->route('dashboard');
-        }
-
-        if (!$this->inviteRepository->canInvite($trip_id, $_POST['invite_email'])) {
-            $this->alertHelper->warning($this->lang->get('alerts.trip-invite.exists'));
-            return $this->route('trip.invite', ['trip_id' => $trip_id]);
-        }
-
-        $recipient = $_POST['invite_email'];
-        $message = $_POST['invite_message'];
-
-        $token = token(32);     // token must be unique but 62^32 combinations is way too many...
-        if (!$this->inviteRepository->create($trip_id, $recipient, $message, $token)) {
-            $this->alertHelper->error($this->lang->get('alerts.trip-invite.error'));
-            return $this->route('trip.invite', ['trip_id' => $trip_id]);
-        }
-
-        $this->mailer->invite($recipient, $token, $message, $trip['title']);
-        $this->alertHelper->success($this->lang->get('alerts.trip-invite.success'));
-        return $this->route('trip.invite', ['trip_id' => $trip_id]);
-    }
-
-    /**
-     * @param $token
-     * @return RedirectResponse
-     */
-    public function inviteAccept($token) {
-        $invite = $this->inviteRepository->getInvite($token);
-
-        if ($invite == NULL) {
-            $this->alertHelper->error($this->lang->get('alerts.trip-invite.missing'));
-            return $this->route('dashboard');
-        }
-
-        $trip_id = $invite['trip_id'];
-        $trip = $this->tripRepository->getTrip($trip_id);
-
-        if ($trip == NULL) {
-            $this->alertHelper->error($this->lang->get('alerts.trip.missing'));
-            return $this->route('dashboard');
-        }
-
-        $user_id = $this->session->get('user.id');
-
-        if (!$this->inviteRepository->delete($invite['id'])) {
-            $this->alertHelper->error($this->lang->get('alerts.trip-invite-accept.error'));
-            return $this->route('dashboard');
-        }
-        
-        if ($this->userTripRepository->hasAccess($user_id, $trip_id)) {
-            $this->alertHelper->info($this->lang->get('alerts.trip-invite-accept.access'));
-            return $this->route('trip.show', ['trip_id' => $trip_id]);
-        }
-
-        if (!$this->userTripRepository->create($user_id, $trip_id, UserTripRoles::TRAVELLER)) {
-            $this->alertHelper->error($this->lang->get('alerts.trip-invite-accept.error'));
-            return $this->route('dashboard');
-        }
-
-        $this->alertHelper->success($this->lang->get('alerts.trip-invite-accept.success'));
-        return $this->route('trip.show', ['trip_id' => $trip_id]);
-    }
-
-    /**
-     * @param $trip_id
-     * @return RedirectResponse
-     */
-    public function delete($trip_id) {
+    public function delete(Request $request) {
+        $trip_id = $request->getParameter('trip_id');
         $trip = $this->tripRepository->getTrip($trip_id);
 
         if ($trip == NULL) {
@@ -449,10 +341,11 @@ class TripController extends Controller
     }
 
     /**
-     * @param $trip_id
+     * @param Request $request
      * @return JsonResponse
      */
-    public function addDay($trip_id) {
+    public function addDay(Request $request) {
+        $trip_id = $request->getParameter('trip_id');
         $tripValidator = $this->tripValidatorFactory->make();
         $result = $tripValidator->validateTrip($trip_id);
         if ($result != NULL) return $result;
