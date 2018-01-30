@@ -1,3 +1,4 @@
+
 {% extends "layouts/trip.html.twig" %}
 
 {% block title %}{{ t('pages.trip.manage-people.title') }}{% endblock %}
@@ -23,21 +24,27 @@
                             <th class="col-xs-1">{{ t('pages.trip.manage-people.delete') }}</th>
                         </tr>
                         {% for traveller in travellers %}
-                            <tr>
+                            <tr id="user-trip-row{{ traveller.id }}">
                                 <td>{{ traveller.id }}</td>
-
-                                <!-- TODO: Join with user to get email, name and avatar -->
-                                <td>email</td>
-                                <td>name</td>
-
-                                <!-- TODO: Role number to text use if? -->
-                                <td>role</td>
+                                <td>{{ traveller.email }}</td>
+                                <td>{{ traveller.display_name }}</td>
+                                <td>{{ role(traveller.role) }}</td>
 
                                 {% if isOwner %}
-                                    <td><a href="#"><i class="fa fa-user-plus"></i></a></td>
+                                    <td>
+                                        <a class="promote-trip-user-link" href="#" data-user-trip-id="{{ traveller.id }}"
+                                           data-ajax-url="{{ routeTripUser('promote', trip.id, traveller.id) }}">
+                                            <i class="fa fa-user-plus"></i>
+                                        </a>
+                                    </td>
                                 {% endif %}
 
-                                <td><a class="remove-trip-user-link" href="#" data-ajax-url="{{ routeTripUser('remove', trip.id, traveller.id) }}"><i class="fa fa-remove"></i></a></td>
+                                <td>
+                                    <a class="remove-trip-user-link" href="#" data-user-trip-id="{{ traveller.id }}"
+                                       data-ajax-url="{{ routeTripUser('remove', trip.id, traveller.id) }}">
+                                        <i class="fa fa-remove"></i>
+                                    </a>
+                                </td>
                             </tr>
                         {% endfor %}
                     </table>

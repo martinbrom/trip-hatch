@@ -238,7 +238,11 @@ class TripController extends Controller
             return $this->route('dashboard');
         }
 
-        return $this->responseFactory->html('trip/manageStaff.html.twig', ['trip' => $trip]);
+        $organisers = $this->userTripRepository->getOrganisers($trip['id']);
+        if (empty($organisers))
+            $this->alertHelper->warning($this->lang->get('alerts.trip.no-organisers'));
+
+        return $this->responseFactory->html('trip/manageStaff.html.twig', ['trip' => $trip, 'organisers' => $organisers]);
     }
 
     /**
@@ -304,8 +308,36 @@ class TripController extends Controller
         return $this->responseFactory->jsonAlert($this->lang->get('alerts.remove-user.error'), 'danger', 500);
     }
 
+    /**
+     * @param $trip_id
+     * @param $user_trip_id
+     * @return JsonResponse
+     */
     public function promoteUser($trip_id, $user_trip_id) {
+        if (!$this->userTripRepository->isExactlyTraveller($user_trip_id))
+            return $this->responseFactory->jsonAlert($this->lang->get('alerts.promote-user.wrong-role'), 'danger', 401);
 
+        if ($this->userTripRepository->setOrganiser($user_trip_id)) {
+            return $this->responseFactory->jsonAlert($this->lang->get('alerts.promote-user.success'), 'success', 200);
+        }
+
+        return $this->responseFactory->jsonAlert($this->lang->get('alerts.promote-user.error'), 'danger', 500);
+    }
+
+    /**
+     * @param $trip_id
+     * @param $user_trip_id
+     * @return JsonResponse
+     */
+    public function demoteUser($trip_id, $user_trip_id) {
+        if (!$this->userTripRepository->isExactlyOrganiser($user_trip_id))
+            return $this->responseFactory->jsonAlert($this->lang->get('alerts.demote-user.wrong-role'), 'danger', 401);
+
+        if ($this->userTripRepository->setTraveller($user_trip_id)) {
+            return $this->responseFactory->jsonAlert($this->lang->get('alerts.demote-user.success'), 'success', 200);
+        }
+
+        return $this->responseFactory->jsonAlert($this->lang->get('alerts.demote-user.error'), 'danger', 500);
     }
 
     /**

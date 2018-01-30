@@ -329,12 +329,48 @@ $(document).ready(function () {
 
     $('.remove-trip-user-link').click(function (e) {
         e.preventDefault();
+        var user_trip_id = $(this).attr('data-user-trip-id');
         $.ajax({
             url: $(this).attr(ajax_url_parameter_name),
-            dataType: 'json',
             success: function (result) {
-                // TODO: Remove user-trip table row from table
                 addAlert(result.type, result.message);
+                $('tr#user-trip-row' + user_trip_id).remove();
+            },
+            error: function (result) {
+                var r = JSON.parse(result.responseText);
+                addAlert(r['type'], r['message']);
+            }
+        });
+    });
+
+    $('.promote-trip-user-link').click(function (e) {
+        e.preventDefault();
+        var user_trip_id = $(this).attr('data-user-trip-id');
+        $.ajax({
+            url: $(this).attr(ajax_url_parameter_name),
+            success: function (result) {
+                console.log(result);
+
+                addAlert(result.type, result.message);
+                $('tr#user-trip-row' + user_trip_id).remove();
+            },
+            error: function (result) {
+                console.log(result);
+
+                var r = JSON.parse(result.responseText);
+                addAlert(r['type'], r['message']);
+            }
+        });
+    });
+
+    $('.demote-trip-user-link').click(function (e) {
+        e.preventDefault();
+        var user_trip_id = $(this).attr('data-user-trip-id');
+        $.ajax({
+            url: $(this).attr(ajax_url_parameter_name),
+            success: function (result) {
+                addAlert(result.type, result.message);
+                $('tr#user-trip-row' + user_trip_id).remove();
             },
             error: function (result) {
                 var r = JSON.parse(result.responseText);

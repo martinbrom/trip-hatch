@@ -40,8 +40,27 @@ class UserTripRepository
      * @return array
      */
     public function getTravellers($trip_id): array {
-        $role = UserTripRoles::TRAVELLER;
-        $query = "SELECT * FROM user_trip_xref
+        return $this->getByRole($trip_id, UserTripRoles::TRAVELLER);
+    }
+
+    /**
+     * @param $trip_id
+     * @return array
+     */
+    public function getOrganisers($trip_id): array {
+        return $this->getByRole($trip_id, UserTripRoles::ORGANISER);
+    }
+
+    /**
+     * @param $trip_id
+     * @param $role
+     * @return array
+     */
+    public function getByRole($trip_id, $role): array {
+        $query = "SELECT user_trip_xref.id AS id, user_trip_xref.role AS role,
+                users.email AS email, users.display_name AS display_name
+                FROM user_trip_xref
+                JOIN users ON users.id = user_trip_xref.user_id
                 WHERE trip_id = :trip_id AND role = :role";
         $data = ['trip_id' => $trip_id, 'role' => $role];
         return $this->baseRepository->fetchAll($query, $data);
@@ -76,7 +95,23 @@ class UserTripRepository
      * @return bool
      */
     public function isExactlyTraveller($user_trip_id): bool {
-        $role = UserTripRoles::TRAVELLER;
+        return $this->isExactlyRole($user_trip_id, UserTripRoles::TRAVELLER);
+    }
+
+    /**
+     * @param $user_trip_id
+     * @return bool
+     */
+    public function isExactlyOrganiser($user_trip_id) {
+        return $this->isExactlyRole($user_trip_id, UserTripRoles::ORGANISER);
+    }
+
+    /**
+     * @param $user_trip_id
+     * @param $role
+     * @return bool
+     */
+    public function isExactlyRole($user_trip_id, $role): bool {
         $query = "SELECT COUNT(*) as count FROM user_trip_xref
                 WHERE id = :id AND role = :role";
         $data = ['id' => $user_trip_id, 'role' => $role];
@@ -96,6 +131,44 @@ class UserTripRepository
                 VALUES (NULL, :user_id, :trip_id, :role,
                 CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)";
         $data = ['trip_id' => $trip_id, 'user_id' => $user_id, 'role' => $role];
+        return $this->baseRepository->run($query, $data);
+    }
+
+    /**
+     * @param $user_trip_id
+     * @return bool
+     */
+    public function setTraveller($user_trip_id) {
+        return $this->setRole($user_trip_id, UserTripRoles::TRAVELLER);
+    }
+
+    /**
+     * @param $user_trip_id
+     * @return bool
+     */
+    public function setOrganiser($user_trip_id) {
+        return $this->setRole($user_trip_id, UserTripRoles::ORGANISER);
+    }
+
+    // TODO: Implement on the website - transfer ownership
+    /**
+     * @param $user_trip_id
+     * @return bool
+     */
+    public function setOwner($user_trip_id) {
+        return $this->setRole($user_trip_id, UserTripRoles::OWNER);
+    }
+
+    /**
+     * @param $user_trip_id
+     * @param $role
+     * @return bool
+     */
+    public function setRole($user_trip_id, $role) {
+        $query = "UPDATE user_trip_xref
+                SET role = :role
+                WHERE id = :id";
+        $data = ['role' => $role, 'id' => $user_trip_id];
         return $this->baseRepository->run($query, $data);
     }
 

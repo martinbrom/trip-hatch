@@ -68,13 +68,15 @@ return [
             'heading' => 'Správa uživatelů',
             'display_name' => 'Veřejné jméno',
             'promote' => 'Povýšit',
+            'demote' => 'Propustit',
             'delete' => 'Odstranit',
             'role' => 'Role',
             'id' => 'ID',
             'email' => 'Email'
         ],
         'manage-staff' => [
-            'title' => 'Správa organizátorů'
+            'title' => 'Správa organizátorů',
+            'heading' => 'Správa organizátorů'
         ],
         'create' => [
             'title' => 'Tvorba nového výletu',

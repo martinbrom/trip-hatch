@@ -2,6 +2,7 @@
 
 namespace Core;
 
+use App\Enums\UserTripRoles;
 use Core\Config\Config;
 use Core\Language\Language;
 use Core\Routing\RouteHelper;
@@ -105,6 +106,10 @@ class View
 
         $this->twig->addFunction(new \Twig_Function('routeTripFile', function ($route, $trip_id, $file_id) {
             return $this->routeHelper->get('trip.files.' . $route, ['trip_id' => $trip_id, 'file_id' => $file_id]);
+        }));
+
+        $this->twig->addFunction(new \Twig_Function('role', function ($role_id) {
+            return $this->language->get('roles.' . UserTripRoles::getString($role_id));
         }));
     }
 }

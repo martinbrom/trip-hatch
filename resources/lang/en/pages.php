@@ -68,13 +68,15 @@ return [
             'heading' => 'Manage people',
             'display_name' => 'Display name',
             'promote' => 'Promote',
+            'demote' => 'Demote',
             'delete' => 'Delete',
             'role' => 'Role',
             'id' => 'ID',
             'email' => 'Email'
         ],
         'manage-staff' => [
-            'title' => 'Trip manage staff'
+            'title' => 'Trip manage staff',
+            'heading' => 'Manage staff'
         ],
         'create' => [
             'title' => 'Hatching a new trip',

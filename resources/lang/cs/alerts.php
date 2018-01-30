@@ -31,6 +31,7 @@ return [
     'trip' => [
         'missing' => 'Tento výlet neexistuje',
         'no-travellers' => 'Momentálně nejsou na výletě žádní výletnící',
+        'no-organisers' => 'Momentálně nejsou na výletě žádní organizátoři',
         'no-days' => 'Momentálně nejsou na výletě žádné plánované dny'
     ],
     'remove-user' => [
@@ -125,5 +126,13 @@ return [
             'self' => 'Nemůžete odstranit sami sebe',
             'admin' => 'Nemůžete odstranit administrátora'
         ]
+    ],
+    'promote-user' => [
+        'success' => 'Výletník byl úspěšně povýšen na organizátora',
+        'error' => 'Něco se pokazilo během povyšování výletníka'
+    ],
+    'demote-user' => [
+        'success' => 'Organizátor byl úspěšně propuštěn',
+        'error' => 'Něco se pokazilo během propouštění organizátora'
     ]
 ];

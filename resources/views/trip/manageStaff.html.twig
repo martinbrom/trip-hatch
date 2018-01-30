@@ -6,7 +6,35 @@
 
     <section class="container-section">
         <div class="container">
-            WIP
+            <h1 class="text-center trip-title">{{ t('pages.trip.manage-staff.heading') }} - {{ trip.title }}</h1>
+            <div class="trip-table-container">
+                {% if organisers %}
+                    <table class="text-center users-table table table-striped table-bordered">
+                        <tr>
+                            <th class="col-xs-1">{{ t('pages.trip.manage-people.id') }}</th>
+                            <th>{{ t('pages.trip.manage-people.email') }}</th>
+                            <th>{{ t('pages.trip.manage-people.display_name') }}</th>
+                            <th>{{ t('pages.trip.manage-people.role') }}</th>
+                            <th class="col-xs-1">{{ t('pages.trip.manage-people.demote') }}</th>
+                        </tr>
+                        {% for organiser in organisers %}
+                            <tr id="user-trip-row{{ organiser.id }}">
+                                <td>{{ organiser.id }}</td>
+                                <td>{{ organiser.email }}</td>
+                                <td>{{ organiser.display_name }}</td>
+                                <td>{{ role(organiser.role) }}</td>
+
+                                <td>
+                                    <a class="demote-trip-user-link" href="#" data-user-trip-id="{{ organiser.id }}"
+                                       data-ajax-url="{{ routeTripUser('demote', trip.id, organiser.id) }}">
+                                        <i class="fa fa-remove"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                {% endif %}
+            </div>
         </div>
     </section>
 

@@ -31,6 +31,7 @@ return [
     'trip' => [
         'missing' => 'Trip doesn\'t exist',
         'no-travellers' => 'There are currently no travellers on this trip',
+        'no-organisers' => 'There are currently no organisers on this trip',
         'no-days' => 'There are currently no days planned on this trip'
     ],
     'remove-user' => [
@@ -125,5 +126,13 @@ return [
             'self' => 'You cannot remove yourself',
             'admin' => 'You cannot remove an admin'
         ]
+    ],
+    'promote-user' => [
+        'success' => 'Traveller was successfully promoted',
+        'error' => 'Something went wrong while trying to promote a traveller'
+    ],
+    'demote-user' => [
+        'success' => 'Organiser was successfully demoted',
+        'error' => 'Something went wrong while trying to demote an organiser'
     ]
 ];

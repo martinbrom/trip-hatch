@@ -11,6 +11,8 @@ use App\Repositories\UserRepository;
 use Core\AlertHelper;
 use Core\Http\Controller;
 use Core\Http\Response\HtmlResponse;
+use Core\Http\Response\RedirectResponse;
+use Core\Language\Language;
 use Core\Session;
 
 class AdminController extends Controller
@@ -39,6 +41,9 @@ class AdminController extends Controller
     /** @var Session */
     private $session;
 
+    /** @var Language */
+    private $lang;
+
     /**
      * AdminController constructor.
      * @param UserRepository $userRepository
@@ -49,6 +54,7 @@ class AdminController extends Controller
      * @param TripFilesRepository $tripFilesRepository
      * @param AlertHelper $alertHelper
      * @param Session $session
+     * @param Language $lang
      */
     function __construct(
             UserRepository $userRepository,
@@ -58,7 +64,8 @@ class AdminController extends Controller
             TripCommentsRepository $tripCommentsRepository,
             TripFilesRepository $tripFilesRepository,
             AlertHelper $alertHelper,
-            Session $session) {
+            Session $session,
+            Language $lang) {
         $this->userRepository = $userRepository;
         $this->tripRepository = $tripRepository;
         $this->dayRepository = $dayRepository;
@@ -67,6 +74,7 @@ class AdminController extends Controller
         $this->tripFilesRepository = $tripFilesRepository;
         $this->alertHelper = $alertHelper;
         $this->session = $session;
+        $this->lang = $lang;
     }
 
     /**
@@ -101,31 +109,35 @@ class AdminController extends Controller
         return $this->responseFactory->html('admin/users.html.twig', ['users' => $users]);
     }
 
+    /**
+     * @param $user_id
+     * @return RedirectResponse
+     */
     public function deleteUser($user_id) {
         $user = $this->userRepository->getUserByID($user_id);
         $self_id = $this->session->get('user.id');
 
         if ($self_id == $user_id) {
-            $this->alertHelper->error('alerts.admin.delete-user.self');
+            $this->alertHelper->error($this->lang->get('alerts.admin.delete-user.self'));
             return $this->route('admin.users');
         }
 
         if ($user == NULL) {
-            $this->alertHelper->error('alerts.user.missing');
+            $this->alertHelper->error($this->lang->get('alerts.user.missing'));
             return $this->route('admin.users');
         }
 
         if ($user['is_admin'] == 1) {
-            $this->alertHelper->error('alerts.admin.delete-user.admin');
+            $this->alertHelper->error($this->lang->get('alerts.admin.delete-user.admin'));
             return $this->route('admin.users');
         }
 
         if (!$this->userRepository->delete($user_id)) {
-            $this->alertHelper->error('alerts.admin.delete-user.error');
+            $this->alertHelper->error($this->lang->get('alerts.admin.delete-user.error'));
             return $this->route('admin.users');
         }
 
-        $this->alertHelper->success('alerts.admin.delete-user.success');
+        $this->alertHelper->success($this->lang->get('alerts.admin.delete-user.success'));
         return $this->route('admin.users');
     }
 }

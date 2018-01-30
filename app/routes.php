@@ -252,6 +252,10 @@ $rb->add('GET', 'trip/{trip_id:\d+}/user/{user_trip_id:\d+}/promote', 'Trip', 'p
     ->middleware(['owner'])
     ->name('trip.user.promote')
     ->ajax();
+$rb->add('GET', 'trip/{trip_id:\d+}/user/{user_trip_id:\d+}/demote', 'Trip', 'demoteUser')
+    ->middleware(['owner'])
+    ->name('trip.user.demote')
+    ->ajax();
 $rb->add('GET', 'trip/{trip_id:\d+}/day/add', 'Trip', 'addDay')
     ->middleware(['organiser'])
     ->name('trip.add-day')
