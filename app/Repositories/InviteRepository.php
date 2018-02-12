@@ -7,7 +7,7 @@ use Core\Database\Repository;
 /**
  * Instance of class provides simple functions,
  * that fetch invite data from Database,
- * to be used in TripController
+ * to be used in InviteController
  * @package App\Repositories
  * @author Martin Brom
  */

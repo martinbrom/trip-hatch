@@ -7,7 +7,6 @@ use App\Exception\MethodNotFoundException;
 use Core\DependencyInjector\DependencyInjector;
 use Core\Factories\ResponseFactory;
 use Core\Factories\ValidatorFactory;
-use Core\Http\Response\JsonResponse;
 use Core\Http\Response\Response;
 Use Core\Routing\Route;
 use Core\Session;
@@ -65,7 +64,6 @@ class Request
             ResponseFactory $responseFactory,
             ValidatorFactory $validatorFactory,
             Session $session) {
-        // var_dump($_SERVER);
         $this->di = $di;
         $this->method = $this->determineMethod();
         $this->ajax = !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';

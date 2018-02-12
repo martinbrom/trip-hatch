@@ -4,6 +4,11 @@ namespace App\Repositories;
 
 use Core\Database\Repository;
 
+/**
+ * Class ValidationRepository
+ * @package App\Repositories
+ * @author Martin Brom
+ */
 class ValidationRepository
 {
     /** @var Repository */

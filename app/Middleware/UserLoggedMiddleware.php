@@ -59,5 +59,8 @@ class UserLoggedMiddleware extends Middleware
         return null;
     }
 
+    /**
+     *
+     */
     public function after() {}
 }

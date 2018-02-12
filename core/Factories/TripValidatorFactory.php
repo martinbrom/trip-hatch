@@ -52,10 +52,9 @@ class TripValidatorFactory
     }
 
     /**
-     * @param array $args
      * @return TripValidator
      */
-    public function make($args = []) {
+    public function make() {
         return new TripValidator($this->tripRepository, $this->dayRepository, $this->actionRepository, $this->responseFactory, $this->lang);
     }
 }

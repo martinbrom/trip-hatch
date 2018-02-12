@@ -6,6 +6,11 @@ use Core\Http\Response\HtmlResponse;
 use Core\Middleware\Middleware;
 use Core\Session;
 
+/**
+ * Class AddAlertsMiddleware
+ * @package App\Middleware
+ * @author Martin Brom
+ */
 class AddAlertsMiddleware extends Middleware
 {
     /** @var Session */
@@ -19,8 +24,14 @@ class AddAlertsMiddleware extends Middleware
         $this->session = $session;
     }
 
+    /**
+     * @return null
+     */
     public function before() { return null; }
 
+    /**
+     *
+     */
     public function after() {
         if ($this->response instanceof HtmlResponse) {
             $alerts = $this->session->get('alerts');

@@ -75,7 +75,7 @@ class InviteController extends Controller
      * @return Response
      */
     public function invitePage(Request $request) {
-        $trip = $this->tripRepository->getTrip($request->getInput('trip_id'));
+        $trip = $this->tripRepository->getTrip($request->getParameter('trip_id'));
 
         return $this->responseFactory->html('trip/invite.html.twig', ['trip' => $trip]);
     }

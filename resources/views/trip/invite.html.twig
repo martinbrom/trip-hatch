@@ -8,8 +8,7 @@
         <div class="container">
             <h1 class="text-center trip-title">{{ t('pages.trip.invite.heading') }}</h1>
             {% if trip.public_url %}
-                <!-- TODO: Add final URL -->
-                <p class="text-center">http:\\www.trip-hatch.com{{ routeTripPublic(trip.public_url) }}</p>
+                <p class="text-center">{{ config('app.protocol') }}://{{ config('app.address') }}{{ routeTripPublic(trip.public_url) }}</p>
             {% endif %}
             <div class="invite-container col-md-offset-3 col-md-6">
                 <form action="{{ routeTrip('invite.submit', trip.id) }}" method="post" class="form-horizontal">

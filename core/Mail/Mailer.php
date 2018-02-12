@@ -33,7 +33,6 @@ class Mailer
     public function forgottenPassword($recipient, $token) {
         $message = $this->view->render('emails/forgottenPassword.html.twig', ['email' => $recipient, 'token' => $token]);
         $this->send($recipient, 'TripHatch password recovery', $message);
-        // TODO: Localize
     }
 
     /**
@@ -50,7 +49,6 @@ class Mailer
         ];
         $message = $this->view->render('emails/invite.html.twig', $data);
         $this->send($recipient, 'TripHatch trip invite', $message);
-        // TODO: Localize
     }
 
     /**

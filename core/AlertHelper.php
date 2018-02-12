@@ -23,45 +23,45 @@ class AlertHelper
     /**
      * @param $type
      * @param $message
-     * @param null $title
+     * @param string|null $title
      */
     private function add($type, $message, $title = null) {
         $this->session->addTo('alerts', [
             'type' => $type,
-            'message' => $message . '!',
+            'message' => $message,
             'title' => $title
         ]);
     }
 
     /**
      * @param $message
-     * @param null $title
+     * @param string|null $title
      */
     public function error($message, $title = null) {
-        $this->add('danger', $message, $title);
+        $this->add('danger', $message . '!', $title);
     }
 
     /**
      * @param $message
-     * @param null $title
+     * @param string|null $title
      */
     public function warning($message, $title = null) {
-        $this->add('warning', $message, $title);
+        $this->add('warning', $message . '!', $title);
     }
 
     /**
      * @param $message
-     * @param null $title
+     * @param string|null $title
      */
     public function info($message, $title = null) {
-        $this->add('info', $message, $title);
+        $this->add('info', $message . '.', $title);
     }
 
     /**
      * @param $message
-     * @param null $title
+     * @param string|null $title
      */
     public function success($message, $title = null) {
-        $this->add('success', $message, $title);
+        $this->add('success', $message . '.', $title);
     }
 }

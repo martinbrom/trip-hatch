@@ -17,9 +17,6 @@ $rb = $di->getService(Core\Routing\RouteBuilder::class);
 //  WEB ROUTES
 // ---------------------------------------
 
-// ----------- ACTION -----------
-// -------- ACTION TYPES --------
-
 // ------------ ADMIN -----------
 $rb->add('GET', 'admin', 'Admin', 'index')
     ->middleware(['admin'])
@@ -40,9 +37,6 @@ $rb->add('POST', 'trip/{trip_id:\d+}/comment/add', 'TripComments', 'create')
     ->validate(['comment_content' => ['required', 'maxLen:500']])
     ->name('trip.comments.create.submit');
 
-
-// ------------- DAY ------------
-
 // ------------ FILES -----------
 $rb->add('GET', 'trip/{trip_id:\d+}/files', 'TripFiles', 'index')
     ->middleware(['traveller'])
@@ -54,6 +48,18 @@ $rb->add('POST', 'trip/{trip_id:\d+}/file/add', 'TripFiles', 'create')
         'trip_file' => ['fileRequired', 'fileMaxSize:20971520', 'fileType:odt,txt,pdf,doc']
     ])
     ->name('trip.files.create.submit');
+
+// ----------- INVITE -----------
+$rb->add('GET', 'trip/{trip_id:\d+}/invite', 'Invite', 'invitePage')
+    ->middleware(['organiser'])
+    ->name('trip.invite');
+$rb->add('POST', 'trip/{trip_id:\d+}/invite', 'Invite', 'invite')
+    ->middleware(['organiser'])
+    ->validate(['invite_email' => ['email', 'required', 'maxLen:255'], 'invite_message' => ['maxLen:255']])
+    ->name('trip.invite.submit');
+$rb->add('GET', 'trip/invite-accept/{token:\w+}', 'Invite', 'inviteAccept')
+    ->middleware(['logged'])
+    ->name('trip.invite-accept');
 
 // ------------ HOME ------------
 $rb->add('GET', '', 'Home', 'index');
@@ -90,16 +96,6 @@ $rb->add('GET', 'trip/{trip_id:\d+}/manage-people', 'Trip', 'managePeoplePage')
 $rb->add('GET', 'trip/{trip_id:\d+}/manage-staff', 'Trip', 'manageStaffPage')
     ->middleware(['owner'])
     ->name('trip.manage-staff');
-$rb->add('GET', 'trip/{trip_id:\d+}/invite', 'Trip', 'invitePage')
-    ->middleware(['organiser'])
-    ->name('trip.invite');
-$rb->add('POST', 'trip/{trip_id:\d+}/invite', 'Trip', 'invite')
-    ->middleware(['organiser'])
-    ->validate(['invite_email' => ['email', 'required', 'maxLen:255'], 'invite_message' => ['maxLen:255']])
-    ->name('trip.invite.submit');
-$rb->add('GET', 'trip/invite-accept/{token:\w+}', 'Trip', 'inviteAccept')
-    ->middleware(['logged'])
-    ->name('trip.invite-accept');
 $rb->add('GET', 'trip/{trip_id:\d+}/delete', 'Trip', 'delete')
     ->middleware(['owner'])
     ->name('trip.delete');
@@ -193,8 +189,6 @@ $rb->add('GET', 'trip/{trip_id:\d+}/day/{day_id:\d+}/action/{action_id:\d+}/dele
 $rb->add('GET', 'action-types', 'ActionType', 'index')
     ->ajax();
 
-// ------------ ADMIN -----------
-
 // ----------- COMMENTS ---------
 $rb->add('GET', 'trip/{trip_id:\d+}/comment/{comment_id:\d+}/delete', 'TripComments', 'delete')
     ->middleware(['organiser'])
@@ -233,8 +227,6 @@ $rb->add('GET', 'trip/{trip_id:\d+}/file/{file_id:\d+}/delete', 'TripFiles', 'de
     ->name('trip.files.delete')
     ->ajax();
 
-// ------------ HOME ------------
-
 // ------------ TRIP ------------
 $rb->add('GET', 'trip/{trip_id:\d+}/publish', 'Trip', 'publish')
     ->middleware(['owner'])
@@ -260,8 +252,5 @@ $rb->add('GET', 'trip/{trip_id:\d+}/day/add', 'Trip', 'addDay')
     ->middleware(['organiser'])
     ->name('trip.add-day')
     ->ajax();
-
-// ------------ USER ------------
-// -------- USER SETTINGS -------
 
 $rb->create();

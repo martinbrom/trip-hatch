@@ -7,7 +7,7 @@ use Core\Database\Repository;
 /**
  * Instance of class provides simple functions,
  * that fetch data from Database,
- * to be used in TripController
+ * to be used in TripCommentsController
  * @package App\Repositories
  * @author Martin Brom
  */

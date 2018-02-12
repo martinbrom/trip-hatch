@@ -7,6 +7,11 @@ use Core\Http\Response\HtmlResponse;
 use Core\Middleware\Middleware;
 use Core\Session;
 
+/**
+ * Class AddViewDataMiddleware
+ * @package App\Middleware
+ * @author Martin Brom
+ */
 class AddViewDataMiddleware extends Middleware
 {
     /** @var Session */

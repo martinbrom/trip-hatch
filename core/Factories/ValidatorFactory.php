@@ -42,10 +42,9 @@ class ValidatorFactory
     }
 
     /**
-     * @param array $args
      * @return Validator
      */
-    public function make($args = []): Validator {
+    public function make(): Validator {
         return new Validator($this->language, $this->validationRepository, $this->auth, $this->session);
     }
 }

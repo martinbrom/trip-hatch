@@ -76,6 +76,10 @@ class View
             return $this->language->get($key, $parameters);
         }));
 
+        $this->twig->addFunction(new \Twig_Function('config', function ($key) {
+            return $this->config->get($key);
+        }));
+
         $this->twig->addFunction(new \Twig_Function('route', function ($name, $params = []) {
             return $this->routeHelper->get($name, $params);
         }));

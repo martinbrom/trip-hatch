@@ -11,7 +11,7 @@
         '{{ message }}'
     </p>
     <p>
-        You can accept this invitation by visiting <a href="triphatch.loc/trip/invite-accept/{{ token }}">this link</a>.
+        You can accept this invitation by visiting <a href="{{ config('app.protocol') }}://{{ config('app.address') }}/trip/invite-accept/{{ token }}">this link</a>.
     </p>
 
 {% endblock %}
